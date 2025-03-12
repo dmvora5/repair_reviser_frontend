@@ -78,6 +78,21 @@ body {
   }
 }
 
+@layer utilities {
+  .auth-input {
+    @apply bg-[#0c141c] py-[15px] px-[16px] h-[50px] border border-[#1B2231]
+  }
+  .auth-button {
+    @apply w-full py-[14px] px-[32px] h-[50px] bg-brandRed
+  }
+  .shad-otp {
+    @apply flex gap-3 mx-auto
+  }
+  .shad-otp-slot {
+    @apply h-[50px] w-[50px] border-none bg-[#0C141C]
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -85,4 +100,5 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
 }
