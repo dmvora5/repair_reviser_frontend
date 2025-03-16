@@ -61,7 +61,9 @@ export function parseAndShowErrorInToast(error: any) {
   // 4) Show the first found string or a generic fallback.
   toast.error(message || "Somting went wrong!", {
     style: {
-      color: "red"
+      backgroundColor: "red",
+      color: "white",
+      border: 'none'
     },
   })
   // Optional: log for debugging

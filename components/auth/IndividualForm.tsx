@@ -9,6 +9,7 @@ import { Button } from "../ui/button"
 import Link from "next/link"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 const formSchema = z.object({
     email: z.string().email({ message: "Email must be a valid email" }),
@@ -28,17 +29,17 @@ const IndividualForm = () => {
         defaultValues: {
             email: "",
             password: "",
-            confirmpassword: ""
+            confirmpassword: "",
         },
     });
 
-    async function onSubmit(data: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true);
         try {
             const res = await fetch("/api/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: data.email, password: data.password }),
+                body: JSON.stringify({ email: values.email, password: values.password }),
             });
 
             if (res.ok) {
@@ -67,7 +68,7 @@ const IndividualForm = () => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input className="auth-input" placeholder="Enter Email Address" {...field} />
+                                        <Input disabled={loading} className="auth-input" placeholder="Enter Email Address" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -75,11 +76,19 @@ const IndividualForm = () => {
                         />
                     </div>
                     <div className="flex gap-3">
-                        <PasswordInput form={form} name="password" placeHolder="Password" label="Password" />
-                        <PasswordInput form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" />
+                        <PasswordInput disabled={loading} form={form} name="password" placeHolder="Password" label="Password" />
+                        <PasswordInput disabled={loading} form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" />
                     </div>
                     <Button type="submit" className="auth-button" disabled={loading}>
-                        {loading ? "Submitting..." : "Submit"}
+                        {loading ? (
+                            <Image
+                                src="images/loader.svg"
+                                alt="loader"
+                                width={24}
+                                height={24}
+                                className="ml-2 animate-spin"
+                            />
+                        ) : "Sign Up"}
                     </Button>
                 </form>
             </Form>

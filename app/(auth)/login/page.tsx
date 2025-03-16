@@ -86,7 +86,7 @@ const page = () => {
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                    <Input className="auth-input" placeholder="Enter Email Address" {...field} />
+                                    <Input disabled={loading} className="auth-input" placeholder="Enter Email Address" {...field} />
                                 </FormControl>
 
                                 <FormMessage />
@@ -94,7 +94,7 @@ const page = () => {
                         )}
                     />
                     <div>
-                        <PasswordInput form={form} name="password" placeHolder="Password" label="Password" cls='w-full mb-2' />
+                        <PasswordInput disabled={loading} form={form} name="password" placeHolder="Password" label="Password" cls='w-full mb-2' />
                         <p className='text-right'>
                             <Link href="/" className='text-brandRed'>Forget Password?</Link>
                         </p>

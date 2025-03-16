@@ -1,3 +1,4 @@
+import { API_ROUTES } from '@/constant/routes'
 import { AuthOptions } from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
 
@@ -16,7 +17,7 @@ export const authOptions: AuthOptions = {
                 try {
                     // ** Login API Call to match the user credentials and receive user data in response along with his role
 
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}user/login-user/`, {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGIN}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

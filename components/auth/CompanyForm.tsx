@@ -7,6 +7,8 @@ import { Input } from "../ui/input"
 import PasswordInput from "../common/form/PasswordInput"
 import { Button } from "../ui/button"
 import Link from "next/link"
+import { useState } from "react"
+import Image from "next/image"
 
 
 const formSchema = z.object({
@@ -19,6 +21,9 @@ const formSchema = z.object({
 })
 
 const CompanyForm = () => {
+
+    const [loading, setLoading] = useState(false);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -45,7 +50,7 @@ const CompanyForm = () => {
                                 <FormItem className="w-[50%]">
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input className="auth-input" placeholder="Enter Email Address" {...field} />
+                                        <Input disabled={loading} className="auth-input" placeholder="Enter Email Address" {...field} />
                                     </FormControl>
 
                                     <FormMessage />
@@ -59,7 +64,7 @@ const CompanyForm = () => {
                                 <FormItem className="w-[50%]">
                                     <FormLabel>Company Name</FormLabel>
                                     <FormControl>
-                                        <Input className="auth-input" placeholder="Enter Company Address" {...field} />
+                                        <Input disabled={loading} className="auth-input" placeholder="Enter Company Address" {...field} />
                                     </FormControl>
 
                                     <FormMessage />
@@ -68,10 +73,20 @@ const CompanyForm = () => {
                         />
                     </div>
                     <div className="flex gap-3">
-                    <PasswordInput form={form} name="password" placeHolder="Password" label="Password"/>
-                    <PasswordInput form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" />
+                        <PasswordInput disabled={loading} form={form} name="password" placeHolder="Password" label="Password" />
+                        <PasswordInput disabled={loading} form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" />
                     </div>
-                    <Button type="submit" className="auth-button">Submit</Button>
+                    <Button disabled={loading} type="submit" className="auth-button">
+                        {loading ? (
+                            <Image
+                                src="images/loader.svg"
+                                alt="loader"
+                                width={24}
+                                height={24}
+                                className="ml-2 animate-spin"
+                            />
+                        ) : "Sign Up"}
+                    </Button>
                 </form>
             </Form>
             <p className="text-center">Already have an account? <Link href="/" className="text-brandRed">Sign in</Link></p>
