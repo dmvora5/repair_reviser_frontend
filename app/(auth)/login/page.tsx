@@ -9,15 +9,22 @@ import PasswordInput from '@/components/common/form/PasswordInput'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Checkbox } from '@/components/ui/checkbox'
+import { useEffect, useState } from 'react'
+import { getSession, signIn } from 'next-auth/react'
+import { parseAndShowErrorInToast } from '@/utils'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
     email: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+        message: "email must be at least 2 characters.",
     }),
-    password: z.string(),
+    password: z.string().min(1, { message: "Password must be at least 1 character"}),
 })
 
 const page = () => {
+
+    const [loading, setLoading] = useState(false);
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -27,12 +34,38 @@ const page = () => {
         },
     })
 
-    async function onSubmit() {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values)
+        setLoading(true)
+        try {
+            const res: any = await signIn('credentials', {
+                email: values?.email,
+                password: values?.password,
+                redirect: false
+            })
 
+            if (!res?.ok) {
+                return parseAndShowErrorInToast(res);
+            }
+
+            if (res && res.ok) {
+                const session: any = await getSession();
+                toast.success("Login sussfully!");
+                //change in future
+
+            }
+
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setLoading(false)
+        }
     }
 
+
+
     return (
-        <div className='text-white bg-black border border-[#242c3c] rounded-[20px] shadow-sm w-[469px] h-[568px] py-[30px] px-[48px] space-y-4'>
+        <div className='text-white bg-black border border-[#242c3c] rounded-[20px] shadow-sm w-[469px] min-h-[568px] py-[30px] px-[48px] space-y-4'>
             <div className="space-y-1">
                 <Image
                     src="/images/AuthLogo.svg"
@@ -43,6 +76,7 @@ const page = () => {
                 />
                 <h1 className="text-3xl font-medium text-center">Log In to Your Account</h1>
             </div>
+
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <FormField
@@ -79,7 +113,17 @@ const page = () => {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" className="auth-button">Sign In</Button>
+                    <Button type="submit" disabled={loading} className="auth-button">
+                        {loading ? (
+                            <Image
+                                src="images/loader.svg"
+                                alt="loader"
+                                width={24}
+                                height={24}
+                                className="ml-2 animate-spin"
+                            />
+                        ) : "Sign In"}
+                    </Button>
                 </form>
                 <p className="text-center text-[#8F9DAc]">Don't have an account? <Link href="/" className="text-brandRed">Sign Up</Link></p>
 

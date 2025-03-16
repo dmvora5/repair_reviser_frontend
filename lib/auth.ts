@@ -10,19 +10,22 @@ export const authOptions: AuthOptions = {
             type: "credentials",
             credentials: {},
             async authorize(credentials: any) {
-                const { email, password } = credentials
+                const { email, password, rememberMe } = credentials
+
 
                 try {
                     // ** Login API Call to match the user credentials and receive user data in response along with his role
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}users/login/`, {
+
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}user/login-user/`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ email, password })
+                        body: JSON.stringify({ email, password, })
                     })
 
                     const data = await res.json()
+
 
                     if (![200, 201].includes(res.status)) {
                         throw new Error(JSON.stringify(data))
@@ -33,7 +36,7 @@ export const authOptions: AuthOptions = {
                     // }
 
                     if (data?.user && data?.tokens) {
-                        return { ...data?.user, access_token: data?.tokens?.access }
+                        return { ...data?.user, access_token: data?.tokens?.access, rememberMe: rememberMe === "true" }
                     }
 
                     return null
@@ -75,7 +78,16 @@ export const authOptions: AuthOptions = {
                  */
                 token.access_token = user.access_token
                 token.user = user
+                token.rememberMe = user.rememberMe
             }
+
+            if (user.rememberMe) {
+                // e.g. 30 days
+                token.expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000
+              } else {
+                // e.g. 1 hour
+                token.expiresAt = Date.now() + 1 * 60 * 60 * 1000
+              }
 
 
             // if (trigger === 'update' && session?.user) {
