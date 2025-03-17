@@ -31,9 +31,19 @@ function findFirstStringError(value: any): string | undefined {
 
 export function parseAndShowErrorInToast(error: any) {
   let message: string | undefined;
-
+  console.log('error', error)
+  
 
   if (error.error) {
+
+    // if(typeof error.error === 'string') {
+    //   parseAndShowErrorInToast({
+    //     message:  error.error
+    //   });
+
+    //   return;
+    // }
+
     const reError = JSON.parse(error.error);
     parseAndShowErrorInToast({
       message: reError
@@ -68,4 +78,15 @@ export function parseAndShowErrorInToast(error: any) {
   })
   // Optional: log for debugging
   console.log("parseAndShowErrorInToast -> error:", error);
+}
+
+
+export const sucessToast = (message: string) => {
+  toast.success(message, {
+    style: {
+      backgroundColor: "green",
+      color: "white",
+      border: 'none'
+    },
+  })
 }

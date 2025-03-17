@@ -3,7 +3,8 @@
 export const PAGE_ROUTES = {
     AUTH: {
         LOGIN: "/login",
-        REGISTER: "/"
+        REGISTER: "/register",
+        FORGETPASSWORD: "/forget-password"
     },
 }
 
@@ -11,7 +12,9 @@ export const PAGE_ROUTES = {
 export const API_ROUTES = {
     AUTH: {
         LOGIN: "user/login-user/",
-        CREATECOMPANYUSER: "user/create-company-user/",
-        CREATEUSER: "user/register-user/"
+        REGESTERUSER: "user/register-user/",
+        FORGETPASSWORD: "user/request-password-reset/",
+        VERIFYOTP: "user/verify-otp/",
+        RESETPASSWORD: "user/password-reset/"
     }
-}
+} 

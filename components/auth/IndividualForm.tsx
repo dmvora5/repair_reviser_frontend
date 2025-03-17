@@ -7,9 +7,10 @@ import { Input } from "../ui/input"
 import PasswordInput from "../common/form/PasswordInput"
 import { Button } from "../ui/button"
 import Link from "next/link"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { useRegisterUserMutation } from "@/redux/apis/usersApis"
+import { PAGE_ROUTES } from "@/constant/routes"
+import ApiState from "../ApiState"
 
 const formSchema = z.object({
     email: z.string().email({ message: "Email must be a valid email" }),
@@ -21,8 +22,10 @@ const formSchema = z.object({
 });
 
 const IndividualForm = () => {
-    const [loading, setLoading] = useState(false);
-    const router = useRouter();
+
+    const [submit, { isLoading, isSuccess, error }] = useRegisterUserMutation();
+
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -34,30 +37,19 @@ const IndividualForm = () => {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        setLoading(true);
-        try {
-            const res = await fetch("/api/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: values.email, password: values.password }),
-            });
-
-            if (res.ok) {
-                router.push("/login"); // Redirect after successful registration
-            } else {
-                const errorData = await res.json();
-                alert(errorData.message || "Registration failed");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Something went wrong");
-        } finally {
-            setLoading(false);
-        }
+        await submit({
+            email: values.email,
+            password: values.password
+        });
     }
 
     return (
         <div className="space-y-8">
+            <ApiState isSuccess={isSuccess} error={error}>
+                <ApiState.SuccessMessage message="Register sucessfully!" />
+                <ApiState.Error />
+                <ApiState.SuccessRedirect path={PAGE_ROUTES.AUTH.LOGIN} />
+            </ApiState>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <div>
@@ -68,7 +60,7 @@ const IndividualForm = () => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} className="auth-input" placeholder="Enter Email Address" {...field} />
+                                        <Input disabled={isLoading} className="auth-input" placeholder="Enter Email Address" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -76,11 +68,11 @@ const IndividualForm = () => {
                         />
                     </div>
                     <div className="flex gap-3">
-                        <PasswordInput disabled={loading} form={form} name="password" placeHolder="Password" label="Password" />
-                        <PasswordInput disabled={loading} form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" />
+                        <PasswordInput disabled={isLoading} form={form} name="password" placeHolder="Password" label="Password" />
+                        <PasswordInput disabled={isLoading} form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" />
                     </div>
-                    <Button type="submit" className="auth-button" disabled={loading}>
-                        {loading ? (
+                    <Button type="submit" className="auth-button" disabled={isLoading}>
+                        {isLoading ? (
                             <Image
                                 src="images/loader.svg"
                                 alt="loader"
@@ -93,7 +85,7 @@ const IndividualForm = () => {
                 </form>
             </Form>
             <p className="text-center">
-                Already have an account? <Link href="/login" className="text-brandRed">Sign in</Link>
+                Already have an account? <Link href={PAGE_ROUTES.AUTH.LOGIN} className="text-brandRed">Sign in</Link>
             </p>
         </div>
     );

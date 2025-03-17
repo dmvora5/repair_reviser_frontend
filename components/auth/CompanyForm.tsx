@@ -9,20 +9,32 @@ import { Button } from "../ui/button"
 import Link from "next/link"
 import { useState } from "react"
 import Image from "next/image"
+import { useRegisterUserMutation } from "@/redux/apis/usersApis"
+import { PAGE_ROUTES } from "@/constant/routes"
+import ApiState from "../ApiState"
 
 
 const formSchema = z.object({
     email: z.string().min(2, {
         message: "Username must be at least 2 characters.",
     }),
-    companyName: z.string(),
+    companyName: z
+        .string()
+        .nonempty({ message: "Company name must be required" })
+        .regex(/^[^_]*$/, {
+            message: "Company name cannot contain underscores.",
+        }),
     password: z.string(),
     confirmpassword: z.string()
-})
+}).refine((data) => data.password === data.confirmpassword, {
+    message: "Passwords do not match",
+    path: ["confirmpassword"],
+});
 
 const CompanyForm = () => {
 
-    const [loading, setLoading] = useState(false);
+    const [submit, { isLoading, isSuccess, error }] = useRegisterUserMutation();
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -34,13 +46,21 @@ const CompanyForm = () => {
         },
     })
 
-    async function onSubmit() {
-
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        await submit({
+            email: values.email,
+            password: values.password,
+            company_name: values.companyName,
+        });
     }
 
     return (
         <div className=" space-y-8">
-            <Form {...form}>
+            <ApiState isSuccess={isSuccess} error={error}>
+                <ApiState.SuccessMessage message="Register sucessfully!" />
+                <ApiState.Error />
+                <ApiState.SuccessRedirect path={PAGE_ROUTES.AUTH.LOGIN} />
+            </ApiState>            <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <div className="flex gap-3 w-full">
                         <FormField
@@ -50,7 +70,7 @@ const CompanyForm = () => {
                                 <FormItem className="w-[50%]">
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} className="auth-input" placeholder="Enter Email Address" {...field} />
+                                        <Input disabled={isLoading} className="auth-input" placeholder="Enter Email Address" {...field} />
                                     </FormControl>
 
                                     <FormMessage />
@@ -64,7 +84,7 @@ const CompanyForm = () => {
                                 <FormItem className="w-[50%]">
                                     <FormLabel>Company Name</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} className="auth-input" placeholder="Enter Company Address" {...field} />
+                                        <Input disabled={isLoading} className="auth-input" placeholder="Enter Company Address" {...field} />
                                     </FormControl>
 
                                     <FormMessage />
@@ -73,11 +93,11 @@ const CompanyForm = () => {
                         />
                     </div>
                     <div className="flex gap-3">
-                        <PasswordInput disabled={loading} form={form} name="password" placeHolder="Password" label="Password" />
-                        <PasswordInput disabled={loading} form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" />
+                        <PasswordInput disabled={isLoading} form={form} name="password" placeHolder="Password" label="Password" />
+                        <PasswordInput disabled={isLoading} form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" />
                     </div>
-                    <Button disabled={loading} type="submit" className="auth-button">
-                        {loading ? (
+                    <Button disabled={isLoading} type="submit" className="auth-button">
+                        {isLoading ? (
                             <Image
                                 src="images/loader.svg"
                                 alt="loader"
@@ -89,7 +109,7 @@ const CompanyForm = () => {
                     </Button>
                 </form>
             </Form>
-            <p className="text-center">Already have an account? <Link href="/" className="text-brandRed">Sign in</Link></p>
+            <p className="text-center">Already have an account? <Link href={PAGE_ROUTES.AUTH.LOGIN} className="text-brandRed">Sign in</Link></p>
         </div>
     )
 }

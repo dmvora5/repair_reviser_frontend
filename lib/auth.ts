@@ -1,3 +1,4 @@
+import { ROLES } from '@/constant/roles'
 import { API_ROUTES } from '@/constant/routes'
 import { AuthOptions } from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
@@ -11,7 +12,7 @@ export const authOptions: AuthOptions = {
             type: "credentials",
             credentials: {},
             async authorize(credentials: any) {
-                const { email, password, rememberMe } = credentials
+                const { email, password, company_name } = credentials
 
 
                 try {
@@ -22,10 +23,13 @@ export const authOptions: AuthOptions = {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ email, password, })
+                        body: JSON.stringify({ email, password, company_name: company_name || "" })
                     })
 
-                    const data = await res.json()
+                    const data = await res.json();
+
+                    console.log('data', data)
+                    console.log('res.status', res.status)
 
 
                     if (![200, 201].includes(res.status)) {
@@ -37,7 +41,7 @@ export const authOptions: AuthOptions = {
                     // }
 
                     if (data?.user && data?.tokens) {
-                        return { ...data?.user, access_token: data?.tokens?.access, rememberMe: rememberMe === "true" }
+                        return { ...data?.user, access_token: data?.tokens?.access }
                     }
 
                     return null
@@ -71,7 +75,7 @@ export const authOptions: AuthOptions = {
                  */
                 token.name = user.name
                 token.is_superuser = user.is_superuser
-               
+
 
                 /**
                  * Custom data: added by Dev
@@ -79,16 +83,7 @@ export const authOptions: AuthOptions = {
                  */
                 token.access_token = user.access_token
                 token.user = user
-                token.rememberMe = user.rememberMe
             }
-
-            if (user.rememberMe) {
-                // e.g. 30 days
-                token.expiresAt = Date.now() + 30 * 24 * 60 * 60 * 1000
-              } else {
-                // e.g. 1 hour
-                token.expiresAt = Date.now() + 1 * 60 * 60 * 1000
-              }
 
 
             // if (trigger === 'update' && session?.user) {
@@ -115,12 +110,22 @@ export const authOptions: AuthOptions = {
             if (token?.user) {
                 const userKeysToKeep = [
                     "email",
-                    "first_name",
-                    "last_name",
-                    "is_superuser"
+                    "company",
+                    "username",
+                    "is_company_admin",
+                    "is_company_user",
+                    "is_individual"
                 ]
 
                 token.user = Object.fromEntries(Object.entries(token?.user)?.filter(([key]) => userKeysToKeep?.includes(key)))
+
+                if(token?.user?.is_company_admin) {
+                    token.role = ROLES.COMPANY_ADMIN
+                } else if(token?.user?.is_company_user) {
+                    token.role = ROLES.USER
+                } else {
+                    token.role = ROLES.INDIVIDUAL
+                }
             }
 
             return token
@@ -136,6 +141,7 @@ export const authOptions: AuthOptions = {
                  */
                 session.access_token = token.access_token
                 session.user = token.user;
+                session.role = token.role
 
 
                 if (token?.originalAuth) {

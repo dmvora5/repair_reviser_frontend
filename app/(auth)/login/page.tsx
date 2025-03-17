@@ -11,10 +11,11 @@ import Link from 'next/link'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useEffect, useState } from 'react'
 import { getSession, signIn } from 'next-auth/react'
-import { parseAndShowErrorInToast } from '@/utils'
-import { toast } from 'sonner'
+import { parseAndShowErrorInToast, sucessToast } from '@/utils'
+import { PAGE_ROUTES } from '@/constant/routes'
 
 const formSchema = z.object({
+    company_name: z.string().nonempty({message: 'Company Name not provided'}),
     email: z.string().min(2, {
         message: "email must be at least 2 characters.",
     }),
@@ -31,6 +32,7 @@ const page = () => {
         defaultValues: {
             email: "",
             password: "",
+            company_name: ""
         },
     })
 
@@ -41,6 +43,7 @@ const page = () => {
             const res: any = await signIn('credentials', {
                 email: values?.email,
                 password: values?.password,
+                company_name: values?.company_name,
                 redirect: false
             })
 
@@ -50,13 +53,13 @@ const page = () => {
 
             if (res && res.ok) {
                 const session: any = await getSession();
-                toast.success("Login sussfully!");
+                sucessToast("Login sussfully!");
                 //change in future
 
             }
 
         } catch (err) {
-            console.error(err)
+            console.log(err)
         } finally {
             setLoading(false)
         }
@@ -65,7 +68,7 @@ const page = () => {
 
 
     return (
-        <div className='text-white bg-black border border-[#242c3c] rounded-[20px] shadow-sm w-[469px] min-h-[568px] py-[30px] px-[48px] space-y-4'>
+        <div className='text-white bg-black border border-[#242c3c] rounded-[20px] shadow-sm w-[469px] min-h-[666px] py-[30px] px-[48px] space-y-4'>
             <div className="space-y-1">
                 <Image
                     src="/images/AuthLogo.svg"
@@ -79,6 +82,20 @@ const page = () => {
 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                        control={form.control}
+                        name="company_name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Company Name</FormLabel>
+                                <FormControl>
+                                    <Input disabled={loading} className="auth-input" placeholder="Enter Company Name" {...field} />
+                                </FormControl>
+
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="email"
@@ -96,10 +113,10 @@ const page = () => {
                     <div>
                         <PasswordInput disabled={loading} form={form} name="password" placeHolder="Password" label="Password" cls='w-full mb-2' />
                         <p className='text-right'>
-                            <Link href="/" className='text-brandRed'>Forget Password?</Link>
+                            <Link href={PAGE_ROUTES.AUTH.FORGETPASSWORD} className='text-brandRed'>Forget Password?</Link>
                         </p>
                     </div>
-                    <FormField
+                    {/* <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
@@ -112,7 +129,7 @@ const page = () => {
                                 </FormLabel>
                             </FormItem>
                         )}
-                    />
+                    /> */}
                     <Button type="submit" disabled={loading} className="auth-button">
                         {loading ? (
                             <Image
@@ -125,7 +142,7 @@ const page = () => {
                         ) : "Sign In"}
                     </Button>
                 </form>
-                <p className="text-center text-[#8F9DAc]">Don't have an account? <Link href="/" className="text-brandRed">Sign Up</Link></p>
+                <p className="text-center text-[#8F9DAc]">Don't have an account? <Link href={PAGE_ROUTES.AUTH.REGISTER} className="text-brandRed">Sign Up</Link></p>
 
             </Form>
         </div>
