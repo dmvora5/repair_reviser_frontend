@@ -1,8 +1,13 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { PlusIcon, Trash2 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import AddNewUserPopup from "./AddNewUserPopup";
 
 const page = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="flex flex-col flex-1">
       <div className="flex items-center mb-8">
@@ -14,7 +19,7 @@ const page = () => {
             Create new user for your company.
           </span>
         </div>
-        <Button variant={"default"}>
+        <Button variant={"default"} onClick={() => setIsModalOpen(true)}>
           <span className="text-[14px] font-medium leading-7">
             Add New User
           </span>
@@ -248,6 +253,10 @@ const page = () => {
           </table>
         </div>
       </div>
+      <AddNewUserPopup
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
