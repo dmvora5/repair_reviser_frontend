@@ -4,6 +4,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  
 }
 
 @layer base {
@@ -90,7 +91,37 @@ body {
   }
   .shad-otp-slot {
     @apply h-[50px] w-[50px] border-none bg-[#0C141C]
+  
   }
+  .borderGradient {
+    @apply relative border border-transparent;
+  }
+  .no-focus {
+    @apply outline-none ring-0 border-transparent active:outline-none active:ring-0 active:border-transparent focus:outline-none focus:ring-0 focus:border-transparent 
+           focus-visible:outline-none focus-visible:ring-0 focus-visible:border-transparent 
+           focus-within:outline-none focus-within:ring-0 focus-within:border-transparent !important;
+  }
+  .borderGradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    padding: 1px; /* Adjust border thickness */
+    background: linear-gradient(185.87deg, #242C3C 5.36%, rgba(27, 34, 49, 0.2) 99.47%);
+    -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For Firefox */
+  .scrollbar-hide {
+      scrollbar-width: none;
+  }
+
 }
 
 @layer base {
