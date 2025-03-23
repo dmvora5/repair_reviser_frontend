@@ -3,7 +3,7 @@
 import CustomButton from "@/components/CustomButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { CreditCard, LayoutDashboard, Search, UserCog } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,9 +13,21 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname(); // Get current route
 
   const menuItems = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "User Management", path: "/userManagement" },
-    { name: "Credit Management", path: "/creditManagement" },
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: <LayoutDashboard size={18} />,
+    },
+    {
+      name: "User Management",
+      path: "/userManagement",
+      icon: <UserCog size={18} />,
+    },
+    {
+      name: "Credit Management",
+      path: "/creditManagement",
+      icon: <CreditCard size={18} />,
+    },
   ];
 
   return (
@@ -33,13 +45,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <li key={item.path}>
               <Link
                 href={item.path}
-                className={`flex min-h-[48px] px-3 rounded-[5px] items-center font-medium text-[14px] leading-5 ${
+                className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${
                   pathname === item.path
                     ? "bg-[#DE3140] text-white"
                     : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
                 }`}
               >
-                {item.name}
+                {item.icon} {item.name}
               </Link>
             </li>
           ))}
