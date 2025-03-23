@@ -20,7 +20,7 @@ const page = () => {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex items-center mb-[26px]">
+      <div className="flex items-center mb-[24px]">
         <div className="flex flex-col flex-1">
           <span className="font-medium text-[32px] leading-[130%] tracking-normal text-white mb-2">
             Change Password

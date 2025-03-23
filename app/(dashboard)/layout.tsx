@@ -8,6 +8,7 @@ import {
   FileUp,
   LayoutDashboard,
   Lock,
+  MessagesSquare,
   Search,
   UserCog,
 } from "lucide-react";
@@ -44,6 +45,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       name: "Change Password",
       path: "/changePassword",
       icon: <Lock size={18} />,
+    },
+    {
+      name: "FAQs",
+      path: "/faqs",
+      icon: <MessagesSquare size={18} />,
     },
   ];
 
