@@ -7,6 +7,7 @@ import {
   CreditCard,
   FileUp,
   LayoutDashboard,
+  Lock,
   Search,
   UserCog,
 } from "lucide-react";
@@ -38,6 +39,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       name: "Credit Management",
       path: "/creditManagement",
       icon: <CreditCard size={18} />,
+    },
+    {
+      name: "Change Password",
+      path: "/changePassword",
+      icon: <Lock size={18} />,
     },
   ];
 
