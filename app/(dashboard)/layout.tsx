@@ -3,7 +3,13 @@
 import CustomButton from "@/components/CustomButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CreditCard, LayoutDashboard, Search, UserCog } from "lucide-react";
+import {
+  CreditCard,
+  FileUp,
+  LayoutDashboard,
+  Search,
+  UserCog,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,6 +23,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       name: "Dashboard",
       path: "/dashboard",
       icon: <LayoutDashboard size={18} />,
+    },
+    {
+      name: "New Jobs",
+      path: "/newJobs",
+      icon: <FileUp size={18} />,
     },
     {
       name: "User Management",
@@ -90,7 +101,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       </main>
 
       {/* Right Sidebar */}
-      <aside className="w-[351px] min-w-[351px] bg-[#0B1219] rounded-2xl p-4 flex flex-col overflow-y-auto scrollbar-hide">
+      <aside className="w-[351px] min-w-[351px] bg-[#0B1219] rounded-2xl p-4 flex flex-col overflow-y-auto scrollbar-hide max-h-[calc(100vh-48px)]">
         {/* User Info */}
         <div className="bg-[#060A0E] flex items-center gap-4 p-4 rounded-xl mb-6">
           <Image
