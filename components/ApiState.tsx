@@ -7,19 +7,22 @@ import { createContext, useContext, useEffect } from "react";
 
 const ApiContext = createContext({} as any);
 
-const ApiState = ({ error, isSuccess, children }: any) => {
+const ApiState = ({ error, isSuccess, children, reset }: any) => {
     return (
-        <ApiContext.Provider value={{ error, isSuccess }}>
+        <ApiContext.Provider value={{ error, isSuccess, reset }}>
             {children}
         </ApiContext.Provider>
     );
 }
 
 ApiState.SuccessMessage = ({ message }: any) => {
-    const { isSuccess } = useContext(ApiContext);
+    const { isSuccess, reset } = useContext(ApiContext);
     useEffect(() => {
         if (!isSuccess) return;
         sucessToast(message);
+        if (reset && typeof reset == 'function') {
+            reset();
+        }
     }, [isSuccess])
 
     return <></>
@@ -31,7 +34,7 @@ ApiState.SuccessRedirect = ({ path }: any) => {
 
     useEffect(() => {
         if (!isSuccess) return;
-        router.push("/login");
+        router.push(path);
     }, [isSuccess])
 
     return <></>;
@@ -45,6 +48,17 @@ ApiState.Error = () => {
             parseAndShowErrorInToast(error);
         }
     }, [error])
+
+    return <></>
+}
+
+
+ApiState.SuccessCallback = ({ callback }: any) => {
+    const { isSuccess } = useContext(ApiContext);
+    useEffect(() => {
+        if (!isSuccess || typeof callback !== 'function') return;
+        callback();
+    }, [isSuccess]);
 
     return <></>
 }

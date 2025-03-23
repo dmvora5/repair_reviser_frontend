@@ -12,19 +12,30 @@ export const authOptions: AuthOptions = {
             type: "credentials",
             credentials: {},
             async authorize(credentials: any) {
-                const { email, password, company_name } = credentials
+                const { email, password, company_name, username } = credentials
 
 
                 try {
                     // ** Login API Call to match the user credentials and receive user data in response along with his role
 
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGIN}`, {
+                    let res: any = {};
+                    if(!username) {
+                     res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGIN}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({ email, password, company_name: company_name || "" })
                     })
+                }else {
+                    res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGINCOMPANYUSER}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, password, company_name: company_name || "" })
+                    })
+                }
 
                     const data = await res.json();
 

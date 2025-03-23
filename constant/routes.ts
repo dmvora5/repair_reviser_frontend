@@ -15,6 +15,10 @@ export const API_ROUTES = {
         REGESTERUSER: "user/register-user/",
         FORGETPASSWORD: "user/request-password-reset/",
         VERIFYOTP: "user/verify-otp/",
-        RESETPASSWORD: "user/password-reset/"
+        RESETPASSWORD: "user/password-reset/",
+        LOGINCOMPANYUSER: "user/login-company-user/"
+    },
+    USERMANAGEMENT: {
+        CREATECOMPANYUSER: "user/create-company-user/"
     }
 } 

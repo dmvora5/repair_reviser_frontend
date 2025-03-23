@@ -13,13 +13,17 @@ import { useEffect, useState } from 'react'
 import { getSession, signIn } from 'next-auth/react'
 import { parseAndShowErrorInToast, sucessToast } from '@/utils'
 import { PAGE_ROUTES } from '@/constant/routes'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CompanyLoginForm from '@/components/auth/Login/CompanyLOginForm'
+import IndivisualFormLogin from '@/components/auth/Login/IndivisualFormLogin'
+
 
 const formSchema = z.object({
-    company_name: z.string().nonempty({message: 'Company Name not provided'}),
+    company_name: z.string().nonempty({ message: 'Company Name not provided' }),
     email: z.string().min(2, {
         message: "email must be at least 2 characters.",
     }),
-    password: z.string().min(1, { message: "Password must be at least 1 character"}),
+    password: z.string().min(1, { message: "Password must be at least 1 character" }),
 })
 
 const page = () => {
@@ -69,82 +73,35 @@ const page = () => {
 
     return (
         <div className='text-white bg-black border border-[#242c3c] rounded-[20px] shadow-sm w-[469px] min-h-[666px] py-[30px] px-[48px] space-y-4'>
-            <div className="space-y-1">
-                <Image
-                    src="/images/AuthLogo.svg"
-                    width={131}
-                    height={40}
-                    alt="Logo"
-                    className="p-2 mx-auto"
-                />
-                <h1 className="text-3xl font-medium text-center">Log In to Your Account</h1>
-            </div>
 
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
-                        control={form.control}
-                        name="company_name"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Company Name</FormLabel>
-                                <FormControl>
-                                    <Input disabled={loading} className="auth-input" placeholder="Enter Company Name" {...field} />
-                                </FormControl>
 
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
-                                    <Input disabled={loading} className="auth-input" placeholder="Enter Email Address" {...field} />
-                                </FormControl>
-
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <div>
-                        <PasswordInput disabled={loading} form={form} name="password" placeHolder="Password" label="Password" cls='w-full mb-2' />
-                        <p className='text-right'>
-                            <Link href={PAGE_ROUTES.AUTH.FORGETPASSWORD} className='text-brandRed'>Forget Password?</Link>
-                        </p>
+            <Tabs defaultValue="Individual" className="py-[30px] space-y-8">
+                <div className="space-y-4">
+                    <div className="space-y-4">
+                        <Image
+                            src="/images/AuthLogo.svg"
+                            width={131}
+                            height={40}
+                            alt="Logo"
+                            className="p-2 mx-auto"
+                        />
+                        <h1 className="text-3xl font-medium text-center">Log In to Your Account</h1>
                     </div>
-                    {/* <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem className='flex'>
-                                <Checkbox id="terms" className='bg-white h-6 w-6 mr-2' />
-                                <FormLabel
-                                    className="inline-block text-[#8F9DAc]"
-                                >
-                                    Remember me
-                                </FormLabel>
-                            </FormItem>
-                        )}
-                    /> */}
-                    <Button type="submit" disabled={loading} className="auth-button">
-                        {loading ? (
-                            <Image
-                                src="images/loader.svg"
-                                alt="loader"
-                                width={24}
-                                height={24}
-                                className="ml-2 animate-spin"
-                            />
-                        ) : "Sign In"}
-                    </Button>
-                </form>
-                <p className="text-center text-[#8F9DAc]">Don't have an account? <Link href={PAGE_ROUTES.AUTH.REGISTER} className="text-brandRed">Sign Up</Link></p>
+                    <TabsList className="grid w-full grid-cols-2 bg-black">
+                        <TabsTrigger value="Individual" className="transition-none rounded-none data-[state=active]:bg-black data-[state=active]:text-brandRed data-[state=active]:border-b-brandRed data-[state=active]:font-bold data-[state=active]:border-b-2 text-[#8f9dac] pb-2">Individual</TabsTrigger>
+                        <TabsTrigger value="Company" className="transition-none rounded-none data-[state=active]:bg-black data-[state=active]:text-brandRed data-[state=active]:border-b-brandRed data-[state=active]:font-bold data-[state=active]:border-b-2 text-[#8f9dac] pb-2">Company</TabsTrigger>
+                    </TabsList>
+                </div>
+                <TabsContent value="Individual">
+                    <IndivisualFormLogin />
+                </TabsContent>
+                <TabsContent value="Company">
+                    <CompanyLoginForm />
+                </TabsContent>
+            </Tabs>
 
-            </Form>
+
+
         </div>
     )
 }
