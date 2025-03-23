@@ -2,26 +2,40 @@
 
 import ApiState from "@/components/ApiState";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { useCreateCompanyUserMutation } from "@/redux/apis/userManagementApis";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useRef } from "react";
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import PasswordInput from "@/components/common/form/PasswordInput";
 import Image from "next/image";
 
-
-const formSchema = z.object({
-  username: z.string().min(2, { message: "Username must be at least 8 characters long" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
-  confirmpassword: z.string().min(8, { message: "Password must be at least 8 characters long" }),
-}).refine((data) => data.password === data.confirmpassword, {
-  message: "Passwords do not match",
-  path: ["confirmpassword"],
-});
+const formSchema = z
+  .object({
+    username: z
+      .string()
+      .min(2, { message: "Username must be at least 8 characters long" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+    confirmpassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" }),
+  })
+  .refine((data) => data.password === data.confirmpassword, {
+    message: "Passwords do not match",
+    path: ["confirmpassword"],
+  });
 
 interface AddNewUserPopupProps {
   isOpen: boolean;
@@ -32,16 +46,19 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
   isOpen,
   onClose,
 }) => {
-
-  const [submit, { isLoading, error, isSuccess, status, reset }] = useCreateCompanyUserMutation();
-  console.log({ isLoading, error, isSuccess, status })
-
+  const [submit, { isLoading, error, isSuccess, status, reset }] =
+    useCreateCompanyUserMutation();
+  console.log({ isLoading, error, isSuccess, status });
 
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Close modal when clicking outside of it
   const handleClickOutside = (e: React.MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node) && status !== "pending") {
+    if (
+      modalRef.current &&
+      !modalRef.current.contains(e.target as Node) &&
+      status !== "pending"
+    ) {
       onClose();
     }
   };
@@ -56,13 +73,13 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    submit(values)
+    submit(values);
   }
 
   const callback = () => {
     onClose();
     form.reset();
-  }
+  };
 
   if (!isOpen) return null;
 
@@ -95,16 +112,26 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
 
         {/* Form */}
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col"
+          >
             <div className="flex flex-col mb-[18px]">
               <FormField
                 control={form.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="block text-white font-medium text-[14px] leading-[24px] tracking-normal mb-1.5">Enter Username</FormLabel>
+                    <FormLabel className="block text-white font-medium text-[14px] leading-[24px] tracking-normal mb-1.5">
+                      Enter Username
+                    </FormLabel>
                     <FormControl>
-                      <Input disabled={isLoading} className="w-full rounded-[6px] placeholder:text-[#8F9DAC] text-[14px] placeholder:text-[14px] font-normal placeholder:font-normal leading-5 h-[50px] px-4 flex items-center no-focus border border-[#1B2231] bg-[#0C141C]" placeholder="Enter Email Address" {...field} />
+                      <Input
+                        disabled={isLoading}
+                        className="w-full rounded-[6px] placeholder:text-[#8F9DAC] text-[14px] placeholder:text-[14px] font-normal placeholder:font-normal leading-5 h-[50px] px-4 flex items-center no-focus border border-[#1B2231] bg-[#0C141C]"
+                        placeholder="Enter Email Address"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -112,10 +139,24 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
               />
             </div>
             <div className="flex flex-col mb-[18px]">
-              <PasswordInput disabled={isLoading} form={form} name="password" placeHolder="Password" label="Password" cls="w-full" />
+              <PasswordInput
+                disabled={isLoading}
+                form={form}
+                name="password"
+                placeHolder="Password"
+                label="Password"
+                cls="w-full"
+              />
             </div>
             <div className="flex flex-col mb-[32px]">
-              <PasswordInput disabled={isLoading} form={form} name="confirmpassword" placeHolder="Confirm Password" label="Confirm Password" cls="w-full" />
+              <PasswordInput
+                disabled={isLoading}
+                form={form}
+                name="confirmpassword"
+                placeHolder="Confirm Password"
+                label="Confirm Password"
+                cls="w-full"
+              />
             </div>
             <Button type="submit" className="auth-button">
               {isLoading ? (
@@ -126,7 +167,9 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
                   height={24}
                   className="ml-2 animate-spin"
                 />
-              ) : "Submit"}
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </Form>
