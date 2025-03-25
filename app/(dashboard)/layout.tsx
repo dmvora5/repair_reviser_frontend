@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import {
   CreditCard,
   FileUp,
+  History,
   LayoutDashboard,
   Lock,
   MessagesSquare,
@@ -30,6 +31,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       name: "New Jobs",
       path: "/newJobs",
       icon: <FileUp size={18} />,
+    },
+    {
+      name: "Previous jobs",
+      path: "/previousJobs",
+      icon: <History size={18} />,
     },
     {
       name: "User Management",
