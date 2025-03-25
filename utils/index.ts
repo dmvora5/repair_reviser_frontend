@@ -80,6 +80,15 @@ export function parseAndShowErrorInToast(error: any) {
   console.log("parseAndShowErrorInToast -> error:", error);
 }
 
+export const errorToast = (message: string) => {
+  toast.error(message || "Somting went wrong!", {
+    style: {
+      backgroundColor: "red",
+      color: "white",
+      border: 'none'
+    },
+  })
+}
 
 export const sucessToast = (message: string) => {
   toast.success(message, {

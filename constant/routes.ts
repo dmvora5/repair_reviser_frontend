@@ -20,5 +20,8 @@ export const API_ROUTES = {
     },
     USERMANAGEMENT: {
         CREATECOMPANYUSER: "user/create-company-user/"
+    },
+    JOBS: {
+        REPORTUPLOAD: "report/upload-file/"
     }
 } 
