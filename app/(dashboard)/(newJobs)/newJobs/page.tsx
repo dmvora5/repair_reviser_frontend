@@ -123,7 +123,7 @@ const Page = () => {
 
         {/* Upload Button */}
         <Button onClick={upload} className="w-1/5 ml-auto my-8">
-          Process Estimate
+          {isLoading ? "Uploading..."  : "Process Estimate"}
         </Button>
       </div>
     </div>
