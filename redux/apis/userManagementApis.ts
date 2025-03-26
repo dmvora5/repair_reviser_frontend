@@ -15,11 +15,19 @@ export const userManagementApis = createApi({
                 method: "POST",
                 body: payload
             })
+        }),
+        allComponyUsersList: build.query({
+            query: (payload: any) => ({
+                url: API_ROUTES.USERMANAGEMENT.USERLIST,
+                method: "GET",
+                params: payload
+            })
         })
     })
 })
 
 
 export const {
-    useCreateCompanyUserMutation
+    useCreateCompanyUserMutation,
+    useAllComponyUsersListQuery
 } = userManagementApis

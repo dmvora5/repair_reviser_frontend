@@ -19,7 +19,8 @@ export const API_ROUTES = {
         LOGINCOMPANYUSER: "user/login-company-user/"
     },
     USERMANAGEMENT: {
-        CREATECOMPANYUSER: "user/create-company-user/"
+        CREATECOMPANYUSER: "user/create-company-user/",
+        USERLIST: "user/company-user-list/"
     },
     JOBS: {
         REPORTUPLOAD: "report/upload-file/",

@@ -4,12 +4,66 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import AddNewUserPopup from "./AddNewUserPopup";
+import { PAGE_SIZE } from "@/constant";
+import { useAllComponyUsersListQuery } from "@/redux/apis/userManagementApis";
+import ApiState from "@/components/ApiState";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from "@/components/ui/pagination";
+
+interface StateType {
+  page: number;
+  page_size: number;
+}
 
 const page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [state, setState] = useState<StateType>({
+    page: 1,
+    page_size: 5
+  });
+
+
+  const { data, isLoading, error, isSuccess, isFetching } = useAllComponyUsersListQuery(state);
+
+  console.log('data', data)
+
+  const totalPages = Math.ceil((data?.count || 0) / state.page_size);
+  const currentPage = state.page;
+
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setState((prev: any) => ({ ...prev, page: newPage }));
+    }
+  };
+
+
+  const renderPaginationNumbers = () => {
+    if (totalPages <= 1) return [];
+
+    const maxPagesToShow = 5;
+    const pageNumbers: (number | string)[] = [];
+
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) pageNumbers.push(i);
+    } else {
+      pageNumbers.push(1);
+      if (currentPage > 3) pageNumbers.push("...");
+      let start = Math.max(2, currentPage - 1);
+      let end = Math.min(totalPages - 1, currentPage + 1);
+      for (let i = start; i <= end; i++) pageNumbers.push(i);
+      if (currentPage < totalPages - 2) pageNumbers.push("...");
+      pageNumbers.push(totalPages);
+    }
+
+    return pageNumbers;
+  };
+
   return (
     <div className="flex flex-col flex-1">
+      <ApiState isSuccess={isSuccess} error={error}>
+        <ApiState.Error />
+      </ApiState>
       <div className="flex items-center mb-8">
         <div className="flex flex-col flex-1">
           <span className="font-medium text-[32px] leading-[130%] tracking-normal text-white mb-2">
@@ -49,29 +103,96 @@ const page = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
-                <td className="w-[90px] justify-center min-w-[90px]">201</td>
-                <td className="flex-1 truncate">Johnson Smith</td>
-                <td className="min-w-fit">05/07/2024</td>
-                <td className="w-[92px] justify-center min-w-[92px]">
-                  <button className="text-[#DE3140] hover:text-red-400">
-                    <Trash2 className="w-[20px]" />
-                  </button>
-                </td>
-              </tr>
-              <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
-                <td className="w-[90px] justify-center min-w-[90px]">201</td>
-                <td className="flex-1 truncate">Johnson Smith</td>
-                <td className="min-w-fit">05/07/2024</td>
-                <td className="w-[92px] justify-center min-w-[92px]">
-                  <button className="text-[#DE3140] hover:text-red-400">
-                    <Trash2 className="w-[20px]" />
-                  </button>
-                </td>
-              </tr>
+              {
+                isFetching
+                  ? // Loading Skeleton Rows
+                  [...Array(5)].map((_, index) => (
+                    <tr
+                      key={index}
+                      className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
+                    >
+                      <td className="flex-1 truncate">
+                        <div className="bg-gray-700 rounded-md h-6 w-32"></div>
+                      </td>
+                      <td className="min-w-[176px]">
+                        <div className="bg-gray-700 rounded-md h-6 w-20"></div>
+                      </td>
+                      <td className="min-w-[176px]">
+                        <div className="bg-gray-700 rounded-md h-6 w-24"></div>
+                      </td>
+                      <td className="w-[92px] justify-center min-w-[92px] flex items-center">
+                        <div className="bg-gray-700 rounded-md h-6 w-6"></div>
+                      </td>
+                    </tr>
+                  )) :
+                  (data?.results || []).map((ele: any) => (
+                    <tr key={ele?.id} className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
+                      <td className="w-[90px] justify-center min-w-[90px]">201</td>
+                      <td className="flex-1 truncate">{ele?.username}</td>
+                      <td className="min-w-fit">05/07/2024</td>
+                      <td className="w-[92px] justify-center min-w-[92px]">
+                        <button className="text-[#DE3140] hover:text-red-400">
+                          <Trash2 className="w-[20px]" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+              }
             </tbody>
           </table>
         </div>
+        <Pagination className="flex justify-center items-center mt-4">
+          {totalPages > 1 && (
+            <PaginationContent className="flex space-x-2 bg-[#1E1E2E] p-3 rounded-lg shadow-md">
+              {/* Previous Button */}
+              <PaginationItem>
+                <button
+                  className={`px-4 py-2 rounded-md transition-all ${currentPage === 1
+                    ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
+                    : "bg-gray-800 hover:bg-gray-600 text-white"
+                    }`}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
+              </PaginationItem>
+
+              {/* Page Numbers */}
+              {renderPaginationNumbers().map((page, index) => (
+                <PaginationItem key={index}>
+                  {page === "..." ? (
+                    <PaginationEllipsis className="px-4 py-2 text-gray-400" />
+                  ) : (
+                    <button
+                      className={`px-4 py-2 rounded-md font-semibold transition-all ${currentPage === page
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-800 hover:bg-gray-600 text-gray-300"
+                        }`}
+                      onClick={() => handlePageChange(page as number)}
+                    >
+                      {page}
+                    </button>
+                  )}
+                </PaginationItem>
+              ))}
+
+              {/* Next Button */}
+              <PaginationItem>
+                <button
+                  className={`px-4 py-2 rounded-md transition-all ${currentPage === totalPages
+                    ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
+                    : "bg-gray-800 hover:bg-gray-600 text-white"
+                    }`}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
+              </PaginationItem>
+            </PaginationContent>
+          )}
+        </Pagination>
       </div>
       <AddNewUserPopup
         isOpen={isModalOpen}
