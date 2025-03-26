@@ -27,6 +27,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { PAGE_SIZE } from "@/constant";
 
 const STATUS: any = {
   not_reviewed: {
@@ -47,7 +48,7 @@ const page = () => {
   const [state, setState] = useState<any>({
     page: 1,
     search: "",
-    limit: 10,
+    limit: PAGE_SIZE,
   });
 
   const { data, isLoading, error, isSuccess, isFetching } =
@@ -145,7 +146,7 @@ const page = () => {
             <tbody>
               {isFetching
                 ? // Loading Skeleton Rows
-                  [...Array(3)].map((_, index) => (
+                  [...Array(5)].map((_, index) => (
                     <tr
                       key={index}
                       className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
