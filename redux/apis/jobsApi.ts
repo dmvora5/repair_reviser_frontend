@@ -23,7 +23,7 @@ export const jobsApis = createApi({
                 method: "GET",
                 params: {
                     ...payload,
-                    page_size: PAGE_SIZE
+                    page_size: payload.limit
                 }
             })
         })
