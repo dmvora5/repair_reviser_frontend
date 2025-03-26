@@ -18,18 +18,28 @@ const STATUS: any = {
 
 const page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [search, setSearch] = useState<any>()
+
   const [state, setState] = useState<any>({
     page: 1,
     search: ""
   })
 
 
-  const { data, isLoading, error, isSuccess } = usePreviousJobsQuery(state);
+  const { data, isLoading, error, isSuccess, isFetching } = usePreviousJobsQuery(state);
+
+  console.log('isLoading', isLoading);
+  console.log('isFetching', isFetching)
 
   console.log('data', data)
 
-  const handleSearch = (e:any) => {
-    
+  const handleSearch = () => {
+    setState((previousState: any) => ({
+      ...previousState,
+      page: 1,
+      search: search
+    }))
   }
 
   return (
@@ -54,9 +64,10 @@ const page = () => {
             <Input
               className="border-none text-xl no-focus placeholder:text-[#8F9DAC] text-white font-medium text-[14px] tracking-normal leading-5 pr-0"
               placeholder="Search here what you are looking for..."
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <Button variant={"default"}>
+          <Button variant={"default"} onClick={handleSearch}>
             <span className="text-[14px] font-medium leading-7">
               Filter
             </span>
