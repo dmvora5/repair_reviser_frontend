@@ -93,6 +93,22 @@ const page = () => {
     return pageNumbers;
   };
 
+  const handleDownload = (fileUrl: string) => {
+    if (!fileUrl) {
+      alert("File URL not available.");
+      return;
+    }
+
+    // Create a temporary link to trigger the download
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.setAttribute("download", fileUrl.split("/").pop() || "file.pdf");
+    link.target = "_blank"; // Open in a new tab if direct download fails
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="flex flex-col flex-1">
       <ApiState isSuccess={isSuccess} error={error}>
@@ -188,8 +204,16 @@ const page = () => {
                       >
                         {STATUS[ele?.status]?.text}
                       </td>
-                      <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
+                      {/* <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
                         <button className="text-[#4A90E2] hover:text-white">
+                          <Download className="w-[20px]" />
+                        </button>
+                      </td> */}
+                      <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
+                        <button
+                          className="text-[#4A90E2] hover:text-white"
+                          onClick={() => handleDownload(ele?.file)}
+                        >
                           <Download className="w-[20px]" />
                         </button>
                       </td>
