@@ -95,7 +95,7 @@ const Page = () => {
             {...getRootProps()}
             className="flex flex-col items-center justify-center w-full h-[175px] border-[#1B2231] border rounded-xl bg-[#0B1219] text-white mb-8 cursor-pointer"
           >
-            <label htmlFor="file-upload" className="flex flex-col items-center w-full h-full justify-center">
+            <label htmlFor="file-upload" className="flex flex-col cursor-pointer items-center w-full h-full justify-center">
               <span className="w-[48px] h-[48px] flex justify-center items-center bg-[#4A90E2] rounded-[6px]">
                 <Upload className="w-[20px] text-white" />
               </span>
