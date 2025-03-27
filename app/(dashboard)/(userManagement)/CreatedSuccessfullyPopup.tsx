@@ -10,7 +10,7 @@ interface AddCreditsPopupProps {
   onClose: () => void;
 }
 
-const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
+const CreatedSuccessfullyPopup: React.FC<AddCreditsPopupProps> = ({
   isOpen,
   onClose,
 }) => {
@@ -37,26 +37,26 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
         {/* Header */}
         <div className="flex justify-center flex-col items-center mb-8 text-center">
           <div className="bg-[#34A853] flex flex-col w-[50px] h-[50px] rounded-[6px] items-center justify-center mb-4">
-              <CircleCheck className="w-[24px] text-white" />
+            <CircleCheck className="w-[24px] text-white" />
           </div>
           <h2 className="text-[24px] font-medium leading-[130%] tracking-normal mb-3 text-white">
-          Created Successfully.
+            Created Successfully.
           </h2>
           <span className="text-[#8F9DAC] font-normal text-[16px] leading-[130%] tracking-normal">
-          You have created the new user successfully.
+            You have created the new user successfully.
           </span>
           {/* <button className="text-gray-400 hover:text-white" onClick={onClose}>
             ✖
           </button> */}
         </div>
 
-       
-          <Button type="submit" className="auth-button">
+
+        <Button onClick={onClose} type="submit" className="auth-button">
           Continue
-          </Button>
+        </Button>
       </div>
     </div>
   );
 };
 
-export default AddCreditsPopup;
+export default CreatedSuccessfullyPopup;

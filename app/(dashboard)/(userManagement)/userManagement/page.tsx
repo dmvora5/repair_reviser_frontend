@@ -1,13 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { PlusIcon, Trash2 } from "lucide-react";
+import { Edit, PlusIcon, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import AddNewUserPopup from "./AddNewUserPopup";
 import { PAGE_SIZE } from "@/constant";
 import { useAllComponyUsersListQuery } from "@/redux/apis/userManagementApis";
 import ApiState from "@/components/ApiState";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from "@/components/ui/pagination";
+import UpdateUserPopup from "./UpdateUserPopup";
+import CreatedSuccessfullyPopup from "../CreatedSuccessfullyPopup";
 
 interface StateType {
   page: number;
@@ -19,8 +21,13 @@ const page = () => {
 
   const [state, setState] = useState<StateType>({
     page: 1,
-    page_size: 5
+    page_size: PAGE_SIZE
   });
+
+  const [editUser, setEditUser] = useState<any>({
+    open: false,
+    user: {}
+  })
 
 
   const { data, isLoading, error, isSuccess, isFetching } = useAllComponyUsersListQuery(state);
@@ -58,6 +65,15 @@ const page = () => {
 
     return pageNumbers;
   };
+
+
+  const editUserHadler = (user: any) => {
+    setEditUser((ps: any) => ({
+      ...ps,
+      open: !ps.open,
+      user
+    }))
+  }
 
   return (
     <div className="flex flex-col flex-1">
@@ -120,7 +136,8 @@ const page = () => {
                       <td className="min-w-[176px]">
                         <div className="bg-gray-700 rounded-md h-6 w-24"></div>
                       </td>
-                      <td className="w-[92px] justify-center min-w-[92px] flex items-center">
+                      <td className="w-[92px] justify-center min-w-[92px] flex items-center space-x-2">
+                        <div className="bg-gray-700 rounded-md h-6 w-6"></div>
                         <div className="bg-gray-700 rounded-md h-6 w-6"></div>
                       </td>
                     </tr>
@@ -130,9 +147,12 @@ const page = () => {
                       <td className="w-[90px] justify-center min-w-[90px]">201</td>
                       <td className="flex-1 truncate">{ele?.username}</td>
                       <td className="min-w-fit">05/07/2024</td>
-                      <td className="w-[92px] justify-center min-w-[92px]">
+                      <td className="w-[92px] justify-center min-w-[92px] space-x-2">
                         <button className="text-[#DE3140] hover:text-red-400">
                           <Trash2 className="w-[20px]" />
+                        </button>
+                        <button onClick={editUserHadler.bind(null, ele)} className="text-[#62ee21] hover:text-green-400">
+                          <Edit className="w-[20px]" />
                         </button>
                       </td>
                     </tr>
@@ -197,6 +217,14 @@ const page = () => {
       <AddNewUserPopup
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+      <UpdateUserPopup
+        isOpen={editUser.open}
+        onClose={() => setEditUser((ps: any) => ({
+          ...ps,
+          open: false,
+        }))}
+        editUser={editUser.user}
       />
     </div>
   );

@@ -104,7 +104,13 @@ const Page = () => {
                 <span className="text-[#8F9DAC] font-semibold text-[16px]">or drag & drop it here.</span>
               </p>
               <span className="text-[#8F9DAC] text-[14px]">(PDF files up to 10 MB)</span>
-              <Input {...getInputProps()} id="file-upload" type="file" className="hidden" accept="application/pdf" />
+              <Input
+                onChange={(e) => {
+                  if (e.target.files) {
+                    onDrop(Array.from(e.target.files)); // Handle selected files
+                  }
+                }}
+                id="file-upload" type="file" className="hidden" accept="application/pdf" />
             </label>
           </div>
         )}
@@ -123,7 +129,7 @@ const Page = () => {
 
         {/* Upload Button */}
         <Button onClick={upload} className="w-1/5 ml-auto my-8">
-          {isLoading ? "Uploading..."  : "Process Estimate"}
+          {isLoading ? "Uploading..." : "Process Estimate"}
         </Button>
       </div>
     </div>

@@ -14,20 +14,31 @@ export const userManagementApis = createApi({
                 url: API_ROUTES.USERMANAGEMENT.CREATECOMPANYUSER,
                 method: "POST",
                 body: payload
-            })
+            }),
+            invalidatesTags: ["UserManagement"]
         }),
         allComponyUsersList: build.query({
             query: (payload: any) => ({
                 url: API_ROUTES.USERMANAGEMENT.USERLIST,
                 method: "GET",
                 params: payload
-            })
-        })
+            }),
+            providesTags: ["UserManagement"]
+        }),
+        updateCompanyUser: build.mutation({
+            query: (payload: any) => ({
+                url: API_ROUTES.USERMANAGEMENT.EDITPASSWORD + payload?.id + "/",
+                method: "PATCH",
+                body: payload
+            }),
+            invalidatesTags: ["UserManagement"]
+        }),
     })
 })
 
 
 export const {
     useCreateCompanyUserMutation,
-    useAllComponyUsersListQuery
+    useAllComponyUsersListQuery,
+    useUpdateCompanyUserMutation
 } = userManagementApis

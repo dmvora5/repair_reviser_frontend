@@ -14,7 +14,8 @@ export const jobsApis = createApi({
                 url: API_ROUTES.JOBS.REPORTUPLOAD,
                 method: "POST",
                 body: payload
-            })
+            }),
+            invalidatesTags: ["Jobs"]
         }),
         previousJobs: build.query({
             query: (payload: any) => ({
@@ -24,7 +25,8 @@ export const jobsApis = createApi({
                     ...payload,
                     page_size: payload.limit
                 }
-            })
+            }),
+            providesTags: ["Jobs"]
         })
     })
 })
