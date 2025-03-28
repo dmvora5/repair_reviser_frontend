@@ -6,6 +6,10 @@ export const PAGE_ROUTES = {
         REGISTER: "/register",
         FORGETPASSWORD: "/forget-password"
     },
+    COMPANY: {
+        USERMAMAGEMENT: "/usermanagement",
+        DASHBOARD: "/dashboard"
+    }
 }
 
 

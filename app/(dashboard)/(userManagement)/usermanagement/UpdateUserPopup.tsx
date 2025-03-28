@@ -63,6 +63,7 @@ const UpdateUserPopup: React.FC<UpdateUserPopupUserPopupProps> = ({
             onClose();
         }
     };
+    
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -110,7 +111,7 @@ const UpdateUserPopup: React.FC<UpdateUserPopupUserPopupProps> = ({
                 {/* Header */}
                 <div className="flex justify-center flex-col items-center mb-8 text-center">
                     <h2 className="text-[32px] font-medium leading-[130%] tracking-normal mb-3 text-white">
-                        Add New User
+                        Update User's Password
                     </h2>
                     <span className="text-[#8F9DAC] font-normal text-[14px] leading-[20px] tracking-normal">
                         Please Provide username and set password for new user.
@@ -178,7 +179,7 @@ const UpdateUserPopup: React.FC<UpdateUserPopupUserPopupProps> = ({
                                     className="ml-2 animate-spin"
                                 />
                             ) : (
-                                "Submit"
+                                "Update"
                             )}
                         </Button>
                     </form>

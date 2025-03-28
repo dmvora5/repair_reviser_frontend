@@ -12,6 +12,7 @@ import { getSession, signIn } from 'next-auth/react'
 import { parseAndShowErrorInToast, sucessToast } from '@/utils'
 import { PAGE_ROUTES } from '@/constant/routes'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
     company_name: z.string().nonempty({ message: 'Company Name not provided' }),
@@ -25,6 +26,7 @@ const IndivisualFormLogin = () => {
 
 
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -55,8 +57,9 @@ const IndivisualFormLogin = () => {
             if (res && res.ok) {
                 const session: any = await getSession();
                 sucessToast("Login sussfully!");
-                //change in future
-
+                if (session?.access_token) {
+                    router.replace(PAGE_ROUTES.COMPANY.DASHBOARD)
+                }
             }
 
         } catch (err) {

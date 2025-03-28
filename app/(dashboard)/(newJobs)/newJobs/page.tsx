@@ -18,6 +18,7 @@ import { errorToast } from "@/utils";
 import { useUploadReportMutation } from "@/redux/apis/jobsApi";
 import ApiState from "@/components/ApiState";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import LoadingPopup from "../_component/LoadingPopup";
 
 const Page = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -59,6 +60,7 @@ const Page = () => {
         <ApiState.SuccessMessage message="Upload report successfully!" />
         <ApiState.Error />
       </ApiState>
+      <LoadingPopup isOpen={isLoading} />
 
       <div className="flex items-center mb-8">
         <div className="flex flex-col flex-1">
@@ -129,7 +131,7 @@ const Page = () => {
 
         {/* Upload Button */}
         <Button onClick={upload} className="w-1/5 ml-auto my-8">
-          {isLoading ? "Uploading..." : "Process Estimate"}
+          Process Estimate
         </Button>
       </div>
     </div>
