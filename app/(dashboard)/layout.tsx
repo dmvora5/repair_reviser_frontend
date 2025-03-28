@@ -1,14 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import CustomButton from "@/components/CustomButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   CreditCard,
   FileUp,
+  HelpCircle,
   History,
   LayoutDashboard,
   Lock,
+  LogOut,
   MessagesSquare,
   Search,
   UserCog,
@@ -17,9 +20,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import LogOutPopup from "./(creditManagement)/creditManagement/logOutPopup";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname(); // Get current route
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false); // State for logout popup
 
   const menuItems = [
     {
@@ -58,6 +63,18 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       icon: <MessagesSquare size={18} />,
     },
   ];
+  const menuItems2: { name: string; icon: React.JSX.Element; path?: string; onClick?: () => void }[] = [
+    {
+      name: "Help Center",
+      path: "/helpCenter",
+      icon: <HelpCircle size={18} />,
+    },
+    {
+      name: "Log Out",
+      onClick: () => setIsLogoutOpen(true), // Open popup when clicked
+      icon: <LogOut size={18} />,
+    },   
+  ];
 
   return (
     <div className="p-6 bg-black min-h-screen flex flex-row overflow-hidden">
@@ -85,6 +102,33 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             </li>
           ))}
         </ul>
+
+        <ul className="space-y-3 overflow-y-auto flex flex-col flex-grow scrollbar-hide">
+          {menuItems2.map((item) => (
+            <li key={item.name}>
+              {item.path ? (
+                <Link
+                  href={item.path}
+                  className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${
+                    pathname === item.path
+                      ? "bg-[#DE3140] text-white"
+                      : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
+                  }`}
+                >
+                  {item.icon} {item.name}
+                </Link>
+              ) : (
+                <button
+                  onClick={item.onClick}
+                  className="flex w-full min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
+                >
+                  {item.icon} {item.name}
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+
       </aside>
 
       {/* Main Content */}
@@ -189,6 +233,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </aside>
+      {isLogoutOpen && <LogOutPopup isOpen={isLogoutOpen} onClose={() => setIsLogoutOpen(false)} />}
     </div>
   );
 };

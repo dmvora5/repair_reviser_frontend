@@ -17,7 +17,6 @@ const LoadingPopup = ({ isOpen }: LoadingPopupProps) => {
             <div
                 className="bg-[#060A0E] text-white px-[48px] py-[30px] rounded-[20px] w-[501px] min-w-[501px] modelGradientBorder"
             >
-                {/* Header */}
                 <div className="flex justify-center flex-col items-center mb-8 text-center">
                     <div className="bg-[#34A853]rounded-[6px] items-center justify-center mb-4">
                         <Image
@@ -32,9 +31,7 @@ const LoadingPopup = ({ isOpen }: LoadingPopupProps) => {
                     </h2>
                     <span className="text-[#8F9DAC] font-normal text-[16px] leading-[130%] tracking-normal">
                         Your uploaded data is being analyzed.                     </span>
-                    {/* <button className="text-gray-400 hover:text-white" onClick={onClose}>
-            ✖
-          </button> */}
+                    
                 </div>
             </div>
         </div>
