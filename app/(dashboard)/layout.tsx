@@ -20,7 +20,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-import LogOutPopup from "./(creditManagement)/creditManagement/logOutPopup";
+import LogOutPopup from "./(creditManagement)/creditManagement/LogOutPopup";
+// import LogOutPopup from "./(creditManagement)/creditManagement/logOutPopup";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname(); // Get current route
@@ -207,9 +208,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               </span>
             </div>
           </div>
-          <CustomButton primary className="w-full">
+          <Button
+              variant="outline"
+              className="w-full">
             Add More Credits
-          </CustomButton>
+          </Button>
         </div>
 
         {/* Total Jobs */}

@@ -20,14 +20,14 @@ const CreditUsedHistoryTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
-            <td className="flex-1 truncate w-[50%]">1500</td>
+          <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
+            <td className="flex-1 w-[50%]">1500</td>
             <td className="min-w-fit w-[50%] text-right justify-end">
               05/07/2024
             </td>
           </tr>
-          <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
-            <td className="flex-1 truncate w-[50%]">1500</td>
+          <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
+            <td className="flex-1 w-[50%]">1500</td>
             <td className="min-w-fit w-[50%] text-right justify-end">
               05/07/2024
             </td>

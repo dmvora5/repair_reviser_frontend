@@ -116,19 +116,19 @@ const Page = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
+                <tr className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                   <td className="truncate min-w-[144px] text-[#DE3140]">
                       3 items 
                   </td>
                   <td className="flex-1 text-[#DE3140]">requiring amends.</td>
                 </tr>
-                <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:h-[56px] *:items-center *:flex *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
+                <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                   <td className="min-w-[144px] truncate text-[#F3811C]">
                   5 items 
                   </td>
                   <td className="flex-1 text-[#F3811C]">requiring checks.</td>
                 </tr>
-                <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
+                <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                   <td className="min-w-[144px] truncate text-[#7ED748]">
                   4 items 
                   </td>

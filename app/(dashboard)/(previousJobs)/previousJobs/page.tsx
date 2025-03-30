@@ -145,16 +145,16 @@ const page = () => {
           <table className="w-full border-collapse text-white">
             <thead>
               <tr className="space-x-1 flex">
-                <th className="py-3 px-4 flex-1 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                <th className="py-3 px-4 flex-1 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px]">
                   Job Name
                 </th>
-                <th className="py-3 px-4 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px] min-w-[176px]">
+                <th className="py-3 px-4 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px]  min-w-[176px]">
                   Date Uploaded
                 </th>
-                <th className="py-3 px-4 font-medium text-[14px] min-w-[174px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                <th className="py-3 px-4 font-medium text-[14px] min-w-[174px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px]">
                   Status
                 </th>
-                <th className="py-3 px-4 w-[92px] justify-center min-w-[92px] font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px] text-center">
+                <th className="py-3 px-4 w-[92px] justify-center min-w-[92px] font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] text-center">
                   Action
                 </th>
               </tr>
@@ -165,7 +165,7 @@ const page = () => {
                 [...Array(5)].map((_, index) => (
                   <tr
                     key={index}
-                    className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
+                    className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
                   >
                     <td className="flex-1 truncate">
                       <div className="bg-gray-700 rounded-md h-6 w-32"></div>
@@ -182,7 +182,7 @@ const page = () => {
                   </tr>
                 ))
                 : (data?.results || []).map((ele: any) => (
-                  <tr key={ele?.id} className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
+                  <tr key={ele?.id} className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px]  *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                     <td className="flex-1 truncate">
                       <Image
                         src="/pdfIcon.svg"
