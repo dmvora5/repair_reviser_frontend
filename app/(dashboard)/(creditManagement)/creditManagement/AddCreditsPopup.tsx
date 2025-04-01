@@ -21,9 +21,6 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
   const [createCredits, { isLoading }] = useCretaCreditsMutation();
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // const [clientSecret, setClientSecret] = useState<string | null>(null);
-  // const [createCredits, { isLoading }] = useCretaCreditsMutation(); // Redux API Call
-
   // Close modal when clicking outside of it
   const handleClickOutside = (e: React.MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -32,19 +29,6 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
   };
 
   if (!isOpen) return null;
-
-  // const handleAddCredits = async () => {
-  //   try {
-  //     const response = await createCredits({ credit_amount: 5 }).unwrap(); // Call API
-  //     if (response.client_secret) {
-  //       setClientSecret(response.client_secret);
-  //     } else {
-  //       console.error("Failed to get client secret:", response);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error creating payment intent:", error);
-  //   }
-  // };
 
   const handleAddCredits = async () => {
     if (
