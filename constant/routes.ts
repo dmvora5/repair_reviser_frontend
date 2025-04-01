@@ -30,5 +30,8 @@ export const API_ROUTES = {
     JOBS: {
         REPORTUPLOAD: "report/upload-file/",
         PREVIOUSJOBS: "report/list-jobs/"
+    },
+    CREDITS: {
+        CREATECREDITS: "payment/enter-credits-amount/",
     }
 } 

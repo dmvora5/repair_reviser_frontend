@@ -3,7 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import StripePayment from "@/components/StripePayment";
+import { useCretaCreditsMutation } from "@/redux/apis/creditsApi";
 
 interface AddCreditsPopupProps {
   isOpen: boolean;
@@ -14,7 +16,13 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
   isOpen,
   onClose,
 }) => {
+  const [creditAmount, setCreditAmount] = useState(""); // ✅ Store user input
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [createCredits, { isLoading }] = useCretaCreditsMutation();
   const modalRef = useRef<HTMLDivElement>(null);
+
+  // const [clientSecret, setClientSecret] = useState<string | null>(null);
+  // const [createCredits, { isLoading }] = useCretaCreditsMutation(); // Redux API Call
 
   // Close modal when clicking outside of it
   const handleClickOutside = (e: React.MouseEvent) => {
@@ -24,6 +32,44 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
   };
 
   if (!isOpen) return null;
+
+  // const handleAddCredits = async () => {
+  //   try {
+  //     const response = await createCredits({ credit_amount: 5 }).unwrap(); // Call API
+  //     if (response.client_secret) {
+  //       setClientSecret(response.client_secret);
+  //     } else {
+  //       console.error("Failed to get client secret:", response);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error creating payment intent:", error);
+  //   }
+  // };
+
+  const handleAddCredits = async () => {
+    if (
+      !creditAmount ||
+      isNaN(Number(creditAmount)) ||
+      Number(creditAmount) <= 0
+    ) {
+      alert("Please enter a valid credit amount.");
+      return;
+    }
+
+    try {
+      const response = await createCredits({
+        credit_amount: Number(creditAmount),
+      }).unwrap();
+      console.log("🚀 ~ handleAddCredits ~ response:", response)
+      if (response.client_secret) {
+        setClientSecret(response.client_secret);
+      } else {
+        console.error("Failed to get client secret:", response);
+      }
+    } catch (error) {
+      console.error("Error creating payment intent:", error);
+    }
+  };
 
   return (
     <div
@@ -56,10 +102,17 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
             <input
               type="text"
               placeholder="Enter Here"
+              value={creditAmount}
+              onChange={(e) => setCreditAmount(e.target.value)}
               className="w-full rounded-[6px] placeholder:text-[#8F9DAC] text-[14px] placeholder:text-[14px] font-normal placeholder:font-normal leading-5 h-[50px] px-4 flex items-center no-focus border border-[#1B2231] bg-[#0C141C] "
             />
           </div>
-          <Button type="submit" className="auth-button">
+          <Button
+            type="submit"
+            className="auth-button"
+            onClick={handleAddCredits}
+            disabled={isLoading}
+          >
             Pay via{" "}
             <Image
               src="/paypalicon.svg"
@@ -69,6 +122,8 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
               alt="Jobs"
             />
           </Button>
+          {/* ✅ Show Stripe Payment Form if clientSecret exists */}
+          {clientSecret && <StripePayment clientSecret={clientSecret} />}
         </div>
       </div>
     </div>
