@@ -1,6 +1,8 @@
 'use client'
 
+import { PAGE_ROUTES } from "@/constant/routes";
 import { parseAndShowErrorInToast, sucessToast } from "@/utils";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect } from "react";
 
@@ -60,6 +62,18 @@ ApiState.SuccessCallback = ({ callback }: any) => {
         callback();
     }, [isSuccess]);
 
+    return <></>
+}
+
+ApiState.ArthorizeCheck = () => {
+
+    const { error } = useContext(ApiContext);
+    useEffect(() => {
+        if (error?.status !== 401) return;
+        (async () => await signOut({
+            callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}${PAGE_ROUTES.AUTH.LOGIN}`,
+        }))()
+    }, [error]);
     return <></>
 }
 

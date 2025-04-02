@@ -6,6 +6,7 @@ import Image from "next/image";
 import React, { useRef, useState } from "react";
 import StripePayment from "@/components/StripePayment";
 import { useCretaCreditsMutation } from "@/redux/apis/creditsApi";
+import ApiState from "@/components/ApiState";
 
 interface AddCreditsPopupProps {
   isOpen: boolean;
@@ -18,7 +19,7 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
 }) => {
   const [creditAmount, setCreditAmount] = useState(""); // ✅ Store user input
   const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [createCredits, { isLoading }] = useCretaCreditsMutation();
+  const [createCredits, { isLoading, error, isSuccess }] = useCretaCreditsMutation();
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Close modal when clicking outside of it
@@ -29,6 +30,7 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
   };
 
   if (!isOpen) return null;
+
 
   const handleAddCredits = async () => {
     if (
@@ -51,7 +53,8 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
         console.error("Failed to get client secret:", response);
       }
     } catch (error) {
-      console.error("Error creating payment intent:", error);
+      console.log("Error creating payment intent:", error);
+
     }
   };
 
@@ -60,6 +63,9 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
       onClick={handleClickOutside} // Handle outside click
     >
+      <ApiState error={error} isSuccess={isSuccess}>
+        <ApiState.ArthorizeCheck />
+      </ApiState>
       <div
         ref={modalRef}
         className="bg-[#060A0E] text-white px-[48px] py-[30px] rounded-[20px] w-[501px] min-w-[501px] modelGradientBorder"
