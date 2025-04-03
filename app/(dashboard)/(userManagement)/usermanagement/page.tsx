@@ -79,6 +79,7 @@ const page = () => {
     <div className="flex flex-col flex-1">
       <ApiState isSuccess={isSuccess} error={error}>
         <ApiState.Error />
+        <ApiState.ArthorizeCheck />
       </ApiState>
       <div className="flex items-center mb-8">
         <div className="flex flex-col flex-1">

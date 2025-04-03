@@ -63,7 +63,7 @@ const UpdateUserPopup: React.FC<UpdateUserPopupUserPopupProps> = ({
             onClose();
         }
     };
-    
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -103,6 +103,7 @@ const UpdateUserPopup: React.FC<UpdateUserPopupUserPopupProps> = ({
                 {/* <ApiState.SuccessMessage message="passwod updeted sucessfully!" /> */}
                 <ApiState.SuccessCallback callback={callback} />
                 <ApiState.Error />
+                <ApiState.ArthorizeCheck />
             </ApiState>
             <div
                 ref={modalRef}

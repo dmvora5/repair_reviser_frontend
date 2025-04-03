@@ -108,6 +108,7 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
         {/* <ApiState.SuccessMessage message="uesr created sucessfully!" /> */}
         <ApiState.SuccessCallback />
         <ApiState.Error />
+        <ApiState.ArthorizeCheck />
       </ApiState>
       <div
         ref={modalRef}

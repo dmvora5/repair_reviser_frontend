@@ -59,6 +59,7 @@ const Page = () => {
       <ApiState isSuccess={isSuccess} error={error}>
         <ApiState.SuccessMessage message="Upload report successfully!" />
         <ApiState.Error />
+        <ApiState.ArthorizeCheck />
       </ApiState>
       <LoadingPopup isOpen={isLoading} />
 
