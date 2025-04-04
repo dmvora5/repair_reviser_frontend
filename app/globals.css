@@ -148,6 +148,15 @@ body {
       scrollbar-width: none;
   }
 
+  .InputElement {
+    background-color:#0C141C;
+    color: white;
+  }
+
+  .is-invalid {
+    color: white !important;
+  }
+
 }
 
 @layer base {
