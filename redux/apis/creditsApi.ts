@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from "@/constant";
 import { API_ROUTES } from "@/constant/routes";
 import { baseQueryWithAuth } from "@/utils/RtkApiCall";
 import { createApi } from "@reduxjs/toolkit/query/react";
@@ -15,7 +16,33 @@ export const creditsApi = createApi({
       }),
       invalidatesTags: ["Credits"],
     }),
+    getCredits: build.query({
+      query: (payload: any) => ({
+        url: API_ROUTES.CREDITS.GETCREDITS,
+        method: "GET",
+        params: {
+          ...payload,
+          page_size: PAGE_SIZE,
+        },
+      }),
+      providesTags: ["Credits"],
+    }),
+    usedCredits: build.query({
+      query: (payload: any) => ({
+        url: API_ROUTES.CREDITS.USEDCREDITS,
+        method: "GET",
+        params: {
+          ...payload,
+          page_size: PAGE_SIZE,
+        },
+      }),
+      providesTags: ["Credits"],
+    }),
   }),
 });
 
-export const { useCretaCreditsMutation } = creditsApi;
+export const {
+  useCretaCreditsMutation,
+  useGetCreditsQuery,
+  useUsedCreditsQuery,
+} = creditsApi;

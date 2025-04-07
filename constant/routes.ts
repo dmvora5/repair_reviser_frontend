@@ -33,5 +33,7 @@ export const API_ROUTES = {
     },
     CREDITS: {
         CREATECREDITS: "payment/enter-credits-amount/",
+        GETCREDITS: "payment/purchase-history/",
+        USEDCREDITS: "payment/credits-usage-history/",
     }
 } 
