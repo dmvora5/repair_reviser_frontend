@@ -36,7 +36,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-pm2 start "pnpm start" --name your-app-name
+pm2 start "pnpm start" --name frontend
 
 
 # Create 1GB swap file (adjust size as needed)

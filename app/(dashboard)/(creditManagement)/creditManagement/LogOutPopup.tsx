@@ -1,7 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { PAGE_ROUTES } from "@/constant/routes";
 import { Eye, EyeOff, LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import React, { useRef } from "react";
 
@@ -11,7 +13,7 @@ interface LogOutPopupProps {
 }
 
 const LogOutPopup: React.FC<LogOutPopupProps> = ({
-  isOpen, 
+  isOpen,
   onClose,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -22,6 +24,13 @@ const LogOutPopup: React.FC<LogOutPopupProps> = ({
       onClose();
     }
   };
+
+
+  const logOut = async () => {
+    await signOut({
+      callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}${PAGE_ROUTES.AUTH.LOGIN}`,
+    });
+  }
 
   if (!isOpen) return null;
 
@@ -43,16 +52,16 @@ const LogOutPopup: React.FC<LogOutPopupProps> = ({
             Are You Sure?
           </h2>
           <span className="text -[#8F9DAC] font-normal text-[16px] leading-[20px] tracking-normal ">
-          Please make sure you want to log out.
+            Please make sure you want to log out.
           </span>
         </div>
 
         {/* Form */}
         <div className="flex flex-row gap-6 w-full">
           <Button type="submit" variant="outline" className="w-full" onClick={onClose}>
-             No
+            No
           </Button>
-          <Button type="submit" className="auth-button">
+          <Button onClick={logOut} type="submit" className="auth-button">
             Yes
           </Button>
         </div>
