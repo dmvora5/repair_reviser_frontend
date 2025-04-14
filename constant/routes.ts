@@ -7,7 +7,7 @@ export const PAGE_ROUTES = {
         FORGETPASSWORD: "/forget-password"
     },
     COMPANY: {
-        USERMAMAGEMENT: "/usermanagement",
+        USERMAMAGEMENT: "/userManagement",
         DASHBOARD: "/dashboard"
     },
     CREDIT: {
