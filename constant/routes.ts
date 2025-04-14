@@ -9,6 +9,9 @@ export const PAGE_ROUTES = {
     COMPANY: {
         USERMAMAGEMENT: "/usermanagement",
         DASHBOARD: "/dashboard"
+    },
+    CREDIT: {
+        CREDITMANAGEMENT:"/creditManagement"
     }
 }
 
@@ -35,5 +38,6 @@ export const API_ROUTES = {
         CREATECREDITS: "payment/enter-credits-amount/",
         GETCREDITS: "payment/purchase-history/",
         USEDCREDITS: "payment/credits-usage-history/",
+        TOTALCREDITS: "user/available-credits/"
     }
 } 

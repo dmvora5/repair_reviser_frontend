@@ -38,6 +38,13 @@ export const creditsApi = createApi({
       }),
       providesTags: ["Credits"],
     }),
+    getTotalCredits: build.query({
+      query: () => ({
+        url: API_ROUTES.CREDITS.TOTALCREDITS,
+        method: "GET",
+      }),
+      providesTags: ["Credits"],
+    })
   }),
 });
 
@@ -45,4 +52,5 @@ export const {
   useCretaCreditsMutation,
   useGetCreditsQuery,
   useUsedCreditsQuery,
+  useGetTotalCreditsQuery
 } = creditsApi;

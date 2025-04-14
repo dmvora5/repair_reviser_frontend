@@ -21,11 +21,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import LogOutPopup from "./(creditManagement)/creditManagement/LogOutPopup";
+import { useGetTotalCreditsQuery } from "@/redux/apis/creditsApi";
+import { PAGE_ROUTES } from "@/constant/routes";
 // import LogOutPopup from "./(creditManagement)/creditManagement/logOutPopup";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname(); // Get current route
   const [isLogoutOpen, setIsLogoutOpen] = useState(false); // State for logout popup
+
+  const { isLoading, isFetching, data } = useGetTotalCreditsQuery({})
+
 
   const menuItems = [
     {
@@ -204,14 +209,16 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 Available Credits
               </span>
               <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
-                2,500
+                {isLoading || isFetching ? "fetching..." : (data?.credits)?.toLocaleString()}
               </span>
             </div>
           </div>
           <Button
               variant="outline"
               className="w-full">
+            <Link href={PAGE_ROUTES.CREDIT.CREDITMANAGEMENT}>
             Add More Credits
+            </Link>
           </Button>
         </div>
 
