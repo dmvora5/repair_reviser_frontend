@@ -113,10 +113,13 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img
+            <Image
               src="/images/instagram.png"
               alt="Instagram"
               className="w-8 h-8"
+              height={32}
+              width={32}
+
             />
           </a>
           <a
@@ -124,10 +127,12 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img
+            <Image
               src="/images/facebook.png"
               alt="Facebook"
               className="w-8 h-8"
+              height={32}
+              width={32}
             />
           </a>
           <a
@@ -135,7 +140,13 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="/images/twitter.png" alt="Twitter" className="w-8 h-8" />
+            <Image
+              src="/images/twitter.png"
+              alt="Twitter"
+              className="w-8 h-8"
+              height={32}
+              width={32}
+            />
           </a>
         </div>
       </div>
