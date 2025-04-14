@@ -23,16 +23,44 @@ import React from "react";
 import LogOutPopup from "./(creditManagement)/creditManagement/LogOutPopup";
 import { useGetTotalCreditsQuery } from "@/redux/apis/creditsApi";
 import { PAGE_ROUTES } from "@/constant/routes";
+import { ROLES } from "@/constant/roles";
+import { useSession } from "next-auth/react";
 // import LogOutPopup from "./(creditManagement)/creditManagement/logOutPopup";
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname(); // Get current route
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false); // State for logout popup
-
-  const { isLoading, isFetching, data } = useGetTotalCreditsQuery({})
-
-
-  const menuItems = [
+const MENU = {
+  [ROLES.INDIVIDUAL] : [
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: <LayoutDashboard size={18} />,
+    },
+    {
+      name: "New Jobs",
+      path: "/newJobs",
+      icon: <FileUp size={18} />,
+    },
+    {
+      name: "Previous jobs",
+      path: "/previousJobs",
+      icon: <History size={18} />,
+    },
+    {
+      name: "Credit Management",
+      path: "/creditManagement",
+      icon: <CreditCard size={18} />,
+    },
+    {
+      name: "Change Password",
+      path: "/changePassword",
+      icon: <Lock size={18} />,
+    },
+    {
+      name: "FAQs",
+      path: "/faqs",
+      icon: <MessagesSquare size={18} />,
+    },
+  ],
+  [ROLES.COMPANY_ADMIN]: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -52,6 +80,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       name: "User Management",
       path: "/userManagement",
       icon: <UserCog size={18} />,
+      role: ROLES.COMPANY_ADMIN
     },
     {
       name: "Credit Management",
@@ -68,7 +97,57 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       path: "/faqs",
       icon: <MessagesSquare size={18} />,
     },
-  ];
+  ],
+  [ROLES.USER]:[
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: <LayoutDashboard size={18} />,
+    },
+    {
+      name: "New Jobs",
+      path: "/newJobs",
+      icon: <FileUp size={18} />,
+    },
+    {
+      name: "Previous jobs",
+      path: "/previousJobs",
+      icon: <History size={18} />,
+    },
+    {
+      name: "Credit Management",
+      path: "/creditManagement",
+      icon: <CreditCard size={18} />,
+    },
+    {
+      name: "Change Password",
+      path: "/changePassword",
+      icon: <Lock size={18} />,
+    },
+    {
+      name: "FAQs",
+      path: "/faqs",
+      icon: <MessagesSquare size={18} />,
+    },
+  ]
+}
+
+
+
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname(); // Get current route
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false); // State for logout popup
+
+  const { isLoading, isFetching, data } = useGetTotalCreditsQuery({})
+
+  const sessions = useSession();
+
+  console.log('sessions', sessions)
+
+  const menus = MENU[(sessions?.data as any)?.role || ROLES.USER]
+
+
+
   const menuItems2: { name: string; icon: React.JSX.Element; path?: string; onClick?: () => void }[] = [
     {
       name: "Help Center",
@@ -82,6 +161,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     },   
   ];
 
+
+
+
   return (
     <div className="p-6 bg-black min-h-screen flex flex-row overflow-hidden">
       {/* Sidebar */}
@@ -93,7 +175,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
         {/* Navigation */}
         <ul className="space-y-3 overflow-y-auto flex flex-col flex-grow scrollbar-hide">
-          {menuItems.map((item) => (
+          {menus.map((item) => (
             <li key={item.path}>
               <Link
                 href={item.path}
