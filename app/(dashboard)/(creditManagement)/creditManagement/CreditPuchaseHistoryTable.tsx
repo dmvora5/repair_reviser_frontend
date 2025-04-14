@@ -8,7 +8,7 @@ const CreditUsedHistoryTable = () => {
     page: 1,
     search: "",
   });
-  const { data, isLoading, error, isSuccess } = useGetCreditsQuery(state);
+  const { data, isLoading, error, isSuccess, isFetching } = useGetCreditsQuery(state);
 
   console.log('data', data)
 
@@ -34,12 +34,21 @@ const CreditUsedHistoryTable = () => {
           </tr>
         </thead>
         <tbody>
-          {isLoading ? (
-            <tr className="flex">
-              <td className="py-3 px-4 text-center text-[#8F9DAC]" colSpan={2}>
-                Loading...
-              </td>
-            </tr>
+          {isFetching ? (
+            // Skeleton loading rows
+            [...Array(5)].map((_, index) => (
+              <tr
+                key={index}
+                className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
+              >
+                <td className="flex-1">
+                  <div className="bg-gray-700 rounded-md h-6  w-20"></div>
+                </td>
+                <td className="min-w-[50%]">
+                  <div className="bg-gray-700 rounded-md h-6 w-20 ml-auto"></div>
+                </td>
+              </tr>
+            ))
           ) : (
             (data?.results || []).map((ele: any, index: number) => (
               <tr
