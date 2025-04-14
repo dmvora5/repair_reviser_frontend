@@ -10,6 +10,8 @@ const CreditUsedHistoryTable = () => {
   });
   const { data, isLoading, error, isSuccess } = useGetCreditsQuery(state);
 
+  console.log('data', data)
+
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     const day = String(date.getDate()).padStart(2, "0");
@@ -39,7 +41,7 @@ const CreditUsedHistoryTable = () => {
               </td>
             </tr>
           ) : (
-            (data || []).map((ele: any, index: number) => (
+            (data?.results || []).map((ele: any, index: number) => (
               <tr
                 key={ele.created_at || index}
                 className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
