@@ -2,7 +2,9 @@ import { ROLES } from '@/constant/roles'
 import { API_ROUTES } from '@/constant/routes'
 import { AuthOptions } from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
+import { z } from 'zod';
 
+const emailSchema = z.string().email();
 
 
 export const authOptions: AuthOptions = {
@@ -19,23 +21,35 @@ export const authOptions: AuthOptions = {
                     // ** Login API Call to match the user credentials and receive user data in response along with his role
 
                     let res: any = {};
-                    if(!username) {
-                     res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGIN}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ email, password, company_name: company_name || "" })
-                    })
-                }else {
-                    res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGINCOMPANYUSER}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ username, password, company_name: company_name || "" })
-                    })
-                }
+                    if (!company_name) {
+                        res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGIN}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ email, password })
+                        })
+                    } else {
+                        const result = emailSchema.safeParse(email);
+                        if (result.success) {
+                            res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGIN}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ email, password, company_name })
+                            })
+                        } else {
+                            res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${API_ROUTES.AUTH.LOGINCOMPANYUSER}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ username: email, password, company_name: company_name || "" })
+                            })
+
+                        }
+                    }
 
                     const data = await res.json();
 
@@ -130,9 +144,9 @@ export const authOptions: AuthOptions = {
 
                 token.user = Object.fromEntries(Object.entries(token?.user)?.filter(([key]) => userKeysToKeep?.includes(key)))
 
-                if(token?.user?.is_company_admin) {
+                if (token?.user?.is_company_admin) {
                     token.role = ROLES.COMPANY_ADMIN
-                } else if(token?.user?.is_company_user) {
+                } else if (token?.user?.is_company_user) {
                     token.role = ROLES.USER
                 } else {
                     token.role = ROLES.INDIVIDUAL

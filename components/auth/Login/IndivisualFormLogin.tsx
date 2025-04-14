@@ -15,8 +15,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
-    company_name: z.string().nonempty({ message: 'Company Name not provided' }),
-    username: z.string().min(2, {
+    // company_name: z.string().nonempty({ message: 'Company Name not provided' }),
+    email: z.string().min(2, {
         message: "username must be at least 2 characters.",
     }),
     password: z.string().min(1, { message: "Password must be at least 1 character" }),
@@ -32,9 +32,9 @@ const IndivisualFormLogin = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            email: "",
             password: "",
-            company_name: ""
+            // company_name: ""
 
         },
     })
@@ -44,9 +44,9 @@ const IndivisualFormLogin = () => {
         setLoading(true)
         try {
             const res: any = await signIn('credentials', {
-                username: values?.username,
+                email: values?.email,
                 password: values?.password,
-                company_name: values?.company_name,
+                // company_name: values?.company_name,
                 redirect: false
             })
 
@@ -73,7 +73,7 @@ const IndivisualFormLogin = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
+                {/* <FormField
                     control={form.control}
                     name="company_name"
                     render={({ field }) => (
@@ -86,15 +86,15 @@ const IndivisualFormLogin = () => {
                             <FormMessage />
                         </FormItem>
                     )}
-                />
+                /> */}
                 <FormField
                     control={form.control}
-                    name="username"
+                    name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Username</FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input disabled={loading} className="auth-input" placeholder="Enter Your Username" {...field} />
+                                <Input disabled={loading} className="auth-input" placeholder="Enter Your Email" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

@@ -13,6 +13,7 @@ import { parseAndShowErrorInToast, sucessToast } from '@/utils'
 import { PAGE_ROUTES } from '@/constant/routes'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { ROLES } from '@/constant/roles'
 
 const formSchema = z.object({
     company_name: z.string().nonempty({ message: 'Company Name not provided' }),
@@ -55,9 +56,15 @@ const CompanyLoginForm = () => {
 
             if (res && res.ok) {
                 const session: any = await getSession();
+                console.log('session', session)
                 sucessToast("Login sussfully!");
                 if (session?.access_token) {
-                    router.replace(PAGE_ROUTES.COMPANY.USERMAMAGEMENT)
+                    if (session?.role === ROLES.USER) {
+                        router.push(PAGE_ROUTES.JOBS.NEWJOBS)
+                    }
+                    if (session?.role === ROLES.COMPANY_ADMIN) {
+                        router.replace(PAGE_ROUTES.COMPANY.USERMAMAGEMENT)
+                    }
                 }
             }
 
@@ -91,7 +98,7 @@ const CompanyLoginForm = () => {
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>Email Or Username</FormLabel>
                             <FormControl>
                                 <Input disabled={loading} className="auth-input" placeholder="Enter Email Address" {...field} />
                             </FormControl>

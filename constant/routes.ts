@@ -12,6 +12,9 @@ export const PAGE_ROUTES = {
     },
     CREDIT: {
         CREDITMANAGEMENT:"/creditManagement"
+    },
+    JOBS: {
+       NEWJOBS: "/newJobs"
     }
 }
 

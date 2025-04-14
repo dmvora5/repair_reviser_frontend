@@ -46,32 +46,34 @@ const page = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    setLoading(true);
-    try {
-      const res: any = await signIn("credentials", {
-        email: values?.email,
-        password: values?.password,
-        company_name: values?.company_name,
-        redirect: false,
-      });
+  // async function onSubmit(values: z.infer<typeof formSchema>) {
+  //   console.log(values);
+  //   setLoading(true);
+  //   try {
+  //     const res: any = await signIn("credentials", {
+  //       email: values?.email,
+  //       password: values?.password,
+  //       company_name: values?.company_name,
+  //       redirect: false,
+  //     });
 
-      if (!res?.ok) {
-        return parseAndShowErrorInToast(res);
-      }
+  //     if (!res?.ok) {
+  //       console.log("Hera")
+  //       return parseAndShowErrorInToast(res);
+  //     }
 
-      if (res && res.ok) {
-        const session: any = await getSession();
-        sucessToast("Login sussfully!");
-        //change in future
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  }
+  //     if (res && res.ok) {
+  //       const session: any = await getSession();
+  //       console.log('session', session)
+  //       sucessToast("Login sussfully!");
+  //       //change in future
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
   return (
     <div className="text-white bg-black border border-[#242c3c] rounded-[20px] shadow-sm w-[469px] min-h-[666px] py-[30px] px-[48px] space-y-4">
