@@ -13,9 +13,10 @@ interface PasswordFieldProps {
     placeHolder: string,
     cls?: string,
     disabled?: boolean
+    lcls?: string
 }
 
-const PasswordInput = ({ form, name, placeHolder, label, cls='w-[50%]', disabled=false }: PasswordFieldProps) => {
+const PasswordInput = ({ form, name, placeHolder, label, cls='w-[50%]', disabled=false, lcls="" }: PasswordFieldProps) => {
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -26,7 +27,7 @@ const PasswordInput = ({ form, name, placeHolder, label, cls='w-[50%]', disabled
                 name={name}
                 render={({ field }) => (
                     <FormItem>
-                        <FormLabel>{label}</FormLabel>
+                        <FormLabel className={cn(lcls)}>{label}</FormLabel>
                         <FormControl>
                             <Input disabled={disabled} className="auth-input" {...field} id="password" type={showPassword ? "text" : "password"} placeholder={placeHolder} />
                         </FormControl>
