@@ -28,7 +28,7 @@ import { useSession } from "next-auth/react";
 // import LogOutPopup from "./(creditManagement)/creditManagement/logOutPopup";
 
 const MENU = {
-  [ROLES.INDIVIDUAL] : [
+  [ROLES.INDIVIDUAL]: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -98,7 +98,7 @@ const MENU = {
       icon: <MessagesSquare size={18} />,
     },
   ],
-  [ROLES.USER]:[
+  [ROLES.USER]: [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -158,7 +158,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       name: "Log Out",
       onClick: () => setIsLogoutOpen(true), // Open popup when clicked
       icon: <LogOut size={18} />,
-    },   
+    },
   ];
 
 
@@ -170,7 +170,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <aside className="w-[250px] min-w-[250px] bg-[#0B1219] rounded-[16px] flex flex-col px-4 pt-4">
         {/* Logo */}
         <div className="flex pl-3 mb-[30px]">
-          <Image src="/Logo.svg" width={164} height={50} alt="Logo" />
+          <Link href="/">
+            <Image src="/Logo.svg" width={164} height={50} alt="Logo" />
+          </Link>
         </div>
 
         {/* Navigation */}
@@ -179,11 +181,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <li key={item.path}>
               <Link
                 href={item.path}
-                className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${
-                  pathname === item.path
+                className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${pathname === item.path
                     ? "bg-[#DE3140] text-white"
                     : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
-                }`}
+                  }`}
               >
                 {item.icon} {item.name}
               </Link>
@@ -197,11 +198,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               {item.path ? (
                 <Link
                   href={item.path}
-                  className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${
-                    pathname === item.path
+                  className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${pathname === item.path
                       ? "bg-[#DE3140] text-white"
                       : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
-                  }`}
+                    }`}
                 >
                   {item.icon} {item.name}
                 </Link>
@@ -296,10 +296,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
           <Button
-              variant="outline"
-              className="w-full">
+            variant="outline"
+            className="w-full">
             <Link href={PAGE_ROUTES.CREDIT.CREDITMANAGEMENT}>
-            Add More Credits
+              Add More Credits
             </Link>
           </Button>
         </div>
