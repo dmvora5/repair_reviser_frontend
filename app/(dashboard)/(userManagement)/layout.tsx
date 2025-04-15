@@ -10,7 +10,7 @@ const ComapnyLayout = async ({ children }: { children: React.ReactNode }) => {
 
   // if (session?.role !== ROLES.COMPANY_ADMIN) {
   //   await signOut({
-  //     callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}${PAGE_ROUTES.AUTH.LOGIN}`,
+  //     callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}`,
   //   });
   //   return redirect(PAGE_ROUTES.AUTH.LOGIN);
   // }

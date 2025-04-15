@@ -25,6 +25,7 @@ import { useGetTotalCreditsQuery } from "@/redux/apis/creditsApi";
 import { PAGE_ROUTES } from "@/constant/routes";
 import { ROLES } from "@/constant/roles";
 import { useSession } from "next-auth/react";
+import { useGetTotalJobsQuery } from "@/redux/apis/jobsApi";
 // import LogOutPopup from "./(creditManagement)/creditManagement/logOutPopup";
 
 const MENU = {
@@ -139,8 +140,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [isLogoutOpen, setIsLogoutOpen] = useState(false); // State for logout popup
 
   const { isLoading, isFetching, data } = useGetTotalCreditsQuery({})
+  const { isLoading: isJobsLoading, isFetching: isJobsFetching, data: jobs } = useGetTotalJobsQuery({});
 
-  const sessions = useSession();
+  const sessions:any = useSession();
 
   console.log('sessions', sessions)
 
@@ -263,10 +265,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           />
           <div className="flex flex-col">
             <span className="font-medium text-[22px] mb-1.5 leading-[29px] text-white">
-              Jack Peterson
+              {sessions?.data?.user?.username}
             </span>
             <span className="text-[#8F9DAC] font-normal text-[14px] leading-[18px]">
-              jackpeterson12@gmail.com
+              {sessions?.data?.user?.email}
             </span>
           </div>
         </div>
@@ -319,7 +321,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 Total Jobs
               </span>
               <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
-                1,210
+                {/* 1,210 */}
+                {isJobsLoading || isJobsFetching ? "fetching..." : (jobs?.total_jobs)}
               </span>
             </div>
           </div>

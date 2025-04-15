@@ -28,7 +28,7 @@ const LogOutPopup: React.FC<LogOutPopupProps> = ({
 
   const logOut = async () => {
     await signOut({
-      callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}${PAGE_ROUTES.AUTH.LOGIN}`,
+      callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}`,
     });
   }
 

@@ -27,12 +27,20 @@ export const jobsApis = createApi({
                 }
             }),
             providesTags: ["Jobs"]
-        })
+        }),
+        getTotalJobs: build.query({
+            query: () => ({
+              url: API_ROUTES.JOBS.TOTALJOBS,
+              method: "GET",
+            }),
+            providesTags: ["Jobs"],
+          })
     })
 })
 
 
 export const {
     useUploadReportMutation,
-    usePreviousJobsQuery
+    usePreviousJobsQuery,
+    useGetTotalJobsQuery
 } = jobsApis

@@ -71,7 +71,7 @@ ApiState.ArthorizeCheck = () => {
     useEffect(() => {
         if (error?.status !== 401) return;
         (async () => await signOut({
-            callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}${PAGE_ROUTES.AUTH.LOGIN}`,
+            callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}`,
         }))()
     }, [error]);
     return <></>

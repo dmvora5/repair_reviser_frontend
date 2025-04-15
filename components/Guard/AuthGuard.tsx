@@ -17,7 +17,7 @@ const AuthGuard = ({ roles, children }: { roles: string[], children: React.React
 
         if (!roles.includes((data as any)?.role)) {
             (async () => {
-                await signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}${PAGE_ROUTES.AUTH.LOGIN}` })
+                await signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}` })
                 router.replace(PAGE_ROUTES.AUTH.LOGIN);
             })()
         }

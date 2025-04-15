@@ -1,15 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Eye, Forward, PlusIcon, Reply, Trash2, Upload } from "lucide-react";
-import React, { useState } from "react";
-import Image from "next/image";
-import PasswordInput from "@/components/common/form/PasswordInput";
+import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
+import PasswordInput from "@/components/common/form/PasswordInput";
+import { useChangedPasswordMutation } from "@/redux/apis/usersApis";
+import ApiState from "@/components/ApiState";
 
 const formSchema = z
   .object({
@@ -28,8 +27,7 @@ const formSchema = z
     path: ["confirmpassword"],
   });
 
-const page = () => {
-
+const Page = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,13 +37,29 @@ const page = () => {
     },
   });
 
+  const [changePassword, { isLoading, isSuccess, isError, error }] =
+    useChangedPasswordMutation();
 
-  const onSubmit = (data: any) => {
-    console.log("Form Submitted:", data);
+  const onSubmit = async (data: any) => {
+    try {
+      const payload = {
+        old_password: data.old_password,
+        new_password: data.new_password,
+      };
+      const response = await changePassword(payload).unwrap();
+      console.log("Password changed successfully", response);
+      form.reset();
+    } catch (err) {
+      console.error("Error changing password:", err);
+    }
   };
 
   return (
     <div className="flex flex-col flex-1">
+      <ApiState isSuccess={isSuccess} error={error}>
+        <ApiState.Error />
+        <ApiState.ArthorizeCheck />
+      </ApiState>
       <div className="flex items-center mb-[24px]">
         <div className="flex flex-col flex-1">
           <span className="font-medium text-[32px] leading-[130%] tracking-normal text-white mb-2">
@@ -68,7 +82,7 @@ const page = () => {
                 placeHolder="Enter your old password"
                 cls="w-full"
               />
-               <PasswordInput
+              <PasswordInput
                 lcls="text-white"
                 form={form}
                 name="new_password"
@@ -76,19 +90,19 @@ const page = () => {
                 placeHolder="Enter your new password"
                 cls="w-full"
               />
-               <PasswordInput
+              <PasswordInput
                 lcls="text-white"
                 form={form}
-                name="confirm_password"
+                name="confirmpassword"
                 label="Confirm password"
                 placeHolder="Enter your confirm password"
                 cls="w-full"
               />
 
               <div className="flex items-center justify-end mt-8 w-full">
-                <Button variant={"default"}>
+                <Button type="submit" disabled={isLoading}>
                   <span className="text-[14px] font-medium leading-7">
-                    Change Password
+                    {isLoading ? "Changing..." : "Change Password"}
                   </span>
                 </Button>
               </div>
@@ -100,4 +114,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -26,7 +26,8 @@ export const API_ROUTES = {
         FORGETPASSWORD: "user/request-password-reset/",
         VERIFYOTP: "user/verify-otp/",
         RESETPASSWORD: "user/password-reset/",
-        LOGINCOMPANYUSER: "user/login-company-user/"
+        LOGINCOMPANYUSER: "user/login-company-user/",
+        CHANGEDPASSWORD: ""
     },
     USERMANAGEMENT: {
         CREATECOMPANYUSER: "user/create-company-user/",
@@ -35,7 +36,8 @@ export const API_ROUTES = {
     },
     JOBS: {
         REPORTUPLOAD: "report/upload-file/",
-        PREVIOUSJOBS: "report/list-jobs/"
+        PREVIOUSJOBS: "report/list-jobs/",
+        TOTALJOBS: "report/total-jobs/"
     },
     CREDITS: {
         CREATECREDITS: "payment/enter-credits-amount/",
