@@ -92,16 +92,17 @@ export default function Home() {
         {/* Content Section */}
         <div className="relative z-10 px-20 w-[800px]">
           <div>
-            <h2 className="text-5xl font-bold">
+            <h2 className="text-[55px] font-medium leading-[64.8px]">
               <span className="text-blue-400">Identify Hidden</span>
-              <br /> Repair Costs & Optimize Estimates
+              <br /> Repair Costs & 
+              <br /> Optimize Estimates
             </h2>
-            <p className="mt-4 text-lg">
+            <p className="text-[18px] font-normal mt-5 leading-[28px]">
               Our tool identifies overlooked costs in Audatex and GT Motive
               estimates, ensuring accurate and complete repair assessments.
             </p>
           </div>
-          <button className="mt-20 bg-red-500 px-6 py-3 text-lg rounded-lg">
+          <button className="mt-20 bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px]">
             See How We Work
           </button>
         </div>
@@ -176,7 +177,7 @@ export default function Home() {
               Join us in redefining vehicle repair estimation with precision and
               clarity!
             </p>
-            <button className="mt-4 bg-red-500 px-6 py-3 text-lg rounded-lg">
+            <button className="mt-4 bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px]">
               Get Started Now
             </button>
           </div>
