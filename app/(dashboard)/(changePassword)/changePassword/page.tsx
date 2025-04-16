@@ -10,6 +10,7 @@ import PasswordInput from "@/components/common/form/PasswordInput";
 import { useChangedPasswordMutation } from "@/redux/apis/userManagementApis";
 import ApiState from "@/components/ApiState";
 import Image from 'next/image'
+import { signOut } from "next-auth/react";
 
 const formSchema = z
   .object({
@@ -54,10 +55,21 @@ const Page = () => {
     }
   };
 
+  const callback = async () => {
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    })
+    await signOut({
+      callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}`,
+    });
+  }
+
   return (
     <div className="flex flex-col flex-1">
       <ApiState isSuccess={isSuccess} error={error}>
         <ApiState.Error />
+        <ApiState.SuccessMessage message="Password updated successfully!" />
+        <ApiState.SuccessCallback callback={callback} />
         <ApiState.ArthorizeCheck />
       </ApiState>
       <div className="flex items-center mb-[24px]">
@@ -100,7 +112,7 @@ const Page = () => {
               />
 
               <div className="flex items-center justify-end mt-8 w-full">
-                <Button type="submit" disabled={isLoading}>
+                <Button type="submit" disabled={isLoading} className="w-28 text-center">
                   <span className="text-[14px] font-medium leading-7">
                     {isLoading ? (
                       <Image
