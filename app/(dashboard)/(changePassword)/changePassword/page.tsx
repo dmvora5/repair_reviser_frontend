@@ -11,6 +11,7 @@ import { useChangedPasswordMutation } from "@/redux/apis/userManagementApis";
 import ApiState from "@/components/ApiState";
 import Image from 'next/image'
 import { signOut } from "next-auth/react";
+import { PAGE_ROUTES } from "@/constant/routes";
 
 const formSchema = z
   .object({
@@ -60,7 +61,7 @@ const Page = () => {
       setTimeout(resolve, 2000);
     })
     await signOut({
-      callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}`,
+      callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}${PAGE_ROUTES.AUTH.LOGIN}`,
     });
   }
 
@@ -68,7 +69,7 @@ const Page = () => {
     <div className="flex flex-col flex-1">
       <ApiState isSuccess={isSuccess} error={error}>
         <ApiState.Error />
-        <ApiState.SuccessMessage message="Password updated successfully!" />
+        <ApiState.SuccessMessage message="Password updated login with new password" />
         <ApiState.SuccessCallback callback={callback} />
         <ApiState.ArthorizeCheck />
       </ApiState>

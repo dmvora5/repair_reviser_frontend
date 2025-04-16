@@ -35,16 +35,16 @@ const formSchema = z.object({
 });
 
 const page = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      company_name: "",
-    },
-  });
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema),
+  //   defaultValues: {
+  //     email: "",
+  //     password: "",
+  //     company_name: "",
+  //   },
+  // });
 
   // async function onSubmit(values: z.infer<typeof formSchema>) {
   //   console.log(values);
