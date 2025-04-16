@@ -71,7 +71,7 @@ export default function Home() {
             <Link href="#">Registration</Link>
             <Link href="#">Contact Us</Link>
           </div>
-          <Link href={PAGE_ROUTES.AUTH.LOGIN} className="bg-red-500 px-4 py-2 rounded-lg">Log In</Link>
+          <Link href={PAGE_ROUTES.AUTH.LOGIN} className="bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px] min-w-[150px]">Log In</Link>
         </div>
       </nav>
 
