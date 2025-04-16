@@ -333,26 +333,26 @@ export default function Home() {
           </div>
 
           {/* Form Container */}
-          <div className="bg-[#0B1219] p-8 rounded-lg shadow-md max-w-4xl mx-auto px-6 -mt-24 ">
-            <form className="space-y-6">
+          <div className="bg-[#0B1219] p-[55px] rounded-[24px] shadow-md max-w-4xl mx-auto -mt-24 ">
+            <form className="space-y-[24px]">
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Company name*
+                <label className="block text-[16px] leading-[28px] font-normal mb-1">
+                  Company name<span className="text-[#D32F2F]">*</span>
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-transparent border-b border-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
-                  placeholder="Enter company name"
+                  className="w-full bg-transparent border-b border-[#2A3A4BBF] font-normal text-[14px] focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder=""
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Company mailing address*
+                <label className="block text-[16px] leading-[28px] font-normal mb-1.5">
+                  Company mailing address<span className="text-[#D32F2F]">*</span>
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-transparent border-b border-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                  className="w-full bg-transparent border-b border-[#2A3A4BBF] placeholder:text-[14px] placeholder:font-normal placeholder:leading-[28px] py-3 text-[14px] font-normal placeholder:text-[#D5E4FFBF] focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="Street address"
                 />
               </div>
@@ -360,30 +360,23 @@ export default function Home() {
               {/* City, Postal Code, Country */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-1">City</label>
                   <input
                     type="text"
-                    className="w-full bg-transparent border-b border-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full bg-transparent border-b border-[#2A3A4BBF] placeholder:text-[14px] placeholder:font-normal placeholder:leading-[28px] py-3 text-[14px] font-normal placeholder:text-[#D5E4FFBF] focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="City"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Postal Code
-                  </label>
                   <input
                     type="text"
-                    className="w-full bg-transparent border-b border-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full bg-transparent border-b border-[#2A3A4BBF] placeholder:text-[14px] placeholder:font-normal placeholder:leading-[28px] py-3 text-[14px] font-normal placeholder:text-[#D5E4FFBF] focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="Postal Code"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Country
-                  </label>
                   <input
                     type="text"
-                    className="w-full bg-transparent border-b border-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full bg-transparent border-b border-[#2A3A4BBF] placeholder:text-[14px] placeholder:font-normal placeholder:leading-[28px] py-3 text-[14px] font-normal placeholder:text-[#D5E4FFBF] focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="Country"
                   />
                 </div>
@@ -393,22 +386,22 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium mb-1">
-                    Email*
+                    Email<span className="text-[#D32F2F]">*</span>
                   </label>
                   <input
                     type="email"
-                    className="w-full bg-transparent border-b border-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
-                    placeholder="Email address"
+                    className="w-full bg-transparent border-b border-[#2A3A4BBF] font-normal text-[14px] focus:outline-none focus:border-blue-500 transition-colors"
+                    placeholder=""
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">
-                    Phone number*
+                    Phone number<span className="text-[#D32F2F]">*</span>
                   </label>
                   <input
                     type="tel"
-                    className="w-full bg-transparent border-b border-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
-                    placeholder="Phone number"
+                    className="w-full bg-transparent border-b border-[#2A3A4BBF] font-normal text-[14px] focus:outline-none focus:border-blue-500 transition-colors"
+                    placeholder=""
                   />
                 </div>
               </div>
@@ -416,7 +409,7 @@ export default function Home() {
               {/* Register Button */}
               <div>
                 <button
-                  className="w-full  text-white font-semibold py-3 rounded-lg transition"
+                  className="w-full  text-white font-semibold py-3 mt-2 rounded-lg min-h-[48px] bg-[#DE3140] transition"
                   style={{ backgroundColor: "#DE3140" }}
                 >
                   Register
