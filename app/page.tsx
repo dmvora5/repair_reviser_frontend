@@ -409,7 +409,7 @@ export default function Home() {
               {/* Register Button */}
               <div>
                 <button
-                  className="w-full  text-white font-semibold py-3 mt-2 rounded-lg min-h-[48px] bg-[#DE3140] transition"
+                  className="w-full  text-white py-3 mt-2 text-[14px] font-medium rounded-lg min-h-[48px] bg-[#DE3140] transition"
                   style={{ backgroundColor: "#DE3140" }}
                 >
                   Register
