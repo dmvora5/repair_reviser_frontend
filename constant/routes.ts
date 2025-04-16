@@ -27,7 +27,7 @@ export const API_ROUTES = {
         VERIFYOTP: "user/verify-otp/",
         RESETPASSWORD: "user/password-reset/",
         LOGINCOMPANYUSER: "user/login-company-user/",
-        CHANGEDPASSWORD: ""
+        CHANGEDPASSWORD: "user/change-password/"
     },
     USERMANAGEMENT: {
         CREATECOMPANYUSER: "user/create-company-user/",

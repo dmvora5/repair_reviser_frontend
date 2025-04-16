@@ -7,22 +7,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import PasswordInput from "@/components/common/form/PasswordInput";
-import { useChangedPasswordMutation } from "@/redux/apis/usersApis";
+import { useChangedPasswordMutation } from "@/redux/apis/userManagementApis";
 import ApiState from "@/components/ApiState";
+import Image from 'next/image'
 
 const formSchema = z
   .object({
     old_password: z
       .string()
       .min(2, { message: "Old password must be at least 8 characters long" }),
-    new_password: z
+    password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters long" }),
     confirmpassword: z
       .string()
       .min(8, { message: "Password must be at least 8 characters long" }),
   })
-  .refine((data) => data.new_password === data.confirmpassword, {
+  .refine((data) => data.password === data.confirmpassword, {
     message: "Passwords do not match",
     path: ["confirmpassword"],
   });
@@ -32,7 +33,7 @@ const Page = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       old_password: "",
-      new_password: "",
+      password: "",
       confirmpassword: "",
     },
   });
@@ -44,10 +45,9 @@ const Page = () => {
     try {
       const payload = {
         old_password: data.old_password,
-        new_password: data.new_password,
+        password: data.password,
       };
       const response = await changePassword(payload).unwrap();
-      console.log("Password changed successfully", response);
       form.reset();
     } catch (err) {
       console.error("Error changing password:", err);
@@ -85,7 +85,7 @@ const Page = () => {
               <PasswordInput
                 lcls="text-white"
                 form={form}
-                name="new_password"
+                name="password"
                 label="New password"
                 placeHolder="Enter your new password"
                 cls="w-full"
@@ -102,7 +102,17 @@ const Page = () => {
               <div className="flex items-center justify-end mt-8 w-full">
                 <Button type="submit" disabled={isLoading}>
                   <span className="text-[14px] font-medium leading-7">
-                    {isLoading ? "Changing..." : "Change Password"}
+                    {isLoading ? (
+                      <Image
+                        src="images/loader.svg"
+                        alt="loader"
+                        width={24}
+                        height={24}
+                        className="ml-2 animate-spin"
+                      />
+                    ) : (
+                      "Change Password"
+                    )}
                   </span>
                 </Button>
               </div>

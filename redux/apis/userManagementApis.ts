@@ -33,6 +33,14 @@ export const userManagementApis = createApi({
             }),
             invalidatesTags: ["UserManagement"]
         }),
+        changedPassword: build.mutation({
+            query: (payload: any) => (console.log('payload :>> ', payload)
+            ,{
+                url: API_ROUTES.AUTH.CHANGEDPASSWORD,
+                method: "POST",
+                body: payload
+            })
+        }),
     })
 })
 
@@ -40,5 +48,6 @@ export const userManagementApis = createApi({
 export const {
     useCreateCompanyUserMutation,
     useAllComponyUsersListQuery,
-    useUpdateCompanyUserMutation
+    useUpdateCompanyUserMutation,
+    useChangedPasswordMutation
 } = userManagementApis
