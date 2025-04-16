@@ -112,7 +112,7 @@ const Page = () => {
               />
 
               <div className="flex items-center justify-end mt-8 w-full">
-                <Button type="submit" disabled={isLoading} className="w-28 text-center">
+                <Button type="submit" disabled={isLoading} className="w-36 text-center">
                   <span className="text-[14px] font-medium leading-7">
                     {isLoading ? (
                       <Image
