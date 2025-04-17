@@ -225,7 +225,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <main className="flex-1 flex flex-col overflow-y-auto h-full scrollbar-hide max-h-[calc(100vh-48px)]">
         <div className="flex flex-col px-6 w-full flex-1">
           {/* Search Bar & Notifications */}
-          <div className="w-full min-h-[50px] flex items-center gap-6 mb-8">
+          {/* <div className="w-full min-h-[50px] flex items-center gap-6 mb-8">
             <div className="bg-[#0C141C] border border-[#1B2231] h-[50px] rounded-[6px] flex items-center flex-1 px-4">
               <Search width={20} height={20} color="white" />
               <Input
@@ -245,7 +245,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 alt="Notifications"
               />
             </Button>
-          </div>
+          </div> */}
 
           {/* Page Content */}
           {children}
@@ -256,13 +256,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <aside className="w-[351px] min-w-[351px] bg-[#0B1219] rounded-2xl p-4 flex flex-col overflow-y-auto scrollbar-hide max-h-[calc(100vh-48px)]">
         {/* User Info */}
         <div className="bg-[#060A0E] flex items-center gap-4 p-4 rounded-xl mb-6">
-          <Image
+          {/* <Image
             src="/uesrIcon.svg"
             width={48}
             height={48}
             className="min-w-[48px]"
             alt="User"
-          />
+          /> */}
           <div className="flex flex-col">
             <span className="font-medium text-[22px] mb-1.5 leading-[29px] text-white">
               {sessions?.data?.user?.username}
