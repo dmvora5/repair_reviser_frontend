@@ -30,11 +30,11 @@ import { useGetTotalJobsQuery } from "@/redux/apis/jobsApi";
 
 const MENU = {
   [ROLES.INDIVIDUAL]: [
-    {
-      name: "Dashboard",
-      path: "/dashboard",
-      icon: <LayoutDashboard size={18} />,
-    },
+    // {
+    //   name: "Dashboard",
+    //   path: "/dashboard",
+    //   icon: <LayoutDashboard size={18} />,
+    // },
     {
       name: "New Jobs",
       path: "/newJobs",
@@ -62,11 +62,11 @@ const MENU = {
     },
   ],
   [ROLES.COMPANY_ADMIN]: [
-    {
-      name: "Dashboard",
-      path: "/dashboard",
-      icon: <LayoutDashboard size={18} />,
-    },
+    // {
+    //   name: "Dashboard",
+    //   path: "/dashboard",
+    //   icon: <LayoutDashboard size={18} />,
+    // },
     {
       name: "New Jobs",
       path: "/newJobs",
@@ -100,11 +100,11 @@ const MENU = {
     },
   ],
   [ROLES.USER]: [
-    {
-      name: "Dashboard",
-      path: "/dashboard",
-      icon: <LayoutDashboard size={18} />,
-    },
+    // {
+    //   name: "Dashboard",
+    //   path: "/dashboard",
+    //   icon: <LayoutDashboard size={18} />,
+    // },
     {
       name: "New Jobs",
       path: "/newJobs",

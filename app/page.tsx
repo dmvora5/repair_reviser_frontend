@@ -333,9 +333,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Form Container */}
           <div className="bg-[#0B1219] p-[55px] rounded-[24px] shadow-md max-w-4xl mx-auto -mt-24 ">
-            <form className="space-y-[24px]">
+            {/* <form className="space-y-[24px]">
               <div>
                 <label className="block text-[16px] leading-[28px] font-normal mb-1">
                   Company name<span className="text-[#D32F2F]">*</span>
@@ -358,7 +357,6 @@ export default function Home() {
                 />
               </div>
 
-              {/* City, Postal Code, Country */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <input
@@ -383,7 +381,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Email & Phone Number */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium mb-1">
@@ -407,7 +404,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Register Button */}
               <div>
                 <button
                   className="w-full  text-white py-3 mt-2 text-[14px] font-medium rounded-lg min-h-[48px] bg-[#DE3140] transition"
@@ -416,7 +412,7 @@ export default function Home() {
                   Register
                 </button>
               </div>
-            </form>
+            </form> */}
           </div>
         </div>
       </div>

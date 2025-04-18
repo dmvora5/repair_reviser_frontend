@@ -58,7 +58,7 @@ const IndivisualFormLogin = () => {
                 const session: any = await getSession();
                 sucessToast("Login sussfully!");
                 if (session?.access_token) {
-                    router.replace(PAGE_ROUTES.COMPANY.DASHBOARD)
+                    router.replace(PAGE_ROUTES.JOBS.NEWJOBS)
                 }
             }
 
