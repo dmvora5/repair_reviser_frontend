@@ -101,17 +101,30 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
                 <Button
                   type="submit"
                   className="auth-button"
-                // onClick={handleAddCredits}
-                // disabled={isLoading}
+                  // onClick={handleAddCredits}
+                  disabled={loading}
                 >
-                  Pay via{" "}
-                  <Image
-                    src="/images/stripe.png"
-                    height={24}
-                    width={90}
-                    className="!min-w-[90px] !w-[90px]"
-                    alt="Jobs"
-                  />
+                  {loading ?
+                    <Image
+                      src="images/loader.svg"
+                      alt="loader"
+                      width={24}
+                      height={24}
+                      className="ml-2 animate-spin"
+                    />
+                    :
+                    <>                    Pay via{" "}
+                      <Image
+                        src="/images/stripe.png"
+                        height={24}
+                        width={90}
+                        className="!min-w-[90px] !w-[90px]"
+                        alt="Jobs"
+                      />
+                    </>
+
+                  }
+
                 </Button>
                 {/* ✅ Show Stripe Payment Form if clientSecret exists */}
               </form>
