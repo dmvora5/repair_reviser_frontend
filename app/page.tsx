@@ -48,12 +48,13 @@ export default function Home() {
     <div
       className="relative w-full h-screen bg-cover bg-center "
       style={{ backgroundImage: "url('/images/Hero.png')" }}
+      id="home"
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
       {/* Navbar */}
-      <nav className="absolute top-0 left-0 w-full flex justify-between items-center px-10 py-5 text-white">
+      <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-10 py-5 text-white z-50">
         <div>
           <Image
             src="/images/AuthLogo.svg"
@@ -65,11 +66,11 @@ export default function Home() {
         </div>
         <div className="flex flex-row items-center gap-10 z-50">
           <div className="flex space-x-6">
-            <Link href="#">Home</Link>
-            <Link href="#">About Us</Link>
-            <Link href="#">Services</Link>
-            <Link href="#">Registration</Link>
-            <Link href="#">Contact Us</Link>
+            <Link href="#home">Home</Link>
+            <Link href="#about-us">About Us</Link>
+            <Link href="#services">Services</Link>
+            <Link href={PAGE_ROUTES.AUTH.REGISTER}>Registration</Link>
+            <Link href="#contect-us">Contact Us</Link>
           </div>
           <Link href={PAGE_ROUTES.AUTH.LOGIN} className="bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px] min-w-[150px]">Log In</Link>
         </div>
@@ -94,7 +95,7 @@ export default function Home() {
           <div>
             <h2 className="text-[55px] font-medium leading-[64.8px]">
               <span className="text-blue-400">Identify Hidden</span>
-              <br /> Repair Costs & 
+              <br /> Repair Costs &
               <br /> Optimize Estimates
             </h2>
             <p className="text-[18px] font-normal mt-5 leading-[28px]">
@@ -103,7 +104,9 @@ export default function Home() {
             </p>
           </div>
           <button className="mt-20 bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px]">
-            See How We Work
+            <Link href="#how-it-work">
+              See How We Work
+            </Link>
           </button>
         </div>
 
@@ -153,7 +156,7 @@ export default function Home() {
       </div>
 
       {/* About us Section */}
-      <section className="bg-black text-white py-16 px-6 md:px-20 lg:px-32">
+      <section className="bg-black text-white py-16 px-6 md:px-20 lg:px-32" id="about-us">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="space-y-6">
             <Image
@@ -178,7 +181,9 @@ export default function Home() {
               clarity!
             </p>
             <button className="mt-4 bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px]">
-              Get Started Now
+              <Link href={PAGE_ROUTES.AUTH.REGISTER}>
+                Get Started Now
+              </Link>
             </button>
           </div>
           <div className="space-y-6">
@@ -203,7 +208,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="relative w-full bg-[#0A0E13] text-white flex flex-col items-center">
+      <div className="relative w-full bg-[#0A0E13] text-white flex flex-col items-center" id="how-it-work">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 mt-20 ">
           <span className="text-blue-400">How</span> it Works?
         </h2>
@@ -270,7 +275,7 @@ export default function Home() {
         </div>
       </div>
 
-      <section className="bg-[#060A0E] text-white ">
+      <section className="bg-[#060A0E] text-white" id="services">
         <div
           className="w-full text-center md:text-left flex flex-row h-[400px]  py-20 px-4 md:px-12"
           style={{ backgroundImage: "url('/images/bgImg.png')" }}
@@ -315,7 +320,7 @@ export default function Home() {
 
       {/* Registration Form  */}
 
-      <div className="bg-[#060A0E] text-white py-12">
+      <div className="bg-[#060A0E] text-white py-12" id="contect-us">
         <div>
           <div
             className="h-[300px]"
@@ -334,7 +339,7 @@ export default function Home() {
           </div>
 
           <div className="bg-[#0B1219] p-[55px] rounded-[24px] shadow-md max-w-4xl mx-auto -mt-24 ">
-            {/* <form className="space-y-[24px]">
+            <form className="space-y-[24px]">
               <div>
                 <label className="block text-[16px] leading-[28px] font-normal mb-1">
                   Company name<span className="text-[#D32F2F]">*</span>
@@ -409,10 +414,10 @@ export default function Home() {
                   className="w-full  text-white py-3 mt-2 text-[14px] font-medium rounded-lg min-h-[48px] bg-[#DE3140] transition"
                   style={{ backgroundColor: "#DE3140" }}
                 >
-                  Register
+                  Submit
                 </button>
               </div>
-            </form> */}
+            </form>
           </div>
         </div>
       </div>
@@ -456,22 +461,22 @@ export default function Home() {
             </h3>
             <ul className="text-gray-400 space-y-2">
               <li>
-                <a href="#" className="hover:text-white">
+                <a href="#about-us" className="hover:text-white">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white">
+                <a href="#services" className="hover:text-white">
                   Services
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" className="hover:text-white">
                   Subscription
                 </a>
-              </li>
+              </li> */}
               <li>
-                <a href="#" className="hover:text-white">
+                <a href="#contect-us" className="hover:text-white">
                   Contact Us
                 </a>
               </li>
