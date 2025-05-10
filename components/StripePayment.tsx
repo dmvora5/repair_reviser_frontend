@@ -106,7 +106,7 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
                 >
                   Pay via{" "}
                   <Image
-                    src="/images/Strip.png"
+                    src="/images/stripe.png"
                     height={24}
                     width={90}
                     className="!min-w-[90px] !w-[90px]"
