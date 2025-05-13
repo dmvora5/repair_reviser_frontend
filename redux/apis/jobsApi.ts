@@ -36,19 +36,27 @@ export const jobsApis = createApi({
             providesTags: ["Jobs"],
         }),
         JobDetails: build.query({
-          query: (payload) => ({
+          query: (payload: any) => ({
             url: `${API_ROUTES.JOBS.JOBDETAILS}${payload}`,
             method: "GET",
           }),
           providesTags: ["Jobs"],
         }),
         GetAmends: build.query({
-          query: (payload) => ({
+          query: (payload: any) => (console.log('payload :>> ', payload),{
             url: `${API_ROUTES.JOBS.AMENDSREAD}${payload}`,
             method: "GET",
           }),
           providesTags: ["Jobs"],
-        })
+        }),
+        updateAmends: build.mutation({
+            query: (payload: any) => ({
+                url: API_ROUTES.JOBS.AMENDSUPDATE + payload?.id + "/",
+                method: "PATCH",
+                body: payload
+            }),
+            invalidatesTags: ["Jobs"]
+        }),
     })
 })
 
@@ -58,5 +66,6 @@ export const {
     usePreviousJobsQuery,
     useGetTotalJobsQuery,
     useJobDetailsQuery,
-    useGetAmendsQuery
+    useGetAmendsQuery,
+    useUpdateAmendsMutation
 } = jobsApis

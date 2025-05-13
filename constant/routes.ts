@@ -41,7 +41,8 @@ export const API_ROUTES = {
         PREVIOUSJOBS: "report/list-jobs/",
         TOTALJOBS: "report/total-jobs/",
         JOBDETAILS: "report/job-details/",
-        AMENDSREAD :"/report/amends-agreed/"
+        AMENDSREAD :"/report/amends-agreed/",
+        AMENDSUPDATE: "/report/amends/agree/"
     },
     CREDITS: {
         CREATECREDITS: "payment/enter-credits-amount/",

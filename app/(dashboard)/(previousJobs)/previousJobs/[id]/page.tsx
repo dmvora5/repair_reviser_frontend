@@ -1,49 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Backpack,
-  ChevronDown,
-  ChevronsLeft,
-  Eye,
-  Forward,
-  Upload,
-  X,
-} from "lucide-react";
-import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import Image from "next/image";
-import { Input } from "@/components/ui/input";
-import { FILETYPES } from "@/constant";
-import { errorToast } from "@/utils";
-import {
-  useJobDetailsQuery,
-  useUploadReportMutation,
-} from "@/redux/apis/jobsApi";
+import { ChevronsLeft } from "lucide-react";
+import React, { useState } from "react";
+import { useJobDetailsQuery } from "@/redux/apis/jobsApi";
 import ApiState from "@/components/ApiState";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { PAGE_ROUTES } from "@/constant/routes";
 
 const Page = () => {
+  const router = useRouter();
   const params = useParams();
-  const [file, setFile] = useState<File | null>(null);
-  const [type, setType] = useState<string | null>(null);
-  const [submit, { isLoading, isSuccess, error }] = useUploadReportMutation();
-
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles.length) {
-      if (!FILETYPES.includes(acceptedFiles[0].type)) {
-        return errorToast("Invalid file type");
-      }
-      setFile(acceptedFiles[0]);
-    }
-  }, []);
 
   const {
     data: JobDetailsData,
@@ -56,24 +23,8 @@ const Page = () => {
   });
   console.log("🚀 ~ page ~ JobDetailsData:", JobDetailsData);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-  const clearFiles = () => setFile(null);
-
-  const upload = async () => {
-    if (!file || !type) {
-      return errorToast("Please select a file and type");
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", type);
-
-    try {
-      await submit(formData);
-    } catch (error) {
-      console.error(error);
-    }
+  const handleViewReport = () => {
+    router.push(`${PAGE_ROUTES.JOBS.AMENDSREAD}${params?.id}`);
   };
 
   return (
@@ -180,7 +131,7 @@ const Page = () => {
             and Parts sections.
           </span>
           <div className="flex items-center justify-end mt-8 w-full">
-            <Button variant={"default"}>
+            <Button variant={"default"} onClick={handleViewReport}>
               <span className="text-[14px] font-medium leading-7">
                 View Report Findings
               </span>
