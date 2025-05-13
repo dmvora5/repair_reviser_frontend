@@ -61,7 +61,7 @@ const page = () => {
                  <label htmlFor="name" className="block text-[14px] mb-1.5 leading-[24px] text-white font-medium">
                  Your Message*
                 </label>
-                <Textarea id="message" placeholder="Write Your Message Here..." className="" />
+                <Textarea id="message" placeholder="Write Your Message Here..." className="text-white font-medium" />
             </div>
 
             <div className="flex items-center justify-end mt-8 w-full">

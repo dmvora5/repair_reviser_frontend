@@ -24,8 +24,8 @@ const formSchema = z.object({
         .regex(/^[^_]*$/, {
             message: "Company name cannot contain underscores.",
         }),
-    password: z.string(),
-    confirmpassword: z.string()
+    password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
+    confirmpassword: z.string().min(8, { message: "Password must be at least 8 characters long" }),
 }).refine((data) => data.password === data.confirmpassword, {
     message: "Passwords do not match",
     path: ["confirmpassword"],
@@ -45,6 +45,8 @@ const CompanyForm = () => {
             confirmpassword: ""
         },
     })
+
+    console.log('form', form)
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         await submit({

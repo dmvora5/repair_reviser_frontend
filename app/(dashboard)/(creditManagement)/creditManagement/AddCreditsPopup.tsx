@@ -20,11 +20,15 @@ interface AddCreditsPopupProps {
 const formSchema = z.object({
   credit_amount: z
     .string() // Treat the input as a string (because HTML form values are strings)
-    .refine((val) => !isNaN(Number(val)) && Number(val) >= 5, {
-      message: "Please enter credit amount greater than or equal to 5",
+    .refine((val) => !isNaN(Number(val)), {
+      message: "Please enter a valid number", // Message when the input is not a number
+    })
+    .refine((val) => Number(val) >= 5, {
+      message: "Please enter a credit amount greater than or equal to 5", // Message when the number is less than 5
     })
     .transform((val) => Number(val)), // Convert to number after validation
 });
+
 
 const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
   isOpen,
@@ -45,7 +49,7 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       credit_amount: "" as any, // Set default value as a number
-    }, 
+    },
   });
 
   // Handle form submission
