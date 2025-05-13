@@ -57,6 +57,14 @@ export const jobsApis = createApi({
             }),
             invalidatesTags: ["Jobs"]
         }),
+        updateGeneralSuggestions: build.mutation({
+            query: (payload: any) => ({
+                url: API_ROUTES.JOBS.UPDATEGENERALSUGGESTION + payload?.id + "/",
+                method: "PATCH",
+                body: payload
+            }),
+            invalidatesTags: ["Jobs"]
+        }),
     })
 })
 
@@ -67,5 +75,6 @@ export const {
     useGetTotalJobsQuery,
     useJobDetailsQuery,
     useGetAmendsQuery,
-    useUpdateAmendsMutation
+    useUpdateAmendsMutation,
+    useUpdateGeneralSuggestionsMutation
 } = jobsApis

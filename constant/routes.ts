@@ -29,7 +29,8 @@ export const API_ROUTES = {
         VERIFYOTP: "user/verify-otp/",
         RESETPASSWORD: "user/password-reset/",
         LOGINCOMPANYUSER: "user/login-company-user/",
-        CHANGEDPASSWORD: "user/change-password/"
+        CHANGEDPASSWORD: "user/change-password/",
+        CONTACTUS: "/user/contact-us/"
     },
     USERMANAGEMENT: {
         CREATECOMPANYUSER: "user/create-company-user/",
@@ -42,7 +43,8 @@ export const API_ROUTES = {
         TOTALJOBS: "report/total-jobs/",
         JOBDETAILS: "report/job-details/",
         AMENDSREAD :"/report/amends-agreed/",
-        AMENDSUPDATE: "/report/amends/agree/"
+        AMENDSUPDATE: "/report/amends/agree/",
+        UPDATEGENERALSUGGESTION : "/report/general-suggestion/"
     },
     CREDITS: {
         CREATECREDITS: "payment/enter-credits-amount/",

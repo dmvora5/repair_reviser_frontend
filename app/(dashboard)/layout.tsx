@@ -81,7 +81,7 @@ const MENU = {
       name: "User Management",
       path: "/userManagement",
       icon: <UserCog size={18} />,
-      role: ROLES.COMPANY_ADMIN
+      role: ROLES.COMPANY_ADMIN,
     },
     {
       name: "Credit Management",
@@ -130,27 +130,32 @@ const MENU = {
       path: "/faqs",
       icon: <MessagesSquare size={18} />,
     },
-  ]
-}
-
-
+  ],
+};
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname(); // Get current route
   const [isLogoutOpen, setIsLogoutOpen] = useState(false); // State for logout popup
 
-  const { isLoading, isFetching, data } = useGetTotalCreditsQuery({})
-  const { isLoading: isJobsLoading, isFetching: isJobsFetching, data: jobs } = useGetTotalJobsQuery({});
+  const { isLoading, isFetching, data, refetch } = useGetTotalCreditsQuery({});
+  const {
+    isLoading: isJobsLoading,
+    isFetching: isJobsFetching,
+    data: jobs,
+  } = useGetTotalJobsQuery({});
 
-  const sessions:any = useSession();
+  const sessions: any = useSession();
 
-  console.log('sessions', sessions)
+  console.log("sessions", sessions);
 
-  const menus = MENU[(sessions?.data as any)?.role || ROLES.USER]
+  const menus = MENU[(sessions?.data as any)?.role || ROLES.USER];
 
-
-
-  const menuItems2: { name: string; icon: React.JSX.Element; path?: string; onClick?: () => void }[] = [
+  const menuItems2: {
+    name: string;
+    icon: React.JSX.Element;
+    path?: string;
+    onClick?: () => void;
+  }[] = [
     {
       name: "Help Center",
       path: "/helpCenter",
@@ -162,9 +167,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       icon: <LogOut size={18} />,
     },
   ];
-
-
-
 
   return (
     <div className="p-6 bg-black min-h-screen flex flex-row overflow-hidden">
@@ -183,10 +185,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <li key={item.path}>
               <Link
                 href={item.path}
-                className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${pathname === item.path
+                className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${
+                  pathname === item.path
                     ? "bg-[#DE3140] text-white"
                     : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
-                  }`}
+                }`}
               >
                 {item.icon} {item.name}
               </Link>
@@ -200,10 +203,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               {item.path ? (
                 <Link
                   href={item.path}
-                  className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${pathname === item.path
+                  className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${
+                    pathname === item.path
                       ? "bg-[#DE3140] text-white"
                       : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
-                    }`}
+                  }`}
                 >
                   {item.icon} {item.name}
                 </Link>
@@ -218,7 +222,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             </li>
           ))}
         </ul>
-
       </aside>
 
       {/* Main Content */}
@@ -293,13 +296,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 Available Credits
               </span>
               <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
-                {isLoading || isFetching ? "fetching..." : (data?.credits)?.toLocaleString()}
+                {isLoading || isFetching
+                  ? "fetching..."
+                  : data?.credits?.toLocaleString()}
               </span>
             </div>
           </div>
-          <Button
-            variant="outline"
-            className="w-full">
+          <Button variant="outline" className="w-full">
             <Link href={PAGE_ROUTES.CREDIT.CREDITMANAGEMENT}>
               Add More Credits
             </Link>
@@ -322,13 +325,20 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               </span>
               <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
                 {/* 1,210 */}
-                {isJobsLoading || isJobsFetching ? "fetching..." : (jobs?.total_jobs)}
+                {isJobsLoading || isJobsFetching
+                  ? "fetching..."
+                  : jobs?.total_jobs}
               </span>
             </div>
           </div>
         </div>
       </aside>
-      {isLogoutOpen && <LogOutPopup isOpen={isLogoutOpen} onClose={() => setIsLogoutOpen(false)} />}
+      {isLogoutOpen && (
+        <LogOutPopup
+          isOpen={isLogoutOpen}
+          onClose={() => setIsLogoutOpen(false)}
+        />
+      )}
     </div>
   );
 };

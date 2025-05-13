@@ -2,19 +2,28 @@
 
 import { useState, useEffect, useRef } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useStripe, useElements, PaymentElement, CardNumberElement } from "@stripe/react-stripe-js";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+  PaymentElement,
+  CardNumberElement,
+} from "@stripe/react-stripe-js";
 import { errorToast, sucessToast } from "@/utils";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { creditsApi } from "@/redux/apis/creditsApi";
 
 // ✅ Load Stripe with your Public Key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
+  const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
-
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -26,26 +35,35 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
   };
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    if (!stripe || !elements) return;
+    try {
+      e.preventDefault();
+      if (!stripe || !elements) return;
 
-    setLoading(true);
+      setLoading(true);
 
-    const cardElement = elements.getElement(CardElement);
+      const cardElement = elements.getElement(CardElement);
 
-    const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: { card: cardElement },
-    } as any);
+      const { paymentIntent, error } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: { card: cardElement },
+        } as any
+      );
 
-    setLoading(false);
+      console.log("paymentIntent", paymentIntent);
 
-    console.log('paymentIntent', paymentIntent)
-
-    if (error) {
-      errorToast(error.message || "Payment failed");
-    } else if (paymentIntent.status === "succeeded") {
-      sucessToast("Payment successful!");
-      onClose();
+      if (error) {
+        errorToast(error.message || "Payment failed");
+      } else if (paymentIntent.status === "succeeded") {
+        await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+        dispatch(creditsApi.util.invalidateTags(["Credits"]));
+        sucessToast("Payment successful!");
+        onClose();
+      }
+    } catch (error: any) {
+      errorToast(error?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,7 +79,7 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
     //   </button>
     // </form>
     <>
-      {open &&
+      {open && (
         <div
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
           onClick={handleClickOutside} // Handle outside click
@@ -89,14 +107,11 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
             {/* Form */}
             <div className="flex flex-col">
               <form onSubmit={handleSubmit} className="p-4 rounded-md w-96">
-
                 <div className="flex flex-col mb-[32px]">
                   <label className="block text-white font-medium text-[14px] leading-[24px] tracking-normal mb-1.5">
                     Card details
                   </label>
-                  <CardElement
-                    className="bg-white rounded-sm p-4"
-                  />
+                  <CardElement className="bg-white rounded-sm p-4" />
                 </div>
                 <Button
                   type="submit"
@@ -104,7 +119,7 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
                   // onClick={handleAddCredits}
                   disabled={loading}
                 >
-                  {loading ?
+                  {loading ? (
                     <Image
                       src="images/loader.svg"
                       alt="loader"
@@ -112,8 +127,10 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
                       height={24}
                       className="ml-2 animate-spin"
                     />
-                    :
-                    <>                    Pay via{" "}
+                  ) : (
+                    <>
+                      {" "}
+                      Pay via{" "}
                       <Image
                         src="/images/stripe.png"
                         height={24}
@@ -122,37 +139,41 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
                         alt="Jobs"
                       />
                     </>
-
-                  }
-
+                  )}
                 </Button>
                 {/* ✅ Show Stripe Payment Form if clientSecret exists */}
               </form>
-
             </div>
           </div>
-
         </div>
-      }
+      )}
     </>
   );
 };
 
-const StripePayment = ({ clientSecret, setClientSecret, parentModelClose }: any) => {
-
+const StripePayment = ({
+  clientSecret,
+  setClientSecret,
+  parentModelClose,
+}: any) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const onClose = () => {
     setClientSecret(null);
     setIsOpen(false);
     parentModelClose(false);
-  }
+  };
 
-  if (!clientSecret) return <p className="text-red-500">Client Secret not found.</p>;
+  if (!clientSecret)
+    return <p className="text-red-500">Client Secret not found.</p>;
 
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm clientSecret={clientSecret} open={isOpen} onClose={onClose} />
+      <CheckoutForm
+        clientSecret={clientSecret}
+        open={isOpen}
+        onClose={onClose}
+      />
     </Elements>
   );
 };

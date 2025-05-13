@@ -1,18 +1,19 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { PlusIcon, Trash2 } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import React, { useState } from "react";
 import AddCreditsPopup from "./AddCreditsPopup";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import IndivisualFormLogin from "@/components/auth/Login/IndivisualFormLogin";
-import CompanyLoginForm from "@/components/auth/Login/CompanyLOginForm";
 import CreditPuchaseHistoryTable from "./CreditPuchaseHistoryTable";
 import CreditUsedHistoryTable from "./CreditUsedHistoryTable";
+import { useGetTotalCreditsQuery } from "@/redux/apis/creditsApi";
 
 const page = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLoading, isFetching, data, refetch } = useGetTotalCreditsQuery(
+    {},
+  );
 
   return (
     <div className="flex flex-col flex-1">
@@ -20,7 +21,11 @@ const page = () => {
         <div className="flex flex-col flex-1">
           <span className="font-medium text-[32px] gap-2 flex items-center leading-[130%] tracking-normal text-white mb-2">
             <span>Available Credits: </span>{" "}
-            <span className="text-[#DE3140] font-medium">2,500</span>
+            <span className="text-[#DE3140] font-medium">
+              {isLoading || isFetching
+                ? "fetching..."
+                : data?.credits?.toLocaleString()}
+            </span>
           </span>
           <span className="text-[#8F9DAC] text-[16px] leading-[130%] font-normal">
             Add more credit to your account for your future purchases.

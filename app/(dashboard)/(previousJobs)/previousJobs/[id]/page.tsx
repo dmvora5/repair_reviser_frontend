@@ -48,17 +48,25 @@ const Page = () => {
             <h3 className="text-[#8F9DAC] font-normal leading-[130%] text-[16px] mb-1">
               Registration
             </h3>
-            <p className="text-white text-[32px] leading-[130%] font-medium">
-              {JobDetailsData?.registration_number}
-            </p>
+            <div className="text-white text-[32px] leading-[130%] font-medium">
+              {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
+                <div className="h-8 w-32 bg-[#1C1F26] rounded animate-pulse" />
+              ) : (
+                JobDetailsData?.registration_number
+              )}
+            </div>
           </div>
           <div className="flex flex-col justify-end text-end">
             <h3 className="text-[#8F9DAC] font-normal leading-[130%] text-[16px] mb-1">
               Repair Cost
             </h3>
-            <p className="text-white text-[32px] leading-[130%] font-medium">
-              {JobDetailsData?.repaire_cost || "£5176.29"}
-            </p>
+            <div className="text-white text-[32px] leading-[130%] font-medium">
+              {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
+                <div className="h-8 w-20 bg-[#1C1F26] rounded animate-pulse" />
+              ) : (
+                JobDetailsData?.repaire_cost || "£5176.29"
+              )}
+            </div>
           </div>
         </div>
 
@@ -68,7 +76,13 @@ const Page = () => {
               Assessment Number
             </span>
             <span className="text-white text-[16px] leading-[140%] font-medium">
-              {JobDetailsData?.assessment_number}
+              <span className="text-white text-[16px] leading-[140%] font-medium">
+                {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
+                  <div className="h-4 w-24 bg-[#1C1F26] rounded animate-pulse" />
+                ) : (
+                  JobDetailsData?.assessment_number
+                )}
+              </span>
             </span>
           </div>
           <div className="flex flec-row justify-between gap-1 ">
@@ -76,7 +90,13 @@ const Page = () => {
               Company Name
             </span>
             <span className="text-white text-[16px] leading-[140%] font-medium">
-              {JobDetailsData?.company_name}
+              <span className="text-white text-[16px] leading-[140%] font-medium">
+                {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
+                  <div className="h-4 w-32 bg-[#1C1F26] rounded animate-pulse" />
+                ) : (
+                  JobDetailsData?.company_name
+                )}
+              </span>
             </span>
           </div>
           <div className="flex flec-row justify-between gap-1">
@@ -84,7 +104,13 @@ const Page = () => {
               Date
             </span>
             <span className="text-white text-[16px] leading-[140%] font-medium">
-              {JobDetailsData?.printed_date}
+              <span className="text-white text-[16px] leading-[140%] font-medium">
+                {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
+                  <div className="h-4 w-24 bg-[#1C1F26] rounded animate-pulse" />
+                ) : (
+                  JobDetailsData?.printed_date
+                )}
+              </span>
             </span>
           </div>
         </div>
@@ -107,19 +133,31 @@ const Page = () => {
             <tbody>
               <tr className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                 <td className="truncate min-w-[144px] text-[#DE3140]">
-                  {JobDetailsData?.total_labour} items
+                  {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
+                    <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
+                  ) : (
+                    `${JobDetailsData?.total_labour} items`
+                  )}
                 </td>
                 <td className="flex-1 text-[#DE3140]">Total Labour</td>
               </tr>
               <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                 <td className="min-w-[144px] truncate text-[#F3811C]">
-                  {JobDetailsData?.total_paints} items
+                  {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
+                    <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
+                  ) : (
+                    `${JobDetailsData?.total_paints} items`
+                  )}
                 </td>
                 <td className="flex-1 text-[#F3811C]">Total Paints</td>
               </tr>
               <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                 <td className="min-w-[144px] truncate text-[#7ED748]">
-                  {JobDetailsData?.total_parts} items
+                  {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
+                    <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
+                  ) : (
+                    `${JobDetailsData?.total_parts} items`
+                  )}
                 </td>
                 <td className="flex-1 text-[#7ED748]">Total Parts</td>
               </tr>

@@ -35,6 +35,13 @@ export const userApi = createApi({
                 body: payload
             })
         }),
+        contactUsUser: build.mutation({
+            query: (payload: any) => ({
+                url: API_ROUTES.AUTH.CONTACTUS,
+                method: "POST",
+                body: payload
+            })
+        }),        
     })
 });
 
@@ -43,4 +50,5 @@ export const {
     useForgetPasswoordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
+    useContactUsUserMutation
 } = userApi;
