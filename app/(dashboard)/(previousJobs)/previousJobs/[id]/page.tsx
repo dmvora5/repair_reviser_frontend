@@ -21,7 +21,6 @@ const Page = () => {
   } = useJobDetailsQuery(params.id, {
     skip: !params.id, // Don't fetch until job ID is set
   });
-  console.log("🚀 ~ page ~ JobDetailsData:", JobDetailsData);
 
   const handleViewReport = () => {
     router.push(`${PAGE_ROUTES.JOBS.AMENDSREAD}${params?.id}`);
@@ -58,7 +57,7 @@ const Page = () => {
               Repair Cost
             </h3>
             <p className="text-white text-[32px] leading-[130%] font-medium">
-              £5176.29
+              {JobDetailsData?.repaire_cost || "£5176.29"}
             </p>
           </div>
         </div>
@@ -69,7 +68,7 @@ const Page = () => {
               Assessment Number
             </span>
             <span className="text-white text-[16px] leading-[140%] font-medium">
-              ZC000373
+              {JobDetailsData?.assessment_number}
             </span>
           </div>
           <div className="flex flec-row justify-between gap-1 ">
@@ -108,21 +107,21 @@ const Page = () => {
             <tbody>
               <tr className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                 <td className="truncate min-w-[144px] text-[#DE3140]">
-                  3 items
+                  {JobDetailsData?.total_labour} items
                 </td>
-                <td className="flex-1 text-[#DE3140]">requiring amends.</td>
+                <td className="flex-1 text-[#DE3140]">Total Labour</td>
               </tr>
               <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                 <td className="min-w-[144px] truncate text-[#F3811C]">
-                  5 items
+                  {JobDetailsData?.total_paints} items
                 </td>
-                <td className="flex-1 text-[#F3811C]">requiring checks.</td>
+                <td className="flex-1 text-[#F3811C]">Total Paints</td>
               </tr>
               <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                 <td className="min-w-[144px] truncate text-[#7ED748]">
-                  4 items
+                  {JobDetailsData?.total_parts} items
                 </td>
-                <td className="flex-1 text-[#7ED748]">general suggestions.</td>
+                <td className="flex-1 text-[#7ED748]">Total Parts</td>
               </tr>
             </tbody>
           </table>

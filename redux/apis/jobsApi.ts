@@ -43,7 +43,7 @@ export const jobsApis = createApi({
           providesTags: ["Jobs"],
         }),
         GetAmends: build.query({
-          query: (payload: any) => (console.log('payload :>> ', payload),{
+          query: (payload: any) => ({
             url: `${API_ROUTES.JOBS.AMENDSREAD}${payload}`,
             method: "GET",
           }),

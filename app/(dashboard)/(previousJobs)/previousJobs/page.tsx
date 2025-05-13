@@ -214,14 +214,14 @@ const page = () => {
                       </td>
 
                       <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
-                        {/* {ele?.status != "not_reviewed" && ( */}
+                        {ele?.status == "reviewed" && (
                           <button
                             className="text-green-600 hover:text-white"
                             onClick={() => handleView(ele?.id)}
                           >
                             <EyeIcon className="w-[20px]" />
                           </button>
-                        {/* )} */}
+                        )}
                         <button
                           className="text-[#4A90E2] hover:text-white"
                           onClick={() => handleDownload(ele?.file)}
