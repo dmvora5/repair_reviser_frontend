@@ -338,7 +338,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-[#0B1219] p-[55px] rounded-[24px] shadow-md max-w-4xl mx-auto -mt-24 ">
+          {/* <div className="bg-[#0B1219] p-[55px] rounded-[24px] shadow-md max-w-4xl mx-auto -mt-24 ">
             <form className="space-y-[24px]">
               <div>
                 <label className="block text-[16px] leading-[28px] font-normal mb-1">
@@ -418,7 +418,7 @@ export default function Home() {
                 </button>
               </div>
             </form>
-          </div>
+          </div> */}
         </div>
       </div>
 
