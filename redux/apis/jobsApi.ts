@@ -34,7 +34,21 @@ export const jobsApis = createApi({
               method: "GET",
             }),
             providesTags: ["Jobs"],
-          })
+        }),
+        JobDetails: build.query({
+          query: (payload) => ({
+            url: `${API_ROUTES.JOBS.JOBDETAILS}${payload}`,
+            method: "GET",
+          }),
+          providesTags: ["Jobs"],
+        }),
+        GetAmends: build.query({
+          query: (payload) => ({
+            url: `${API_ROUTES.JOBS.AMENDSREAD}${payload}`,
+            method: "GET",
+          }),
+          providesTags: ["Jobs"],
+        })
     })
 })
 
@@ -42,5 +56,7 @@ export const jobsApis = createApi({
 export const {
     useUploadReportMutation,
     usePreviousJobsQuery,
-    useGetTotalJobsQuery
+    useGetTotalJobsQuery,
+    useJobDetailsQuery,
+    useGetAmendsQuery
 } = jobsApis

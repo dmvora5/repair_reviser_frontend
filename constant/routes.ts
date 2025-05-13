@@ -14,7 +14,9 @@ export const PAGE_ROUTES = {
         CREDITMANAGEMENT:"/creditManagement"
     },
     JOBS: {
-       NEWJOBS: "/newJobs"
+       NEWJOBS: "/newJobs",
+       JOBDETAILS: "/previousJobs/",
+       AMENDSREAD :"/previousJobs/amends-agreed/"
     }
 }
 
@@ -37,7 +39,9 @@ export const API_ROUTES = {
     JOBS: {
         REPORTUPLOAD: "report/upload-file/",
         PREVIOUSJOBS: "report/list-jobs/",
-        TOTALJOBS: "report/total-jobs/"
+        TOTALJOBS: "report/total-jobs/",
+        JOBDETAILS: "report/job-details/",
+        AMENDSREAD :"/report/amends-agreed/"
     },
     CREDITS: {
         CREATECREDITS: "payment/enter-credits-amount/",

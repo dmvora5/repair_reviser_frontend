@@ -5,6 +5,7 @@ import {
   ArrowRight,
   Download,
   Eye,
+  EyeIcon,
   Forward,
   PlusIcon,
   Reply,
@@ -28,6 +29,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { PAGE_SIZE } from "@/constant";
+import { useRouter } from "next/navigation";
+import { PAGE_ROUTES } from "@/constant/routes";
 
 const STATUS: any = {
   not_reviewed: {
@@ -51,13 +54,10 @@ const page = () => {
     limit: PAGE_SIZE,
   });
 
+  const router = useRouter();
+
   const { data, isLoading, error, isSuccess, isFetching } =
     usePreviousJobsQuery(state);
-
-  console.log("isLoading", isLoading);
-  console.log("isFetching", isFetching);
-
-  console.log("data", data);
 
   const totalPages = Math.ceil((data?.count || 0) / state.limit);
   const currentPage = state.page;
@@ -107,6 +107,10 @@ const page = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleView = (id: string) => {
+    router.push(`${PAGE_ROUTES.JOBS.JOBDETAILS}${id}`);
   };
 
   return (
@@ -163,63 +167,68 @@ const page = () => {
             <tbody>
               {isFetching
                 ? // Loading Skeleton Rows
-                [...Array(5)].map((_, index) => (
-                  <tr
-                    key={index}
-                    className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
-                  >
-                    <td className="flex-1 truncate">
-                      <div className="bg-gray-700 rounded-md h-6 w-32"></div>
-                    </td>
-                    <td className="min-w-[176px]">
-                      <div className="bg-gray-700 rounded-md h-6 w-20"></div>
-                    </td>
-                    <td className="min-w-[176px]">
-                      <div className="bg-gray-700 rounded-md h-6 w-24"></div>
-                    </td>
-                    <td className="w-[92px] justify-center min-w-[92px] flex items-center">
-                      <div className="bg-gray-700 rounded-md h-6 w-6"></div>
-                    </td>
-                  </tr>
-                ))
-                : (data?.results || []).map((ele: any) => (
-                  <tr key={ele?.id} className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px]  *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
-                    <td className="flex-1 truncate">
-                      <Image
-                        src="/pdfIcon.svg"
-                        width={30}
-                        height={30}
-                        className="min-w-[30px] mr-3"
-                        alt="pdf"
-                      />
-                      {ele?.job_name}
-                    </td>
-                    <td className="min-w-[176px]">
-                      {new Date(ele?.created_at).toLocaleDateString()}
-                    </td>
-                    <td
-                      className={cn(
-                        "min-w-[176px] !font-semibold text-[14px]",
-                        STATUS[ele?.status]?.color
-                      )}
+                  [...Array(5)].map((_, index) => (
+                    <tr
+                      key={index}
+                      className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
                     >
-                      {STATUS[ele?.status]?.text}
-                    </td>
-                    {/* <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
-                        <button className="text-[#4A90E2] hover:text-white">
+                      <td className="flex-1 truncate">
+                        <div className="bg-gray-700 rounded-md h-6 w-32"></div>
+                      </td>
+                      <td className="min-w-[176px]">
+                        <div className="bg-gray-700 rounded-md h-6 w-20"></div>
+                      </td>
+                      <td className="min-w-[176px]">
+                        <div className="bg-gray-700 rounded-md h-6 w-24"></div>
+                      </td>
+                      <td className="w-[92px] justify-center min-w-[92px] flex items-center">
+                        <div className="bg-gray-700 rounded-md h-6 w-6"></div>
+                      </td>
+                    </tr>
+                  ))
+                : (data?.results || []).map((ele: any) => (
+                    <tr
+                      key={ele?.id}
+                      className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px]  *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
+                    >
+                      <td className="flex-1 truncate">
+                        <Image
+                          src="/pdfIcon.svg"
+                          width={30}
+                          height={30}
+                          className="min-w-[30px] mr-3"
+                          alt="pdf"
+                        />
+                        {ele?.job_name}
+                      </td>
+                      <td className="min-w-[176px]">
+                        {new Date(ele?.created_at).toLocaleDateString()}
+                      </td>
+                      <td
+                        className={cn(
+                          "min-w-[176px] !font-semibold text-[14px]",
+                          STATUS[ele?.status]?.color
+                        )}
+                      >
+                        {STATUS[ele?.status]?.text}
+                      </td>
+
+                      <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
+                        <button
+                          className="text-green-600 hover:text-white"
+                          onClick={() => handleView(ele?.id)}
+                        >
+                          <EyeIcon className="w-[20px]" />
+                        </button>
+                        <button
+                          className="text-[#4A90E2] hover:text-white"
+                          onClick={() => handleDownload(ele?.file)}
+                        >
                           <Download className="w-[20px]" />
                         </button>
-                      </td> */}
-                    <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
-                      <button
-                        className="text-[#4A90E2] hover:text-white"
-                        onClick={() => handleDownload(ele?.file)}
-                      >
-                        <Download className="w-[20px]" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                    </tr>
+                  ))}
             </tbody>
           </table>
         </div>
@@ -229,10 +238,11 @@ const page = () => {
               {/* Previous Button */}
               <PaginationItem>
                 <button
-                  className={`px-4 py-2 rounded-md transition-all ${currentPage === 1
-                    ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
-                    : "bg-gray-800 hover:bg-gray-600 text-white"
-                    }`}
+                  className={`px-4 py-2 rounded-md transition-all ${
+                    currentPage === 1
+                      ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
+                      : "bg-gray-800 hover:bg-gray-600 text-white"
+                  }`}
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                 >
@@ -247,10 +257,11 @@ const page = () => {
                     <PaginationEllipsis className="px-4 py-2 text-gray-400" />
                   ) : (
                     <button
-                      className={`px-4 py-2 rounded-md font-semibold transition-all ${currentPage === page
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-800 hover:bg-gray-600 text-gray-300"
-                        }`}
+                      className={`px-4 py-2 rounded-md font-semibold transition-all ${
+                        currentPage === page
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-800 hover:bg-gray-600 text-gray-300"
+                      }`}
                       onClick={() => handlePageChange(page as number)}
                     >
                       {page}
@@ -262,10 +273,11 @@ const page = () => {
               {/* Next Button */}
               <PaginationItem>
                 <button
-                  className={`px-4 py-2 rounded-md transition-all ${currentPage === totalPages
-                    ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
-                    : "bg-gray-800 hover:bg-gray-600 text-white"
-                    }`}
+                  className={`px-4 py-2 rounded-md transition-all ${
+                    currentPage === totalPages
+                      ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
+                      : "bg-gray-800 hover:bg-gray-600 text-white"
+                  }`}
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
                 >
