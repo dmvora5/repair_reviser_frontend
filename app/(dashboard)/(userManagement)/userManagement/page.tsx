@@ -138,7 +138,7 @@ const page = () => {
                         <div className="bg-gray-700 rounded-md h-6 w-24"></div>
                       </td>
                       <td className="w-[92px] justify-center min-w-[92px] flex items-center space-x-2">
-                        <div className="bg-gray-700 rounded-md h-6 w-6"></div>
+                        {/* <div className="bg-gray-700 rounded-md h-6 w-6"></div> */}
                         <div className="bg-gray-700 rounded-md h-6 w-6"></div>
                       </td>
                     </tr>
@@ -149,9 +149,9 @@ const page = () => {
                       <td className="flex-1">{ele?.username}</td>
                       <td className="min-w-fit">05/07/2024</td>
                       <td className="w-[92px] justify-center min-w-[92px] space-x-2">
-                        <button className="text-[#DE3140] hover:text-red-400">
+                        {/* <button className="text-[#DE3140] hover:text-red-400">
                           <Trash2 className="w-[20px]" />
-                        </button>
+                        </button> */}
                         <button onClick={editUserHadler.bind(null, ele)} className="text-[#62ee21] hover:text-green-400">
                           <Edit className="w-[20px]" />
                         </button>
