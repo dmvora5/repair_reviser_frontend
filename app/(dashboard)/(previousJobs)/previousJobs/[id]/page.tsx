@@ -30,7 +30,10 @@ const Page = () => {
     <div className="flex flex-col flex-1">
       <div className="flex items-center mb-3">
         <div className="flex flex-col flex-1">
-          <span className="flex items-center gap-1.5 mb-3">
+          <span
+            onClick={() => router.back()}
+            className="flex items-center gap-1.5 mb-3 cursor-pointer"
+          >
             <ChevronsLeft className="w-[28px] h-[28px] text-[#DE3140]" />{" "}
             <span className="text-white text-[22px] font-normal leading-[26.4px]">
               Back
@@ -63,8 +66,10 @@ const Page = () => {
             <div className="text-white text-[32px] leading-[130%] font-medium">
               {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
                 <div className="h-8 w-20 bg-[#1C1F26] rounded animate-pulse" />
+              ) : JobDetailsData?.repaire_cost != null ? (
+                `£${JobDetailsData.repaire_cost}`
               ) : (
-                JobDetailsData?.repaire_cost || "£5176.29"
+                "£5176.29"
               )}
             </div>
           </div>

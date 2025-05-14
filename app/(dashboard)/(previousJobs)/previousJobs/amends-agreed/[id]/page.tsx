@@ -8,13 +8,18 @@ import {
   useGetAmendsQuery,
   useUpdateAmendsMutation,
   useUpdateGeneralSuggestionsMutation,
+  useUpdateRepaireCostMutation,
 } from "@/redux/apis/jobsApi";
 import ApiState from "@/components/ApiState";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { errorToast, sucessToast } from "@/utils";
 
 const Page = () => {
+  const router = useRouter();
   const params = useParams();
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
+  const [repaireCost, setRepaireCost] = useState("");
 
   const toggleRow = (index: number) => {
     setExpandedRowId((prev) => (prev === index ? null : index));
@@ -26,6 +31,9 @@ const Page = () => {
       skip: !params.id, // Don't fetch until job ID is set
     }
   );
+
+  const [updateRepaireCost, { isLoading: isUpdateRepaireCostLoading }] =
+    useUpdateRepaireCostMutation();
 
   const [
     submit,
@@ -70,11 +78,32 @@ const Page = () => {
     }
   };
 
+  const handleUpdate = async () => {
+    if (!repaireCost || isNaN(Number(repaireCost))) {
+      alert("Please enter a valid repair cost.");
+      return;
+    }
+
+    try {
+      await updateRepaireCost({
+        id: params.id,
+        repaire_cost: parseFloat(repaireCost),
+      }).unwrap();
+      sucessToast("Repair cost updated and job completed!");
+    } catch (error) {
+      console.error("Failed to update repair cost:", error);
+      errorToast("Failed to update repair cost.");
+    }
+  };
+
   return (
     <div className="flex flex-col flex-1">
       <div className="flex items-center mb-3">
         <div className="flex flex-col flex-1">
-          <span className="flex items-center gap-1.5 mb-3">
+          <span
+            onClick={() => router.back()}
+            className="flex items-center gap-1.5 mb-3 cursor-pointer"
+          >
             <ChevronsLeft className="w-[28px] h-[28px] text-[#DE3140]" />{" "}
             <span className="text-white text-[22px] font-normal leading-[26.4px]">
               Back
@@ -536,7 +565,7 @@ const Page = () => {
               </table>
             )}
 
-            <div className="flex items-center justify-end mt-8 w-full gap-6">
+            {/* <div className="flex items-center justify-end mt-8 w-full gap-6">
               <Input
                 className=""
                 placeholder="Please enter amended repair cost"
@@ -544,6 +573,23 @@ const Page = () => {
               <Button variant={"default"}>
                 <span className="text-[14px] font-medium leading-7">
                   Complete Job
+                </span>
+              </Button>
+            </div> */}
+            <div className="flex items-center justify-end mt-8 w-full gap-6">
+              <Input
+                type="number"
+                value={repaireCost}
+                onChange={(e) => setRepaireCost(e.target.value)}
+                placeholder="Please enter amended repair cost"
+              />
+              <Button
+                variant={"default"}
+                onClick={handleUpdate}
+                disabled={isLoading}
+              >
+                <span className="text-[14px] font-medium leading-7">
+                  {isLoading ? "Updating..." : "Complete Job"}
                 </span>
               </Button>
             </div>

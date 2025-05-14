@@ -1,5 +1,6 @@
 "use client";
 
+import ContactUSForm from "@/components/ContactUSForm";
 import { PAGE_ROUTES } from "@/constant/routes";
 import Image from "next/image";
 import Link from "next/link";
@@ -72,7 +73,12 @@ export default function Home() {
             <Link href={PAGE_ROUTES.AUTH.REGISTER}>Registration</Link>
             <Link href="#contect-us">Contact Us</Link>
           </div>
-          <Link href={PAGE_ROUTES.AUTH.LOGIN} className="bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px] min-w-[150px]">Log In</Link>
+          <Link
+            href={PAGE_ROUTES.AUTH.LOGIN}
+            className="bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px] min-w-[150px]"
+          >
+            Log In
+          </Link>
         </div>
       </nav>
 
@@ -104,9 +110,7 @@ export default function Home() {
             </p>
           </div>
           <button className="mt-20 bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px]">
-            <Link href="#how-it-work">
-              See How We Work
-            </Link>
+            <Link href="#how-it-work">See How We Work</Link>
           </button>
         </div>
 
@@ -123,7 +127,6 @@ export default function Home() {
               className="w-8 h-8"
               height={32}
               width={32}
-
             />
           </a>
           <a
@@ -156,7 +159,10 @@ export default function Home() {
       </div>
 
       {/* About us Section */}
-      <section className="bg-black text-white py-16 px-6 md:px-20 lg:px-32" id="about-us">
+      <section
+        className="bg-black text-white py-16 px-6 md:px-20 lg:px-32"
+        id="about-us"
+      >
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="space-y-6">
             <Image
@@ -181,9 +187,7 @@ export default function Home() {
               clarity!
             </p>
             <button className="mt-4 bg-[#DE3140] h-[50px] px-8 py-3 text-[14px] min-h-[50px] flex justify-center items-center font-medium rounded-[6px]">
-              <Link href={PAGE_ROUTES.AUTH.REGISTER}>
-                Get Started Now
-              </Link>
+              <Link href={PAGE_ROUTES.AUTH.REGISTER}>Get Started Now</Link>
             </button>
           </div>
           <div className="space-y-6">
@@ -208,7 +212,10 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="relative w-full bg-[#0A0E13] text-white flex flex-col items-center" id="how-it-work">
+      <div
+        className="relative w-full bg-[#0A0E13] text-white flex flex-col items-center"
+        id="how-it-work"
+      >
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 mt-20 ">
           <span className="text-blue-400">How</span> it Works?
         </h2>
@@ -338,8 +345,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* <div className="bg-[#0B1219] p-[55px] rounded-[24px] shadow-md max-w-4xl mx-auto -mt-24 ">
-            <form className="space-y-[24px]">
+          <div className="bg-[#0B1219] p-[55px] rounded-[24px] shadow-md max-w-4xl mx-auto -mt-24 ">
+            {/* <form className="space-y-[24px]">
               <div>
                 <label className="block text-[16px] leading-[28px] font-normal mb-1">
                   Company name<span className="text-[#D32F2F]">*</span>
@@ -417,8 +424,9 @@ export default function Home() {
                   Submit
                 </button>
               </div>
-            </form>
-          </div> */}
+            </form> */}
+            <ContactUSForm />
+          </div>
         </div>
       </div>
 
