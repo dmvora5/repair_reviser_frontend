@@ -33,9 +33,17 @@ export const userManagementApis = createApi({
             }),
             invalidatesTags: ["UserManagement"]
         }),
+        deleteUser: build.mutation({
+            query: (payload: any) => ({
+                url: API_ROUTES.USERMANAGEMENT.DELETEUSER + payload?.id + "/",
+                method: "PATCH",
+                body: payload
+            }),
+            invalidatesTags: ["UserManagement"]
+        }),
         changedPassword: build.mutation({
             query: (payload: any) => (console.log('payload :>> ', payload)
-            ,{
+                , {
                 url: API_ROUTES.AUTH.CHANGEDPASSWORD,
                 method: "POST",
                 body: payload
@@ -49,5 +57,6 @@ export const {
     useCreateCompanyUserMutation,
     useAllComponyUsersListQuery,
     useUpdateCompanyUserMutation,
-    useChangedPasswordMutation
+    useChangedPasswordMutation,
+    useDeleteUserMutation
 } = userManagementApis

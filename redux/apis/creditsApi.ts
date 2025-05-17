@@ -6,7 +6,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 export const creditsApi = createApi({
   baseQuery: baseQueryWithAuth,
   reducerPath: "credits",
-  tagTypes: ["Credits"],
+  tagTypes: ["Credits", "CreditsPrice"],
   endpoints: (build) => ({
     cretaCredits: build.mutation({
       query: (payload: any) => ({
@@ -44,7 +44,16 @@ export const creditsApi = createApi({
         method: "GET",
       }),
       providesTags: ["Credits"],
-    })
+    }),
+    getCreditPrice: build.query({
+      query: () => ({
+        url: API_ROUTES.CREDITS.PRICE,
+        method: "GET",
+      }),
+      providesTags: ["CreditsPrice"],
+    }),
+
+
   }),
 });
 
@@ -52,5 +61,6 @@ export const {
   useCretaCreditsMutation,
   useGetCreditsQuery,
   useUsedCreditsQuery,
-  useGetTotalCreditsQuery
+  useGetTotalCreditsQuery,
+  useGetCreditPriceQuery
 } = creditsApi;

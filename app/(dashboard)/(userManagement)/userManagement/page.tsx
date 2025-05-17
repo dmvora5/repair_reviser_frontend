@@ -10,10 +10,13 @@ import ApiState from "@/components/ApiState";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from "@/components/ui/pagination";
 import UpdateUserPopup from "./UpdateUserPopup";
 import CreatedSuccessfullyPopup from "../CreatedSuccessfullyPopup";
+import DeleteUserPopUp from "./DeleteUserPopUp";
+import SearchComponent from "@/components/SearchComponent";
 
 interface StateType {
   page: number;
   page_size: number;
+  search: any
 }
 
 const page = () => {
@@ -21,10 +24,16 @@ const page = () => {
 
   const [state, setState] = useState<StateType>({
     page: 1,
-    page_size: PAGE_SIZE
+    page_size: PAGE_SIZE,
+    search: "",
   });
 
   const [editUser, setEditUser] = useState<any>({
+    open: false,
+    user: {}
+  })
+
+  const [deleteUser, setDeleteUser] = useState<any>({
     open: false,
     user: {}
   })
@@ -75,6 +84,19 @@ const page = () => {
     }))
   }
 
+  const deleteUserHadler = (user: any) => {
+    setDeleteUser((ps: any) => ({
+      ...ps,
+      open: !ps.open,
+      user
+    }))
+  }
+
+  const handleSearch = (searchTerm: any) => {
+    setState((prev: any) => ({ ...prev, page: 1, search: searchTerm }));
+  };
+
+
   return (
     <div className="flex flex-col flex-1">
       <ApiState isSuccess={isSuccess} error={error}>
@@ -98,6 +120,17 @@ const page = () => {
         </Button>
       </div>
       <div className="flex flex-col">
+        <div className="w-full min-h-[50px] flex items-center gap-2 mb-4">
+          {/* <div className="bg-[#0C141C] border border-[#1B2231] h-[50px] rounded-[6px] flex items-center flex-1 px-4">
+            <SearchComponent searchState={handleSearch} />
+          </div> */}
+          {/* <Button variant={"default"} onClick={handleSearch}>
+                    <span className="text-[14px] font-medium leading-7">Filter</span>
+                  </Button>
+                  <Button variant={"default"} size="icon">
+                    <ArrowRight className="w-5 min-w-5" />
+                  </Button> */}
+        </div>
         <h3 className="text-white font-medium leading-[130%] text-[18px] tracking-normal mb-4 text-left">
           Users List
         </h3>
@@ -106,7 +139,7 @@ const page = () => {
             <thead>
               <tr className="space-x-1 flex">
                 <th className="py-3 px-4 w-[90px] justify-center min-w-[90px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px]">
-                  Number
+                  Id
                 </th>
                 <th className="py-3 px-4 flex-1 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px]">
                   Customer Name
@@ -145,13 +178,13 @@ const page = () => {
                   )) :
                   (data?.results || []).map((ele: any) => (
                     <tr key={ele?.id} className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
-                      <td className="w-[90px] justify-center min-w-[90px]">201</td>
+                      <td className="w-[90px] justify-center min-w-[90px]">{ele?.id}</td>
                       <td className="flex-1">{ele?.username}</td>
                       <td className="min-w-fit">05/07/2024</td>
                       <td className="w-[92px] justify-center min-w-[92px] space-x-2">
-                        {/* <button className="text-[#DE3140] hover:text-red-400">
+                        <button onClick={deleteUserHadler.bind(null, ele)} className="text-[#DE3140] hover:text-red-400">
                           <Trash2 className="w-[20px]" />
-                        </button> */}
+                        </button>
                         <button onClick={editUserHadler.bind(null, ele)} className="text-[#62ee21] hover:text-green-400">
                           <Edit className="w-[20px]" />
                         </button>
@@ -226,6 +259,14 @@ const page = () => {
           open: false,
         }))}
         editUser={editUser.user}
+      />
+      <DeleteUserPopUp
+        isOpen={deleteUser.open}
+        onClose={() => setDeleteUser((ps: any) => ({
+          ...ps,
+          open: false
+        }))}
+        user={deleteUser.user}
       />
     </div>
   );

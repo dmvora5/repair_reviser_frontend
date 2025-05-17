@@ -12,6 +12,7 @@ import { useUploadReportMutation } from "@/redux/apis/jobsApi";
 import ApiState from "@/components/ApiState";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import LoadingPopup from "../_component/LoadingPopup";
+import { PAGE_ROUTES } from "@/constant/routes";
 
 const Page = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -52,6 +53,7 @@ const Page = () => {
       <ApiState isSuccess={isSuccess} error={error}>
         <ApiState.SuccessMessage message="Upload report successfully!" />
         <ApiState.Error />
+        <ApiState.SuccessRedirect path={PAGE_ROUTES.JOBS.JOBDETAILS} />
         <ApiState.ArthorizeCheck />
       </ApiState>
       <LoadingPopup isOpen={isLoading} />

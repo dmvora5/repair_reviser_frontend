@@ -14,12 +14,21 @@ import ApiState from "@/components/ApiState";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { errorToast, sucessToast } from "@/utils";
+import Link from "next/link";
+import { PAGE_ROUTES } from "@/constant/routes";
+import { JOBSTATUS } from "@/constant";
+import Image from "next/image";
+import ProcessLoader from "@/components/ProcessLoader";
+import { creditsApi } from "@/redux/apis/creditsApi";
+import { useDispatch } from "react-redux";
 
 const Page = () => {
   const router = useRouter();
   const params = useParams();
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
   const [repaireCost, setRepaireCost] = useState("");
+
+  const dispatch = useDispatch()
 
   const toggleRow = (index: number) => {
     setExpandedRowId((prev) => (prev === index ? null : index));
@@ -31,6 +40,8 @@ const Page = () => {
       skip: !params.id, // Don't fetch until job ID is set
     }
   );
+
+  console.log('data', data)
 
   const [updateRepaireCost, { isLoading: isUpdateRepaireCostLoading }] =
     useUpdateRepaireCostMutation();
@@ -90,6 +101,8 @@ const Page = () => {
         repaire_cost: parseFloat(repaireCost),
       }).unwrap();
       sucessToast("Repair cost updated and job completed!");
+      dispatch(creditsApi.util.invalidateTags(["Credits"]))
+      router.replace(PAGE_ROUTES.JOBS.JOBDETAILS)
     } catch (error) {
       console.error("Failed to update repair cost:", error);
       errorToast("Failed to update repair cost.");
@@ -97,7 +110,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="relative flex flex-col flex-1">
       <div className="flex items-center mb-3">
         <div className="flex flex-col flex-1">
           <span
@@ -114,14 +127,18 @@ const Page = () => {
               Amends agreed
             </h1>
             <Button variant="outline" className="h-[42px] px-6">
-              Required FAQs
+              <Link href={PAGE_ROUTES.FAQ}>
+                Required FAQs
+              </Link>
             </Button>
           </div>
         </div>
       </div>
 
       {isLoading || isFetching ? (
-        <div className="text-white text-center">Loading...</div>
+        <div className="text-white flex justify-center items-center h-[80vh]">
+          <ProcessLoader />
+        </div>
       ) : (
         <div className="flex flex-col">
           <div className="w-full">
@@ -203,46 +220,50 @@ const Page = () => {
                                               style={{
                                                 color:
                                                   sub.requirement_type ===
-                                                  "requiring_checks"
+                                                    "requiring_checks"
                                                     ? "#F3811C"
                                                     : sub.requirement_type ===
                                                       "requiring_amend"
-                                                    ? "#DE3140"
-                                                    : sub.requirement_type ===
-                                                      "general_suggestions"
-                                                    ? "#7ED748"
-                                                    : "inherit",
+                                                      ? "#DE3140"
+                                                      : sub.requirement_type ===
+                                                        "general_suggestions"
+                                                        ? "#7ED748"
+                                                        : "inherit",
                                               }}
                                             >
                                               {sub.requirement_type
                                                 ? sub.requirement_type
-                                                    .replace(/_/g, " ")
-                                                    .replace(
-                                                      /\b\w/g,
-                                                      (c: any) =>
-                                                        c.toUpperCase()
-                                                    )
+                                                  .replace(/_/g, " ")
+                                                  .replace(
+                                                    /\b\w/g,
+                                                    (c: any) =>
+                                                      c.toUpperCase()
+                                                  )
                                                 : "-"}
                                             </span>
                                           </td>
                                           <td className="py-2">
                                             {sub.subs_description ?? "-"}
                                           </td>
-                                          <td className="py-2">
-                                            Click for FAQ
+                                          <td className="py-2 cursor-pointer">
+                                            <Link href={PAGE_ROUTES.FAQ}>
+                                              Click for FAQ
+                                            </Link>
                                           </td>
 
                                           {/* Checkbox Cell */}
-                                          <td className="py-2 text-center">
-                                            <input
-                                              type="checkbox"
-                                              checked={sub.agree}
-                                              onChange={() =>
-                                                handleAgreeToggle(sub)
-                                              }
-                                              className="accent-blue-500 w-4 h-4 cursor-pointer"
-                                            />
-                                          </td>
+                                          {data?.status !== JOBSTATUS.COMPLETED &&
+                                            <td className="py-2 text-center">
+                                              <input
+                                                type="checkbox"
+                                                checked={sub.agree}
+                                                onChange={() =>
+                                                  handleAgreeToggle(sub)
+                                                }
+                                                className="accent-blue-500 w-4 h-4 cursor-pointer"
+                                              />
+                                            </td>
+                                          }
                                         </tr>
                                       )
                                     )}
@@ -336,25 +357,25 @@ const Page = () => {
                                               style={{
                                                 color:
                                                   sub.requirement_type ===
-                                                  "requiring_checks"
+                                                    "requiring_checks"
                                                     ? "#F3811C"
                                                     : sub.requirement_type ===
                                                       "requiring_amend"
-                                                    ? "#DE3140"
-                                                    : sub.requirement_type ===
-                                                      "general_suggestions"
-                                                    ? "#7ED748"
-                                                    : "inherit",
+                                                      ? "#DE3140"
+                                                      : sub.requirement_type ===
+                                                        "general_suggestions"
+                                                        ? "#7ED748"
+                                                        : "inherit",
                                               }}
                                             >
                                               {sub.requirement_type
                                                 ? sub.requirement_type
-                                                    .replace(/_/g, " ")
-                                                    .replace(
-                                                      /\b\w/g,
-                                                      (c: any) =>
-                                                        c.toUpperCase()
-                                                    )
+                                                  .replace(/_/g, " ")
+                                                  .replace(
+                                                    /\b\w/g,
+                                                    (c: any) =>
+                                                      c.toUpperCase()
+                                                  )
                                                 : "-"}
                                             </span>
                                           </td>
@@ -468,23 +489,23 @@ const Page = () => {
                                             style={{
                                               color:
                                                 sub.requirement_type ===
-                                                "requiring_checks"
+                                                  "requiring_checks"
                                                   ? "#F3811C"
                                                   : sub.requirement_type ===
                                                     "requiring_amend"
-                                                  ? "#DE3140"
-                                                  : sub.requirement_type ===
-                                                    "general_suggestions"
-                                                  ? "#7ED748"
-                                                  : "inherit",
+                                                    ? "#DE3140"
+                                                    : sub.requirement_type ===
+                                                      "general_suggestions"
+                                                      ? "#7ED748"
+                                                      : "inherit",
                                             }}
                                           >
                                             {sub.requirement_type
                                               ? sub.requirement_type
-                                                  .replace(/_/g, " ")
-                                                  .replace(/\b\w/g, (c: any) =>
-                                                    c.toUpperCase()
-                                                  )
+                                                .replace(/_/g, " ")
+                                                .replace(/\b\w/g, (c: any) =>
+                                                  c.toUpperCase()
+                                                )
                                               : "-"}
                                           </span>
                                         </td>
@@ -576,23 +597,32 @@ const Page = () => {
                 </span>
               </Button>
             </div> */}
-            <div className="flex items-center justify-end mt-8 w-full gap-6">
-              <Input
-                type="number"
-                value={repaireCost}
-                onChange={(e) => setRepaireCost(e.target.value)}
-                placeholder="Please enter amended repair cost"
-              />
-              <Button
-                variant={"default"}
-                onClick={handleUpdate}
-                disabled={isLoading}
-              >
-                <span className="text-[14px] font-medium leading-7">
-                  {isLoading ? "Updating..." : "Complete Job"}
-                </span>
-              </Button>
-            </div>
+            {data?.status !== JOBSTATUS.COMPLETED &&
+              <div className="flex items-center justify-end mt-8 w-full gap-6">
+                <Input
+                  type="number"
+                  value={repaireCost}
+                  onChange={(e) => setRepaireCost(e.target.value)}
+                  placeholder="Please enter amended repair cost"
+                />
+                <Button
+                  variant={"default"}
+                  onClick={handleUpdate}
+                  disabled={isUpdateRepaireCostLoading}
+                >
+                  <span className="text-[14px] font-medium leading-7">
+                    {isUpdateRepaireCostLoading ?
+                      <Image
+                        src="/images/loader.svg"
+                        alt="loader"
+                        width={24}
+                        height={24}
+                        className="ml-2 animate-spin"
+                      /> : "Complete Job"}
+                  </span>
+                </Button>
+              </div>
+            }
           </div>
         </div>
       )}

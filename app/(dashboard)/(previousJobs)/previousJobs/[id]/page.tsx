@@ -22,12 +22,17 @@ const Page = () => {
     skip: !params.id, // Don't fetch until job ID is set
   });
 
+  console.log('JobDetailsData', JobDetailsData)
+
   const handleViewReport = () => {
     router.push(`${PAGE_ROUTES.JOBS.AMENDSREAD}${params?.id}`);
   };
 
   return (
     <div className="flex flex-col flex-1">
+      <ApiState error={isJobDetailsDataError} isSuccess={isJobDetailsDataSuccess}>
+        <ApiState.Error />
+      </ApiState>
       <div className="flex items-center mb-3">
         <div className="flex flex-col flex-1">
           <span

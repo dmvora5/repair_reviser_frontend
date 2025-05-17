@@ -105,7 +105,7 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
     >
       <ApiState isSuccess={isSuccess} error={error} reset={reset}>
         {/* <ApiState.SuccessMessage message="uesr created sucessfully!" /> */}
-        <ApiState.SuccessCallback />
+        <ApiState.SuccessCallback callback={onClose} />
         <ApiState.Error />
         <ApiState.ArthorizeCheck />
       </ApiState>
@@ -145,7 +145,7 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
                       <Input
                         disabled={isLoading}
                         className="w-full rounded-[6px] placeholder:text-[#8F9DAC] text-[14px] placeholder:text-[14px] font-normal placeholder:font-normal leading-5 h-[50px] px-4 flex items-center no-focus border border-[#1B2231] bg-[#0C141C]"
-                        placeholder="Enter Email Address"
+                        placeholder="Enter Email Or Username"
                         {...field}
                       />
                     </FormControl>

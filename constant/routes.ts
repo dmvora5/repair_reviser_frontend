@@ -11,13 +11,14 @@ export const PAGE_ROUTES = {
         DASHBOARD: "/dashboard"
     },
     CREDIT: {
-        CREDITMANAGEMENT:"/creditManagement"
+        CREDITMANAGEMENT: "/creditManagement"
     },
     JOBS: {
-       NEWJOBS: "/newJobs",
-       JOBDETAILS: "/previousJobs/",
-       AMENDSREAD :"/previousJobs/amends-agreed/"
-    }
+        NEWJOBS: "/newJobs",
+        JOBDETAILS: "/previousJobs/",
+        AMENDSREAD: "/previousJobs/amends-agreed/"
+    },
+    FAQ: "/faqs"
 }
 
 
@@ -35,22 +36,24 @@ export const API_ROUTES = {
     USERMANAGEMENT: {
         CREATECOMPANYUSER: "user/create-company-user/",
         USERLIST: "user/company-user-list/",
-        EDITPASSWORD: "user/company-user-password-update/"
+        EDITPASSWORD: "user/company-user-password-update/",
+        DELETEUSER: "user/company-user-active-deactive/"
     },
     JOBS: {
         REPORTUPLOAD: "report/upload-file/",
         PREVIOUSJOBS: "report/list-jobs/",
         TOTALJOBS: "report/total-jobs/",
         JOBDETAILS: "report/job-details/",
-        AMENDSREAD :"/report/amends-agreed/",
+        AMENDSREAD: "/report/amends-agreed/",
         AMENDSUPDATE: "/report/amends/agree/",
-        UPDATEGENERALSUGGESTION : "/report/general-suggestion/",
-        UPDATEREPAIRECOST : "/report/update-repair-cost/",
+        UPDATEGENERALSUGGESTION: "/report/general-suggestion/",
+        UPDATEREPAIRECOST: "/report/update-repair-cost/",
     },
     CREDITS: {
         CREATECREDITS: "payment/enter-credits-amount/",
         GETCREDITS: "payment/purchase-history/",
         USEDCREDITS: "payment/credits-usage-history/",
-        TOTALCREDITS: "user/available-credits/"
+        TOTALCREDITS: "user/available-credits/",
+        PRICE: "user/credit-price/"
     }
 } 

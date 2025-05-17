@@ -23,30 +23,30 @@ import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
+  PaginationItem
 } from "@/components/ui/pagination";
-import { PAGE_SIZE } from "@/constant";
+import { JOBSTATUS, PAGE_SIZE } from "@/constant";
 import { useRouter } from "next/navigation";
 import { PAGE_ROUTES } from "@/constant/routes";
+import SearchComponent from "@/components/SearchComponent";
 
 const STATUS: any = {
-  not_reviewed: {
-    text: "NOT REVIEWED",
+  [JOBSTATUS.NOTREVIEVED]: {
+    text: "UNDER PROCESS",
     color: "!text-[#E2914A]",
   },
-  reviewed: {
+  [JOBSTATUS.REVIEVED]: {
     text: "REVIEWED",
     color: "!text-[#4AE257]",
   },
+  [JOBSTATUS.COMPLETED]: {
+    text: "COMPLETED",
+    color: "!text-blue-500"
+  }
+
 };
 
 const page = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [search, setSearch] = useState<any>();
 
   const [state, setState] = useState<any>({
     page: 1,
@@ -59,6 +59,8 @@ const page = () => {
   const { data, isLoading, error, isSuccess, isFetching } =
     usePreviousJobsQuery(state);
 
+  console.log('data', data)
+
   const totalPages = Math.ceil((data?.count || 0) / state.limit);
   const currentPage = state.page;
 
@@ -68,8 +70,8 @@ const page = () => {
     }
   };
 
-  const handleSearch = () => {
-    setState((prev: any) => ({ ...prev, page: 1, search }));
+  const handleSearch = (searchTerm: any) => {
+    setState((prev: any) => ({ ...prev, page: 1, search: searchTerm }));
   };
 
   const renderPaginationNumbers = () => {
@@ -132,19 +134,14 @@ const page = () => {
       <div className="flex flex-col">
         <div className="w-full min-h-[50px] flex items-center gap-2 mb-4">
           <div className="bg-[#0C141C] border border-[#1B2231] h-[50px] rounded-[6px] flex items-center flex-1 px-4">
-            <Search width={20} height={20} color="white" />
-            <Input
-              className="border-none text-xl no-focus placeholder:text-[#8F9DAC] text-white font-medium text-[14px] tracking-normal leading-5 pr-0"
-              placeholder="Search here what you are looking for..."
-              onChange={(e) => setSearch(e.target.value)}
-            />
+            <SearchComponent searchState={handleSearch} />
           </div>
-          <Button variant={"default"} onClick={handleSearch}>
+          {/* <Button variant={"default"} onClick={handleSearch}>
             <span className="text-[14px] font-medium leading-7">Filter</span>
           </Button>
           <Button variant={"default"} size="icon">
             <ArrowRight className="w-5 min-w-5" />
-          </Button>
+          </Button> */}
         </div>
         <div className="w-full">
           <table className="w-full border-collapse text-white">
@@ -165,72 +162,72 @@ const page = () => {
               </tr>
             </thead>
             <tbody>
-              {isFetching
+              {(isFetching || isLoading)
                 ? // Loading Skeleton Rows
-                  [...Array(5)].map((_, index) => (
-                    <tr
-                      key={index}
-                      className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
-                    >
-                      <td className="flex-1 truncate">
-                        <div className="bg-gray-700 rounded-md h-6 w-32"></div>
-                      </td>
-                      <td className="min-w-[176px]">
-                        <div className="bg-gray-700 rounded-md h-6 w-20"></div>
-                      </td>
-                      <td className="min-w-[176px]">
-                        <div className="bg-gray-700 rounded-md h-6 w-24"></div>
-                      </td>
-                      <td className="w-[92px] justify-center min-w-[92px] flex items-center">
-                        <div className="bg-gray-700 rounded-md h-6 w-6"></div>
-                      </td>
-                    </tr>
-                  ))
+                [...Array(5)].map((_, index) => (
+                  <tr
+                    key={index}
+                    className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
+                  >
+                    <td className="flex-1 truncate">
+                      <div className="bg-gray-700 rounded-md h-6 w-32"></div>
+                    </td>
+                    <td className="min-w-[176px]">
+                      <div className="bg-gray-700 rounded-md h-6 w-20"></div>
+                    </td>
+                    <td className="min-w-[176px]">
+                      <div className="bg-gray-700 rounded-md h-6 w-24"></div>
+                    </td>
+                    <td className="w-[92px] justify-center min-w-[92px] flex items-center">
+                      <div className="bg-gray-700 rounded-md h-6 w-6"></div>
+                    </td>
+                  </tr>
+                ))
                 : (data?.results || []).map((ele: any) => (
-                    <tr
-                      key={ele?.id}
-                      className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px]  *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
+                  <tr
+                    key={ele?.id}
+                    className="flex space-x-1 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px]  *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
+                  >
+                    <td className="flex-1 truncate">
+                      <Image
+                        src="/pdfIcon.svg"
+                        width={30}
+                        height={30}
+                        className="min-w-[30px] mr-3"
+                        alt="pdf"
+                      />
+                      {ele?.job_name}
+                    </td>
+                    <td className="min-w-[176px]">
+                      {new Date(ele?.created_at).toLocaleDateString()}
+                    </td>
+                    <td
+                      className={cn(
+                        "min-w-[176px] !font-semibold text-[14px]",
+                        STATUS[ele?.status]?.color
+                      )}
                     >
-                      <td className="flex-1 truncate">
-                        <Image
-                          src="/pdfIcon.svg"
-                          width={30}
-                          height={30}
-                          className="min-w-[30px] mr-3"
-                          alt="pdf"
-                        />
-                        {ele?.job_name}
-                      </td>
-                      <td className="min-w-[176px]">
-                        {new Date(ele?.created_at).toLocaleDateString()}
-                      </td>
-                      <td
-                        className={cn(
-                          "min-w-[176px] !font-semibold text-[14px]",
-                          STATUS[ele?.status]?.color
-                        )}
-                      >
-                        {STATUS[ele?.status]?.text}
-                      </td>
+                      {STATUS[ele?.status]?.text}
+                    </td>
 
-                      <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
-                        {ele?.status == "reviewed" && (
-                          <button
-                            className="text-green-600 hover:text-white"
-                            onClick={() => handleView(ele?.id)}
-                          >
-                            <EyeIcon className="w-[20px]" />
-                          </button>
-                        )}
-                        <button
-                          className="text-[#4A90E2] hover:text-white"
-                          onClick={() => handleDownload(ele?.file)}
-                        >
-                          <Download className="w-[20px]" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                    <td className="w-[92px] justify-center min-w-[92px] gap-3 flex items-center">
+                      <button
+                        className="text-green-600 hover:text-white"
+                        onClick={() => handleView(ele?.id)}
+                      >
+                        <EyeIcon className="w-[20px]" />
+                      </button>
+                      {/* {ele?.status == "reviewed" && (
+                      )} */}
+                      <button
+                        className="text-[#4A90E2] hover:text-white"
+                        onClick={() => handleDownload(ele?.file)}
+                      >
+                        <Download className="w-[20px]" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
@@ -240,11 +237,10 @@ const page = () => {
               {/* Previous Button */}
               <PaginationItem>
                 <button
-                  className={`px-4 py-2 rounded-md transition-all ${
-                    currentPage === 1
-                      ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
-                      : "bg-gray-800 hover:bg-gray-600 text-white"
-                  }`}
+                  className={`px-4 py-2 rounded-md transition-all ${currentPage === 1
+                    ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
+                    : "bg-gray-800 hover:bg-gray-600 text-white"
+                    }`}
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                 >
@@ -259,11 +255,10 @@ const page = () => {
                     <PaginationEllipsis className="px-4 py-2 text-gray-400" />
                   ) : (
                     <button
-                      className={`px-4 py-2 rounded-md font-semibold transition-all ${
-                        currentPage === page
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-800 hover:bg-gray-600 text-gray-300"
-                      }`}
+                      className={`px-4 py-2 rounded-md font-semibold transition-all ${currentPage === page
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-800 hover:bg-gray-600 text-gray-300"
+                        }`}
                       onClick={() => handlePageChange(page as number)}
                     >
                       {page}
@@ -275,11 +270,10 @@ const page = () => {
               {/* Next Button */}
               <PaginationItem>
                 <button
-                  className={`px-4 py-2 rounded-md transition-all ${
-                    currentPage === totalPages
-                      ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
-                      : "bg-gray-800 hover:bg-gray-600 text-white"
-                  }`}
+                  className={`px-4 py-2 rounded-md transition-all ${currentPage === totalPages
+                    ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
+                    : "bg-gray-800 hover:bg-gray-600 text-white"
+                    }`}
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
                 >

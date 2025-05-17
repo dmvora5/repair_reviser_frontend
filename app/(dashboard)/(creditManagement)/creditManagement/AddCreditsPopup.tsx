@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import StripePayment from "@/components/StripePayment";
-import { useCretaCreditsMutation } from "@/redux/apis/creditsApi";
+import { useCretaCreditsMutation, useGetCreditPriceQuery } from "@/redux/apis/creditsApi";
 import ApiState from "@/components/ApiState";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,6 +36,9 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
 }) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [createCredits, { isLoading, error, isSuccess }] = useCretaCreditsMutation();
+  const { data, isLoading: isPriceLoading, error: priceError } = useGetCreditPriceQuery({})
+
+  console.log('price', data)
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Close modal when clicking outside of it
@@ -69,6 +72,19 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
     }
   }
 
+  const CreditAmount = () => {
+    const calculation = () => {
+      if (isFinite(Number(form.getValues().credit_amount))) {
+        return `$${Number(form.getValues().credit_amount) * data?.price}`
+      }
+
+      return `$${0}`;
+    }
+    return (
+      <span>{calculation()}</span>
+    )
+  }
+
 
   return (
     <>
@@ -91,7 +107,7 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
                   Add Credits
                 </h2>
                 <span className="text-[#8F9DAC] font-normal text-[14px] leading-[20px] tracking-normal">
-                  Enter Amount of Credit which you want to add
+                  Enter Amount of Credit which you want to add (1 credit = ${data?.price})
                 </span>
               </div>
 
@@ -104,9 +120,14 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
                       name="credit_amount"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="block text-white font-medium text-[14px] leading-[24px] tracking-normal mb-1.5">
-                            Enter Credit
-                          </FormLabel>
+                          <div className="flex justify-between">
+                            <FormLabel className="block text-white font-medium text-[14px] leading-[24px] tracking-normal mb-1.5">
+                              Enter Credit
+                            </FormLabel>
+                            {data?.price &&
+                              <CreditAmount />
+                            }
+                          </div>
                           <FormControl>
                             <Input
                               disabled={isLoading}
@@ -123,9 +144,9 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
                   <Button
                     type="submit"
                     className="auth-button"
-                    disabled={isLoading}
+                    disabled={isLoading || isPriceLoading}
                   >
-                    {isLoading ? (
+                    {(isLoading || isPriceLoading) ? (
                       <Image
                         src="images/loader.svg"
                         alt="loader"
