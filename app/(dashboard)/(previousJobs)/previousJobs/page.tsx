@@ -13,7 +13,7 @@ import {
   Trash2,
   Upload,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { usePreviousJobsQuery } from "@/redux/apis/jobsApi";
@@ -55,10 +55,15 @@ const page = () => {
     limit: PAGE_SIZE,
   });
 
+  const [pollingInterval, setPollingInterval] = useState(10000)
+
   const router = useRouter();
 
   const { data, isLoading, error, isSuccess, isFetching } =
-    usePreviousJobsQuery(state);
+    usePreviousJobsQuery(state, {
+      pollingInterval: pollingInterval,
+      refetchOnMountOrArgChange: true,
+    });
 
   console.log('data', data)
 
@@ -115,6 +120,18 @@ const page = () => {
   const handleView = (id: string) => {
     router.push(`${PAGE_ROUTES.JOBS.JOBDETAILS}${id}`);
   };
+
+  useEffect(() => {
+    if (!data?.results?.length) {
+      setPollingInterval(0);
+      return;
+    }
+
+    const hasNotReviewed = data.results.some((ele: any) => ele.status === JOBSTATUS.NOTREVIEVED);
+
+    setPollingInterval(hasNotReviewed ? 10000 : 0);
+  }, [data]);
+
 
   return (
     <div className="flex flex-col flex-1">
