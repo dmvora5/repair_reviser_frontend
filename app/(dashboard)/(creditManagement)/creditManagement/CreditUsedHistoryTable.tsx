@@ -9,6 +9,7 @@ import {
   PaginationEllipsis,
   PaginationItem,
 } from "@/components/ui/pagination";
+import PageSizeSelector from "@/components/PageSizeSelector";
 
 const CreditUsedHistory = () => {
   const [state, setState] = useState<any>({
@@ -69,83 +70,86 @@ const CreditUsedHistory = () => {
       <div className="flex flex-col w-full">
         {isFetching
           ? // Skeleton loading rows (5 placeholders)
-            [...Array(5)].map((_, index) => (
-              <div
-                key={index}
-                className="border-b border-[#162332] py-4 flex flex-col animate-pulse"
-              >
-                <div className="bg-gray-700 rounded-md h-6 w-[120px] mb-2"></div>
-                <div className="bg-gray-700 rounded-md h-4 w-[200px]"></div>
-              </div>
-            ))
+          [...Array(5)].map((_, index) => (
+            <div
+              key={index}
+              className="border-b border-[#162332] py-4 flex flex-col animate-pulse"
+            >
+              <div className="bg-gray-700 rounded-md h-6 w-[120px] mb-2"></div>
+              <div className="bg-gray-700 rounded-md h-4 w-[200px]"></div>
+            </div>
+          ))
           : (data?.results || []).map((item: any, index: number) => (
-              <div
-                key={item.created_at || index}
-                className="border-b border-[#162332] py-4 flex flex-col"
-              >
-                <span className="text-[#4A90E2] font-medium text-[16px] tracking-normal leading-[24px] mb-1.5">
-                  {item.used_credit} Credits
-                </span>
-                <span className="text-[#8F9DAC] font-normal text-[14px] leading-[130%] tracking-normal">
-                  {item.username} used credit on {formatDate(item.created_at)}
-                </span>
-              </div>
-            ))}
+            <div
+              key={item.created_at || index}
+              className="border-b border-[#162332] py-4 flex flex-col"
+            >
+              <span className="text-[#4A90E2] font-medium text-[16px] tracking-normal leading-[24px] mb-1.5">
+                {item.used_credit} Credits
+              </span>
+              <span className="text-[#8F9DAC] font-normal text-[14px] leading-[130%] tracking-normal">
+                {item.username} used credit on {formatDate(item.created_at)}
+              </span>
+            </div>
+          ))}
       </div>
 
       <Pagination className="flex justify-center items-center mt-4">
         {totalPages > 1 && (
-          <PaginationContent className="flex space-x-2 bg-[#1E1E2E] p-3 rounded-lg shadow-md">
-            {/* Previous Button */}
-            <PaginationItem>
-              <button
-                className={`px-4 py-2 rounded-md transition-all ${
-                  currentPage === 1
+          <>
+            <PaginationContent className="flex space-x-2 bg-[#1E1E2E] p-3 rounded-lg shadow-md">
+              {/* Previous Button */}
+              <PaginationItem>
+                <button
+                  className={`px-4 py-2 rounded-md transition-all ${currentPage === 1
                     ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
                     : "bg-gray-800 hover:bg-gray-600 text-white"
-                }`}
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </button>
-            </PaginationItem>
+                    }`}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
+              </PaginationItem>
 
-            {/* Page Numbers */}
-            {renderPaginationNumbers().map((page, index) => (
-              <PaginationItem key={index}>
-                {page === "..." ? (
-                  <PaginationEllipsis className="px-4 py-2 text-gray-400" />
-                ) : (
-                  <button
-                    className={`px-4 py-2 rounded-md font-semibold transition-all ${
-                      currentPage === page
+              {/* Page Numbers */}
+              {renderPaginationNumbers().map((page, index) => (
+                <PaginationItem key={index}>
+                  {page === "..." ? (
+                    <PaginationEllipsis className="px-4 py-2 text-gray-400" />
+                  ) : (
+                    <button
+                      className={`px-4 py-2 rounded-md font-semibold transition-all ${currentPage === page
                         ? "bg-blue-500 text-white"
                         : "bg-gray-800 hover:bg-gray-600 text-gray-300"
-                    }`}
-                    onClick={() => handlePageChange(page as number)}
-                  >
-                    {page}
-                  </button>
-                )}
-              </PaginationItem>
-            ))}
+                        }`}
+                      onClick={() => handlePageChange(page as number)}
+                    >
+                      {page}
+                    </button>
+                  )}
+                </PaginationItem>
+              ))}
 
-            {/* Next Button */}
-            <PaginationItem>
-              <button
-                className={`px-4 py-2 rounded-md transition-all ${
-                  currentPage === totalPages
+              {/* Next Button */}
+              <PaginationItem>
+                <button
+                  className={`px-4 py-2 rounded-md transition-all ${currentPage === totalPages
                     ? "opacity-50 cursor-not-allowed bg-gray-700 text-gray-400"
                     : "bg-gray-800 hover:bg-gray-600 text-white"
-                }`}
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Next
-              </button>
-            </PaginationItem>
-          </PaginationContent>
+                    }`}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
+              </PaginationItem>
+            </PaginationContent>
+            <PageSizeSelector
+              value={state.page_size}
+              onChange={(newSize) => setState({ page: 1, page_size: newSize })}
+            />
+          </>
         )}
       </Pagination>
     </div>

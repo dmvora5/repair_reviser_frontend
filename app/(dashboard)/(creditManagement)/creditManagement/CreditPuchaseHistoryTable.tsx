@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
 import { useGetCreditsQuery } from "@/redux/apis/creditsApi";
 import { PAGE_SIZE } from "@/constant";
 import ApiState from "@/components/ApiState";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from "@/components/ui/pagination";
+import PageSizeSelector from "@/components/PageSizeSelector";
 
 const CreditUsedHistoryTable = () => {
   const [state, setState] = useState<any>({
@@ -102,7 +102,8 @@ const CreditUsedHistoryTable = () => {
         </tbody>
       </table>
       <Pagination className="flex justify-center items-center mt-4">
-          {totalPages > 1 && (
+        {totalPages > 1 && (
+          <>
             <PaginationContent className="flex space-x-2 bg-[#1E1E2E] p-3 rounded-lg shadow-md">
               {/* Previous Button */}
               <PaginationItem>
@@ -151,8 +152,13 @@ const CreditUsedHistoryTable = () => {
                 </button>
               </PaginationItem>
             </PaginationContent>
-          )}
-        </Pagination>
+            <PageSizeSelector
+              value={state.page_size}
+              onChange={(newSize) => setState({ page: 1, page_size: newSize })}
+            />
+          </>
+        )}
+      </Pagination>
     </div>
   );
 };
