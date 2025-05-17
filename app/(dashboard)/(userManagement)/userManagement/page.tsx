@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Edit, PlusIcon, Trash2 } from "lucide-react";
+import { Edit, PlusIcon, Trash2, Undo2 } from "lucide-react";
 import React, { useState } from "react";
 import AddNewUserPopup from "./AddNewUserPopup";
 import { PAGE_SIZE } from "@/constant";
@@ -9,7 +9,6 @@ import { useAllComponyUsersListQuery } from "@/redux/apis/userManagementApis";
 import ApiState from "@/components/ApiState";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from "@/components/ui/pagination";
 import UpdateUserPopup from "./UpdateUserPopup";
-import CreatedSuccessfullyPopup from "../CreatedSuccessfullyPopup";
 import DeleteUserPopUp from "./DeleteUserPopUp";
 import SearchComponent from "@/components/SearchComponent";
 import PageSizeSelector from "@/components/PageSizeSelector";
@@ -122,9 +121,9 @@ const page = () => {
       </div>
       <div className="flex flex-col">
         <div className="w-full min-h-[50px] flex items-center gap-2 mb-4">
-          {/* <div className="bg-[#0C141C] border border-[#1B2231] h-[50px] rounded-[6px] flex items-center flex-1 px-4">
+          <div className="bg-[#0C141C] border border-[#1B2231] h-[50px] rounded-[6px] flex items-center flex-1 px-4">
             <SearchComponent searchState={handleSearch} />
-          </div> */}
+          </div>
           {/* <Button variant={"default"} onClick={handleSearch}>
                     <span className="text-[14px] font-medium leading-7">Filter</span>
                   </Button>
@@ -184,7 +183,8 @@ const page = () => {
                       <td className="min-w-fit">05/07/2024</td>
                       <td className="w-[92px] justify-center min-w-[92px] space-x-2">
                         <button onClick={deleteUserHadler.bind(null, ele)} className="text-[#DE3140] hover:text-red-400">
-                          <Trash2 className="w-[20px]" />
+                        {ele?.is_active ? <Trash2 className="w-[20px]" /> : <Undo2 /> }
+                          
                         </button>
                         <button onClick={editUserHadler.bind(null, ele)} className="text-[#62ee21] hover:text-green-400">
                           <Edit className="w-[20px]" />

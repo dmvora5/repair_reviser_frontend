@@ -62,7 +62,7 @@ const DeleteUserPopUp: React.FC<DeleteUserProps> = ({
                         Are You Sure?
                     </h2>
                     <span className="text -[#8F9DAC] font-normal text-[16px] leading-[20px] tracking-normal ">
-                        Please make sure you want to delete user.
+                        Please make sure you want to {user?.is_active ? "delete" : "restore"} user.
                     </span>
                 </div>
 
