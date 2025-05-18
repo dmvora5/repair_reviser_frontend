@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useGetPrivacyAndTermsQuery } from "@/redux/apis/usersApis";
+import ProcessLoader from "@/components/ProcessLoader";
 
 // Decode HTML safely
 const decodeHtml = (html: string): string => {
@@ -24,7 +25,11 @@ const Page = () => {
         Terms and conditions
       </h1>
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading &&
+        <div className="text-white flex justify-center items-center h-[80vh]">
+          <ProcessLoader />
+        </div>
+      }
       {typeof error === "object" && error !== null && (
         <p className="text-red-500">Failed to load FAQ data.</p>
       )}
