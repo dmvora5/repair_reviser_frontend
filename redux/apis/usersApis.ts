@@ -41,7 +41,13 @@ export const userApi = createApi({
                 method: "POST",
                 body: payload
             })
-        }),        
+        }),
+        getPrivacyAndTerms: build.query({
+            query: (payload: any) => ({
+                url: API_ROUTES.AUTH.PRIVACY,
+                method: "GET",
+            })
+        }),     
     })
 });
 
@@ -50,5 +56,6 @@ export const {
     useForgetPasswoordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
-    useContactUsUserMutation
+    useContactUsUserMutation,
+    useGetPrivacyAndTermsQuery
 } = userApi;

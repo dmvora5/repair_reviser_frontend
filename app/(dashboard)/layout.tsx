@@ -60,6 +60,16 @@ const MENU = {
       path: "/faqs",
       icon: <MessagesSquare size={18} />,
     },
+    {
+      name: "Privacy",
+      path: "/privacy",
+      icon: <MessagesSquare size={18} />,
+    },
+    {
+      name: "Terms & Conditions",
+      path: "/terms-condition",
+      icon: <MessagesSquare size={18} />,
+    },
   ],
   [ROLES.COMPANY_ADMIN]: [
     // {
@@ -98,6 +108,16 @@ const MENU = {
       path: "/faqs",
       icon: <MessagesSquare size={18} />,
     },
+    {
+      name: "Privacy",
+      path: "/privacy",
+      icon: <MessagesSquare size={18} />,
+    },
+    {
+      name: "Terms & Conditions",
+      path: "/terms-condition",
+      icon: <MessagesSquare size={18} />,
+    },
   ],
   [ROLES.USER]: [
     // {
@@ -128,6 +148,16 @@ const MENU = {
     {
       name: "FAQs",
       path: "/faqs",
+      icon: <MessagesSquare size={18} />,
+    },
+    {
+      name: "Privacy",
+      path: "/privacy",
+      icon: <MessagesSquare size={18} />,
+    },
+    {
+      name: "Terms & Conditions",
+      path: "/terms-condition",
       icon: <MessagesSquare size={18} />,
     },
   ],

@@ -31,7 +31,8 @@ export const API_ROUTES = {
         RESETPASSWORD: "user/password-reset/",
         LOGINCOMPANYUSER: "user/login-company-user/",
         CHANGEDPASSWORD: "user/change-password/",
-        CONTACTUS: "/user/contact-us/"
+        CONTACTUS: "/user/contact-us/",
+        PRIVACY: "/platform-admin/site-content/"
     },
     USERMANAGEMENT: {
         CREATECOMPANYUSER: "user/create-company-user/",
