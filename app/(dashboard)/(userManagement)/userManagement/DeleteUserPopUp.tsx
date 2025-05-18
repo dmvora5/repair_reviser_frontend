@@ -51,7 +51,7 @@ const DeleteUserPopUp: React.FC<DeleteUserProps> = ({
                 className="bg-[#060A0E] text-white px-[48px] py-[30px] rounded-[20px] w-[501px] min-w-[501px] modelGradientBorder"
             >
                 <ApiState isSuccess={isSuccess} error={error} reset={reset}>
-                    <ApiState.SuccessMessage message="uesr delete sucessfully!" />
+                    <ApiState.SuccessMessage message={`uesr ${user?.is_active ? "delete" : "restore"} sucessfully!`} />
                     <ApiState.SuccessCallback callback={onClose} />
                     <ApiState.Error />
                     <ApiState.ArthorizeCheck />
