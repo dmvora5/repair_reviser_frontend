@@ -252,7 +252,7 @@ const Page = () => {
                                           </td>
 
                                           {/* Checkbox Cell */}
-                                          {data?.status !== JOBSTATUS.COMPLETED &&
+                                          {/* {data?.status !== JOBSTATUS.COMPLETED && */}
                                             <td className="py-2 text-center">
                                               <input
                                                 type="checkbox"
@@ -263,7 +263,7 @@ const Page = () => {
                                                 className="accent-blue-500 w-4 h-4 cursor-pointer"
                                               />
                                             </td>
-                                          }
+                                          {/* } */}
                                         </tr>
                                       )
                                     )}
