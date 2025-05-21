@@ -50,8 +50,6 @@ const CheckoutForm = ({ clientSecret, onClose, open }: any) => {
         } as any
       );
 
-      console.log("paymentIntent", paymentIntent);
-
       if (error) {
         errorToast(error.message || "Payment failed");
       } else if (paymentIntent.status === "succeeded") {

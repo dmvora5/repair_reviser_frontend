@@ -41,7 +41,6 @@ const page = () => {
 
   const { data, isLoading, error, isSuccess, isFetching } = useAllComponyUsersListQuery(state);
 
-  console.log('data', data)
 
   const totalPages = Math.ceil((data?.count || 0) / state.page_size);
   const currentPage = state.page;

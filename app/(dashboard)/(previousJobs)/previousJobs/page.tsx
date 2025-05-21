@@ -69,8 +69,6 @@ const page = () => {
       refetchOnMountOrArgChange: true,
     });
 
-  console.log('data', data)
-
   const totalPages = Math.ceil((data?.count || 0) / state.limit);
   const currentPage = state.page;
 

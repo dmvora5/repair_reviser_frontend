@@ -51,7 +51,6 @@ const AddNewUserPopup: React.FC<AddNewUserPopupProps> = ({
 
   const [submit, { isLoading, error, isSuccess, status, reset }] =
     useCreateCompanyUserMutation();
-  console.log({ isLoading, error, isSuccess, status });
 
   const modalRef = useRef<HTMLDivElement>(null);
 

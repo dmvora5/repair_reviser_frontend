@@ -41,8 +41,6 @@ const Page = () => {
     }
   );
 
-  console.log('data', data)
-
   const [updateRepaireCost, { isLoading: isUpdateRepaireCostLoading }] =
     useUpdateRepaireCostMutation();
 

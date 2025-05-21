@@ -37,8 +37,6 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [createCredits, { isLoading, error, isSuccess }] = useCretaCreditsMutation();
   const { data, isLoading: isPriceLoading, error: priceError } = useGetCreditPriceQuery({})
-
-  console.log('price', data)
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Close modal when clicking outside of it
@@ -61,7 +59,6 @@ const AddCreditsPopup: React.FC<AddCreditsPopupProps> = ({
     const creditAmount = parseFloat(values.credit_amount.toString());
     try {
       const response = await createCredits({ credit_amount: creditAmount }).unwrap();
-      console.log("🚀 ~ handleAddCredits ~ response:", response)
       if (response.client_secret) {
         setClientSecret(response.client_secret);
       } else {

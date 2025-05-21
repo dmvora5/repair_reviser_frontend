@@ -42,8 +42,7 @@ export const userManagementApis = createApi({
             invalidatesTags: ["UserManagement"]
         }),
         changedPassword: build.mutation({
-            query: (payload: any) => (console.log('payload :>> ', payload)
-                , {
+            query: (payload: any) => ({
                 url: API_ROUTES.AUTH.CHANGEDPASSWORD,
                 method: "POST",
                 body: payload

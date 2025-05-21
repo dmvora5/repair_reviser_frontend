@@ -40,7 +40,6 @@ const IndivisualFormLogin = () => {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
         setLoading(true)
         try {
             const res: any = await signIn('credentials', {

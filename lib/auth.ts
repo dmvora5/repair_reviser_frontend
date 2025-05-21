@@ -53,8 +53,6 @@ export const authOptions: AuthOptions = {
 
                     const data = await res.json();
 
-                    console.log('data', data)
-                    console.log('res.status', res.status)
 
 
                     if (![200, 201].includes(res.status)) {

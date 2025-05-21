@@ -13,7 +13,6 @@ export const baseQueryWithAuth = async (args: any, api: any, extraOptions: any) 
     // Get the session on the client-side
     const session: any = await getSession();
     let authorizationToken = session?.access_token || '';
-    console.log('authorizationToken', authorizationToken)
     // If session is not available on client-side, try server-side session
     if (!authorizationToken) {
         try{

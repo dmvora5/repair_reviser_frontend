@@ -25,7 +25,6 @@ const page = () => {
   const sessions: any = useSession()
   const router = useRouter()
 
-  console.log('sessions', sessions)
 
   useEffect(() => {
     if (!sessions?.data) return;

@@ -176,8 +176,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
   const sessions: any = useSession();
 
-  console.log("sessions", sessions);
-
   const menus = MENU[(sessions?.data as any)?.role || ROLES.USER];
 
   const menuItems2: {

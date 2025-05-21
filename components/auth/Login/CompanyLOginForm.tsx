@@ -40,7 +40,6 @@ const CompanyLoginForm = () => {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
         setLoading(true)
         try {
             const res: any = await signIn('credentials', {
@@ -56,7 +55,6 @@ const CompanyLoginForm = () => {
 
             if (res && res.ok) {
                 const session: any = await getSession();
-                console.log('session', session)
                 sucessToast("Login sussfully!");
                 if (session?.access_token) {
                     if (session?.role === ROLES.USER) {

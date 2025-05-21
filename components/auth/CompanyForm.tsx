@@ -46,8 +46,6 @@ const CompanyForm = () => {
         },
     })
 
-    console.log('form', form)
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
         await submit({
             email: values.email,

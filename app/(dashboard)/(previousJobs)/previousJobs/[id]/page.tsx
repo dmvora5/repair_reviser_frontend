@@ -22,7 +22,6 @@ const Page = () => {
     skip: !params.id, // Don't fetch until job ID is set
   });
 
-  console.log('JobDetailsData', JobDetailsData)
 
   const handleViewReport = () => {
     router.push(`${PAGE_ROUTES.JOBS.AMENDSREAD}${params?.id}`);
