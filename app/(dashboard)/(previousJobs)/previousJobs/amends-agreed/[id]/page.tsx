@@ -135,7 +135,7 @@ const Page = () => {
         </div>
       </div>
 
-      {isLoading || isFetching ? (
+      {(isLoading || isFetching || isAmendsDataLoading || isGeneralDataLoading) ? (
         <div className="text-white flex justify-center items-center h-[80vh]">
           <ProcessLoader />
         </div>
