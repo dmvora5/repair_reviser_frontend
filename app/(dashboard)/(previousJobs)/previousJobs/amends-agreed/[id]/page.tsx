@@ -597,7 +597,7 @@ const Page = () => {
                 </span>
               </Button>
             </div> */}
-            {data?.status !== JOBSTATUS.COMPLETED &&
+            {/* {data?.status !== JOBSTATUS.COMPLETED && */}
               <div className="flex items-center justify-end mt-8 w-full gap-6">
                 <Input
                   type="number"
@@ -622,7 +622,7 @@ const Page = () => {
                   </span>
                 </Button>
               </div>
-            }
+            {/* } */}
           </div>
         </div>
       )}

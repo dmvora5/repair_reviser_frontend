@@ -18,7 +18,9 @@ export const PAGE_ROUTES = {
         JOBDETAILS: "/previousJobs/",
         AMENDSREAD: "/previousJobs/amends-agreed/"
     },
-    FAQ: "/faqs"
+    FAQ: "/faqs",
+    POLICY: "/privacy",
+    TEARMS: "/terms-condition"
 }
 
 

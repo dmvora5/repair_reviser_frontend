@@ -520,14 +520,14 @@ export default function Home() {
           className="max-w-6xl mx-auto px-6 mt-8 flex flex-col md:flex-row justify-between text-gray-400 text-sm "
           style={{ paddingBottom: "50px" }}
         >
-          <p>© 2025 EstimateXpert by XYZ. All rights reserved.</p>
+          <p>© 2025 EstimateXpert by Repair Reviser. All rights reserved.</p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-white">
+            <Link href={PAGE_ROUTES.POLICY} className="hover:text-white">
               Privacy Policy
-            </a>
-            <a href="#" className="hover:text-white">
+            </Link>
+            <Link href={PAGE_ROUTES.TEARMS} className="hover:text-white">
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </footer>

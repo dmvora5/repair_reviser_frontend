@@ -41,7 +41,7 @@ const STATUS: any = {
     color: "!text-[#4AE257]",
   },
   [JOBSTATUS.COMPLETED]: {
-    text: "COMPLETED",
+    text: "RE-COMPLETED",
     color: "!text-blue-500"
   }
 
