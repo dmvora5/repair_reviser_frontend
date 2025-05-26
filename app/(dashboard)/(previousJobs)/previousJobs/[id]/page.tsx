@@ -23,6 +23,7 @@ const Page = () => {
   });
 
 
+
   const handleViewReport = () => {
     router.push(`${PAGE_ROUTES.JOBS.AMENDSREAD}${params?.id}`);
   };
@@ -73,7 +74,7 @@ const Page = () => {
               ) : JobDetailsData?.repaire_cost != null ? (
                 `£${JobDetailsData.repaire_cost}`
               ) : (
-                "£5176.29"
+                "£0"
               )}
             </div>
           </div>
