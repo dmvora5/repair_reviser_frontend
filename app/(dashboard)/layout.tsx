@@ -135,11 +135,11 @@ const MENU = {
       path: "/previousJobs",
       icon: <History size={18} />,
     },
-    {
-      name: "Credit Management",
-      path: "/creditManagement",
-      icon: <CreditCard size={18} />,
-    },
+    // {
+    //   name: "Credit Management",
+    //   path: "/creditManagement",
+    //   icon: <CreditCard size={18} />,
+    // },
     {
       name: "Change Password",
       path: "/changePassword",
@@ -176,7 +176,23 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
   const sessions: any = useSession();
 
-  const menus = MENU[(sessions?.data as any)?.role || ROLES.USER];
+  const menus = (sessions?.data as any)?.role ? MENU[(sessions?.data as any)?.role || ROLES.USER] : [
+    {
+      name: "FAQs",
+      path: "/faqs",
+      icon: <MessagesSquare size={18} />,
+    },
+    {
+      name: "Privacy",
+      path: "/privacy",
+      icon: <MessagesSquare size={18} />,
+    },
+    {
+      name: "Terms & Conditions",
+      path: "/terms-condition",
+      icon: <MessagesSquare size={18} />,
+    },
+  ];
 
   const menuItems2: {
     name: string;
@@ -184,17 +200,17 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     path?: string;
     onClick?: () => void;
   }[] = [
-    {
-      name: "Help Center",
-      path: "/helpCenter",
-      icon: <HelpCircle size={18} />,
-    },
-    {
-      name: "Log Out",
-      onClick: () => setIsLogoutOpen(true), // Open popup when clicked
-      icon: <LogOut size={18} />,
-    },
-  ];
+      {
+        name: "Help Center",
+        path: "/helpCenter",
+        icon: <HelpCircle size={18} />,
+      },
+      {
+        name: "Log Out",
+        onClick: () => setIsLogoutOpen(true), // Open popup when clicked
+        icon: <LogOut size={18} />,
+      },
+    ];
 
   return (
     <div className="p-6 bg-black min-h-screen flex flex-row overflow-hidden">
@@ -213,11 +229,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <li key={item.path}>
               <Link
                 href={item.path}
-                className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${
-                  pathname === item.path
-                    ? "bg-[#DE3140] text-white"
-                    : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
-                }`}
+                className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${pathname === item.path
+                  ? "bg-[#DE3140] text-white"
+                  : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
+                  }`}
               >
                 {item.icon} {item.name}
               </Link>
@@ -225,31 +240,33 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           ))}
         </ul>
 
-        <ul className="space-y-3 overflow-y-auto flex flex-col flex-grow scrollbar-hide">
-          {menuItems2.map((item) => (
-            <li key={item.name}>
-              {item.path ? (
-                <Link
-                  href={item.path}
-                  className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${
-                    pathname === item.path
+        {(sessions?.data as any)?.role &&
+
+          <ul className="space-y-3 overflow-y-auto flex flex-col flex-grow scrollbar-hide">
+            {menuItems2.map((item) => (
+              <li key={item.name}>
+                {item.path ? (
+                  <Link
+                    href={item.path}
+                    className={`flex min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 ${pathname === item.path
                       ? "bg-[#DE3140] text-white"
                       : "text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
-                  }`}
-                >
-                  {item.icon} {item.name}
-                </Link>
-              ) : (
-                <button
-                  onClick={item.onClick}
-                  className="flex w-full min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
-                >
-                  {item.icon} {item.name}
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
+                      }`}
+                  >
+                    {item.icon} {item.name}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={item.onClick}
+                    className="flex w-full min-h-[48px] px-3 rounded-[5px] items-center gap-3 font-medium text-[14px] leading-5 text-[#8F9DAC] hover:bg-[#DE3140] hover:text-white"
+                  >
+                    {item.icon} {item.name}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        }
       </aside>
 
       {/* Main Content */}
@@ -286,80 +303,84 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       {/* Right Sidebar */}
       <aside className="w-[351px] min-w-[351px] bg-[#0B1219] rounded-2xl p-4 flex flex-col overflow-y-auto scrollbar-hide max-h-[calc(100vh-48px)]">
         {/* User Info */}
-        <div className="bg-[#060A0E] flex items-center gap-4 p-4 rounded-xl mb-6">
-          {/* <Image
+        {(sessions?.data as any)?.role &&
+          <>
+            <div className="bg-[#060A0E] flex items-center gap-4 p-4 rounded-xl mb-6">
+              {/* <Image
             src="/uesrIcon.svg"
             width={48}
             height={48}
             className="min-w-[48px]"
             alt="User"
           /> */}
-          <div className="flex flex-col">
-            <span className="font-medium text-[22px] mb-1.5 leading-[29px] text-white">
-              {sessions?.data?.user?.username}
-            </span>
-            <span className="text-[#8F9DAC] font-normal text-[14px] leading-[18px]">
-              {sessions?.data?.user?.email}
-            </span>
-          </div>
-        </div>
-
-        {/* Summary Section */}
-        <p className="leading-[23px] text-[18px] font-medium text-white mb-6">
-          Overall Summary
-        </p>
-
-        {/* Available Credits */}
-        <div className="relative p-4 bg-[#060A0E] rounded-xl borderGradient mb-4">
-          <div className="flex items-start gap-4 mb-[31px]">
-            <Image
-              src="/CreditsIcon.svg"
-              width={48}
-              height={48}
-              className="min-w-[48px]"
-              alt="Credits"
-            />
-            <div className="flex flex-col">
-              <span className="text-[#8F9DAC] font-medium text-[16px] leading-[21px]">
-                Available Credits
-              </span>
-              <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
-                {isLoading || isFetching
-                  ? "fetching..."
-                  : data?.credits?.toLocaleString()}
-              </span>
+              <div className="flex flex-col">
+                <span className="font-medium text-[22px] mb-1.5 leading-[29px] text-white">
+                  {sessions?.data?.user?.username}
+                </span>
+                <span className="text-[#8F9DAC] font-normal text-[14px] leading-[18px]">
+                  {sessions?.data?.user?.email}
+                </span>
+              </div>
             </div>
-          </div>
-          <Button variant="outline" className="w-full">
-            <Link href={PAGE_ROUTES.CREDIT.CREDITMANAGEMENT}>
-              Add More Credits
-            </Link>
-          </Button>
-        </div>
 
-        {/* Total Jobs */}
-        <div className="relative p-4 bg-[#060A0E] rounded-xl borderGradient">
-          <div className="flex items-start gap-4">
-            <Image
-              src="/fileIcon.svg"
-              width={48}
-              height={48}
-              className="min-w-[48px]"
-              alt="Jobs"
-            />
-            <div className="flex flex-col">
-              <span className="text-[#8F9DAC] font-medium text-[16px] leading-[21px]">
-                Total Jobs
-              </span>
-              <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
-                {/* 1,210 */}
-                {isJobsLoading || isJobsFetching
-                  ? "fetching..."
-                  : jobs?.total_jobs}
-              </span>
+            {/* Summary Section */}
+            <p className="leading-[23px] text-[18px] font-medium text-white mb-6">
+              Overall Summary
+            </p>
+
+            {/* Available Credits */}
+            <div className="relative p-4 bg-[#060A0E] rounded-xl borderGradient mb-4">
+              <div className="flex items-start gap-4 mb-[31px]">
+                <Image
+                  src="/CreditsIcon.svg"
+                  width={48}
+                  height={48}
+                  className="min-w-[48px]"
+                  alt="Credits"
+                />
+                <div className="flex flex-col">
+                  <span className="text-[#8F9DAC] font-medium text-[16px] leading-[21px]">
+                    Available Credits
+                  </span>
+                  <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
+                    {isLoading || isFetching
+                      ? "fetching..."
+                      : data?.credits?.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full">
+                <Link href={PAGE_ROUTES.CREDIT.CREDITMANAGEMENT}>
+                  Add More Credits
+                </Link>
+              </Button>
             </div>
-          </div>
-        </div>
+
+            {/* Total Jobs */}
+            <div className="relative p-4 bg-[#060A0E] rounded-xl borderGradient">
+              <div className="flex items-start gap-4">
+                <Image
+                  src="/fileIcon.svg"
+                  width={48}
+                  height={48}
+                  className="min-w-[48px]"
+                  alt="Jobs"
+                />
+                <div className="flex flex-col">
+                  <span className="text-[#8F9DAC] font-medium text-[16px] leading-[21px]">
+                    Total Jobs
+                  </span>
+                  <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
+                    {/* 1,210 */}
+                    {isJobsLoading || isJobsFetching
+                      ? "fetching..."
+                      : jobs?.total_jobs}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </>
+        }
       </aside>
       {isLogoutOpen && (
         <LogOutPopup
