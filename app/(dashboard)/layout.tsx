@@ -270,7 +270,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-y-auto h-full scrollbar-hide max-h-[calc(100vh-48px)]">
+      <main className="flex-1 flex flex-col overflow-y-auto h-full max-h-[calc(100vh-48px)]">
         <div className="flex flex-col px-6 w-full flex-1">
           {/* Search Bar & Notifications */}
           {/* <div className="w-full min-h-[50px] flex items-center gap-6 mb-8">

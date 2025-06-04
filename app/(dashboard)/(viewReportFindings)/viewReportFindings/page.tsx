@@ -55,7 +55,7 @@ const Page = () => {
           </span>
           <div className="flex flex-row justify-between">
             <h1 className="font-medium text-[32px] flex-1 leading-[130%] tracking-normal min-w-max text-white">
-            Amends agreed
+            Agreeing amends
             </h1>
             <Button
               variant="outline"

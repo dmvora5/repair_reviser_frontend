@@ -30,28 +30,36 @@ export const jobsApis = createApi({
         }),
         getTotalJobs: build.query({
             query: () => ({
-              url: API_ROUTES.JOBS.TOTALJOBS,
-              method: "GET",
+                url: API_ROUTES.JOBS.TOTALJOBS,
+                method: "GET",
             }),
             providesTags: ["Jobs"],
         }),
         JobDetails: build.query({
-          query: (payload: any) => ({
-            url: `${API_ROUTES.JOBS.JOBDETAILS}${payload}`,
-            method: "GET",
-          }),
-          providesTags: ["Jobs"],
+            query: (payload: any) => ({
+                url: `${API_ROUTES.JOBS.JOBDETAILS}${payload}`,
+                method: "GET",
+            }),
+            providesTags: ["Jobs"],
         }),
         GetAmends: build.query({
-          query: (payload: any) => ({
-            url: `${API_ROUTES.JOBS.AMENDSREAD}${payload}`,
-            method: "GET",
-          }),
-          providesTags: ["Jobs"],
+            query: (payload: any) => ({
+                url: `${API_ROUTES.JOBS.AMENDSREAD}${payload}`,
+                method: "GET",
+            }),
+            providesTags: ["Jobs"],
         }),
         updateAmends: build.mutation({
             query: (payload: any) => ({
                 url: API_ROUTES.JOBS.AMENDSUPDATE + payload?.id + "/",
+                method: "PATCH",
+                body: payload
+            }),
+            invalidatesTags: ["Jobs"]
+        }),
+        updateBulkAmends: build.mutation({
+            query: (payload: any) => ({
+                url: API_ROUTES.JOBS.AMANDBULKUPDATE,
                 method: "PATCH",
                 body: payload
             }),
@@ -85,5 +93,6 @@ export const {
     useGetAmendsQuery,
     useUpdateAmendsMutation,
     useUpdateGeneralSuggestionsMutation,
-    useUpdateRepaireCostMutation
+    useUpdateRepaireCostMutation,
+    useUpdateBulkAmendsMutation
 } = jobsApis

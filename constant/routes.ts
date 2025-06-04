@@ -52,6 +52,7 @@ export const API_ROUTES = {
         AMENDSUPDATE: "/report/amends/agree/",
         UPDATEGENERALSUGGESTION: "/report/general-suggestion/",
         UPDATEREPAIRECOST: "/report/update-repair-cost/",
+        AMANDBULKUPDATE: "/report/bulk-amends/agree-disagree/"
     },
     CREDITS: {
         CREATECREDITS: "payment/enter-credits-amount/",

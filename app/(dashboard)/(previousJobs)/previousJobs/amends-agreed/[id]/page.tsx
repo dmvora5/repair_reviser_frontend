@@ -2,11 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { ChevronsLeft, ChevronDown, ChevronUp } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   useGetAmendsQuery,
   useUpdateAmendsMutation,
+  useUpdateBulkAmendsMutation,
   useUpdateGeneralSuggestionsMutation,
   useUpdateRepaireCostMutation,
 } from "@/redux/apis/jobsApi";
@@ -25,13 +26,20 @@ import { useDispatch } from "react-redux";
 const Page = () => {
   const router = useRouter();
   const params = useParams();
-  const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
+  const [expandedRowId, setExpandedRowId] = useState<any>(null);
   const [repaireCost, setRepaireCost] = useState("");
+  const [copyData, setCopyData] = useState<any>({});
+  const [checkedIds, setCheckedId] = useState<any[]>([]);
+  const [genrelCheckedId, setGenralCheckedId] = useState<any[]>([]);
+
 
   const dispatch = useDispatch()
 
-  const toggleRow = (index: number) => {
-    setExpandedRowId((prev) => (prev === index ? null : index));
+  const getKey = (item: any) => `${item?.description}-${item?.number}`
+
+  const toggleRow = (item: any) => {
+    const key = getKey(item);
+    setExpandedRowId((prev: any) => (prev === key ? null : key));
   };
 
   const { data, isLoading, error, isSuccess, isFetching } = useGetAmendsQuery(
@@ -40,6 +48,13 @@ const Page = () => {
       skip: !params.id, // Don't fetch until job ID is set
     }
   );
+
+
+
+  useEffect(() => {
+    if (!data) return;
+    setCopyData(JSON.parse(JSON.stringify(data)))
+  }, [data])
 
   const [updateRepaireCost, { isLoading: isUpdateRepaireCostLoading }] =
     useUpdateRepaireCostMutation();
@@ -52,6 +67,17 @@ const Page = () => {
       isSuccess: isAmendsDataSuccess,
     },
   ] = useUpdateAmendsMutation();
+
+  const [
+    bulkSubmit,
+    {
+      isLoading: isBulkAmendsDataLoading,
+      error: isBulkAmendsDataError,
+      isSuccess: isBulkAmendsDataSuccess,
+    },
+  ] = useUpdateBulkAmendsMutation();
+
+
 
   const [
     submitGeneralSuggestions,
@@ -76,16 +102,50 @@ const Page = () => {
     }
   };
 
-  const handleAgreeToggle = async (sub: { id: number; agree: boolean }) => {
+  const handleAgreeToggle = async (e: any, sub: { id: number; agree: boolean }, name: string, index: number, subIndex: number) => {
     try {
-      await submit({
-        id: sub.id,
-        agree: !sub.agree,
-      }).unwrap();
+      console.log('e', e?.target?.checked)
+      const state = { ...copyData };
+      if (name !== "general_suggestions") {
+        state[name][index].subs[subIndex].agree = e?.target?.checked;
+        if (e?.target?.checked) {
+          setCheckedId(prev => [...new Set([...prev, sub?.id])])
+        } else {
+          setCheckedId(prev => prev.filter(ele => ele !== sub?.id))
+        }
+      } else {
+        state.general_suggestions[index].agree = e?.target?.checked;
+        if (e?.target?.checked) {
+          setGenralCheckedId(prev => [...new Set([...prev, sub?.id])])
+        } else {
+          setGenralCheckedId(prev => prev.filter(ele => ele !== sub?.id))
+        }
+      }
+
+      setCopyData(state);
+
+      // await submit({
+      //   id: sub.id,
+      //   agree: !sub.agree,
+      // }).unwrap();
     } catch (error) {
-      console.error("Failed to update amend agree:", error);
+      console.log("Failed to update amend agree:", error);
     }
   };
+
+  console.log('checkedIds', checkedIds)
+
+  const handleSave = async () => {
+    try {
+
+      await bulkSubmit({
+        accepted_ids: checkedIds,
+        general_suggestion_accepted_ids: genrelCheckedId
+      })
+    } catch (err: any) {
+      console.log('err', err)
+    }
+  }
 
   const handleUpdate = async () => {
     if (!repaireCost || isNaN(Number(repaireCost))) {
@@ -109,6 +169,10 @@ const Page = () => {
 
   return (
     <div className="relative flex flex-col flex-1">
+      <ApiState isSuccess={isBulkAmendsDataSuccess} error={isBulkAmendsDataError}>
+        <ApiState.ArthorizeCheck />
+        <ApiState.SuccessCallback callback={() => setCheckedId([])} />
+      </ApiState>
       <div className="flex items-center mb-3">
         <div className="flex flex-col flex-1">
           <span
@@ -120,20 +184,36 @@ const Page = () => {
               Back
             </span>
           </span>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row gap-2 justify-between">
             <h1 className="font-medium text-[32px] flex-1 leading-[130%] tracking-normal min-w-max text-white">
-              Amends agreed
+              Agreeing amends
             </h1>
             <Button variant="outline" className="h-[42px] px-6">
               <Link href={PAGE_ROUTES.FAQ}>
                 Required FAQs
               </Link>
             </Button>
+            <Button
+              variant={"default"}
+              onClick={handleSave}
+              disabled={isBulkAmendsDataLoading}
+            >
+              <span className="text-[14px] font-medium leading-7">
+                {isBulkAmendsDataLoading ?
+                  <Image
+                    src="/images/loader.svg"
+                    alt="loader"
+                    width={24}
+                    height={24}
+                    className="ml-2 animate-spin"
+                  /> : "Agree Amends"}
+              </span>
+            </Button>
           </div>
         </div>
       </div>
 
-      {(isLoading || isFetching || isAmendsDataLoading || isGeneralDataLoading) ? (
+      {(isLoading || isFetching || isAmendsDataLoading || isGeneralDataLoading || isBulkAmendsDataLoading) ? (
         <div className="text-white flex justify-center items-center h-[80vh]">
           <ProcessLoader />
         </div>
@@ -143,7 +223,7 @@ const Page = () => {
             <span className="text-white text-[18px] font-medium leading-[130%] mb-4 flex capitalize">
               Labour Category
             </span>
-            {data?.labour?.length > 0 && (
+            {copyData?.labour?.length > 0 && (
               <table className="w-full border-collapse text-white mb-8">
                 <thead>
                   <tr className="space-x-1 flex">
@@ -165,7 +245,7 @@ const Page = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.labour?.map((labourItem: any, index: number) => (
+                  {copyData?.labour?.map((labourItem: any, index: number) => (
                     <React.Fragment key={index}>
                       {/* Main Row */}
                       <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
@@ -189,8 +269,8 @@ const Page = () => {
 
                         {/* Accordion Icon */}
                         <td className="w-[107px] justify-center min-w-[107px] space-x-2 text-center cursor-pointer">
-                          <button onClick={() => toggleRow(index)}>
-                            {expandedRowId === index ? (
+                          <button onClick={() => toggleRow(labourItem)}>
+                            {expandedRowId === getKey(labourItem) ? (
                               <ChevronUp className="w-4 h-4 text-white" />
                             ) : (
                               <ChevronDown className="w-4 h-4 text-white" />
@@ -200,7 +280,7 @@ const Page = () => {
                       </tr>
 
                       {/* Sub row for subs (Amends) */}
-                      {expandedRowId === index &&
+                      {expandedRowId === getKey(labourItem) &&
                         labourItem.subs?.length > 0 && (
                           <tr className="w-full">
                             <td colSpan={5}>
@@ -251,16 +331,16 @@ const Page = () => {
 
                                           {/* Checkbox Cell */}
                                           {/* {data?.status !== JOBSTATUS.COMPLETED && */}
-                                            <td className="py-2 text-center">
-                                              <input
-                                                type="checkbox"
-                                                checked={sub.agree}
-                                                onChange={() =>
-                                                  handleAgreeToggle(sub)
-                                                }
-                                                className="accent-blue-500 w-4 h-4 cursor-pointer"
-                                              />
-                                            </td>
+                                          <td className="py-2 text-center">
+                                            <input
+                                              type="checkbox"
+                                              checked={sub.agree}
+                                              onChange={(e) =>
+                                                handleAgreeToggle(e, sub, "labour", index, subIndex)
+                                              }
+                                              className="accent-blue-500 w-4 h-4 cursor-pointer"
+                                            />
+                                          </td>
                                           {/* } */}
                                         </tr>
                                       )
@@ -280,7 +360,7 @@ const Page = () => {
             <span className="text-white text-[18px] font-medium leading-[130%] mb-4 flex capitalize">
               Paint Category
             </span>
-            {data?.paint?.length > 0 && (
+            {copyData?.paint?.length > 0 && (
               <table className="w-full border-collapse text-white mb-8">
                 <thead>
                   <tr className="space-x-1 flex">
@@ -302,7 +382,7 @@ const Page = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.paint?.map((paintItem: any, index: number) => (
+                  {copyData?.paint?.map((paintItem: any, index: number) => (
                     <React.Fragment key={index}>
                       {/* Main Row */}
                       <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
@@ -326,8 +406,8 @@ const Page = () => {
 
                         {/* Accordion Icon */}
                         <td className="w-[107px] justify-center min-w-[107px] space-x-2 text-center cursor-pointer">
-                          <button onClick={() => toggleRow(index)}>
-                            {expandedRowId === index ? (
+                          <button onClick={() => toggleRow(paintItem)}>
+                            {expandedRowId === getKey(paintItem) ? (
                               <ChevronUp className="w-4 h-4 text-white" />
                             ) : (
                               <ChevronDown className="w-4 h-4 text-white" />
@@ -337,7 +417,7 @@ const Page = () => {
                       </tr>
 
                       {/* Sub row for subs (Amends) */}
-                      {expandedRowId === index &&
+                      {expandedRowId === getKey(paintItem) &&
                         paintItem.subs?.length > 0 && (
                           <tr className="w-full">
                             <td colSpan={5}>
@@ -389,8 +469,8 @@ const Page = () => {
                                             <input
                                               type="checkbox"
                                               checked={sub.agree}
-                                              onChange={() =>
-                                                handleAgreeToggle(sub)
+                                              onChange={(e) =>
+                                                handleAgreeToggle(e, sub, "paint", index, subIndex)
                                               }
                                               className="accent-blue-500 w-4 h-4 cursor-pointer"
                                             />
@@ -413,7 +493,7 @@ const Page = () => {
             <span className="text-white text-[18px] font-medium leading-[130%] mb-4 flex capitalize">
               Parts Category
             </span>
-            {data?.part?.length > 0 && (
+            {copyData?.part?.length > 0 && (
               <table className="w-full border-collapse text-white mb-8">
                 <thead>
                   <tr className="space-x-1 flex">
@@ -435,7 +515,7 @@ const Page = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.part?.map((partItem: any, index: number) => (
+                  {copyData?.part?.map((partItem: any, index: number) => (
                     <React.Fragment key={index}>
                       {/* Main Row */}
                       <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
@@ -459,8 +539,8 @@ const Page = () => {
 
                         {/* Accordion Icon */}
                         <td className="w-[107px] justify-center min-w-[107px] space-x-2 text-center cursor-pointer">
-                          <button onClick={() => toggleRow(index)}>
-                            {expandedRowId === index ? (
+                          <button onClick={() => toggleRow(partItem)}>
+                            {expandedRowId === getKey(partItem) ? (
                               <ChevronUp className="w-4 h-4 text-white" />
                             ) : (
                               <ChevronDown className="w-4 h-4 text-white" />
@@ -470,7 +550,7 @@ const Page = () => {
                       </tr>
 
                       {/* Sub row for subs (Amends) */}
-                      {expandedRowId === index && partItem.subs?.length > 0 && (
+                      {expandedRowId === getKey(partItem) && partItem.subs?.length > 0 && (
                         <tr className="w-full">
                           <td colSpan={5}>
                             <div className="bg-[#1B2738] rounded-md p-4 ml-4">
@@ -517,8 +597,8 @@ const Page = () => {
                                           <input
                                             type="checkbox"
                                             checked={sub.agree}
-                                            onChange={() =>
-                                              handleAgreeToggle(sub)
+                                            onChange={(e) =>
+                                              handleAgreeToggle(e, sub, "part", index, subIndex)
                                             }
                                             className="accent-blue-500 w-4 h-4 cursor-pointer"
                                           />
@@ -541,7 +621,7 @@ const Page = () => {
             <span className="text-white text-[18px] font-medium leading-[130%] mb-4 flex capitalize">
               General Suggestions
             </span>
-            {data?.general_suggestions?.length > 0 && (
+            {copyData?.general_suggestions?.length > 0 && (
               <table className="w-full border-collapse text-white">
                 <thead>
                   <tr className="space-x-1 flex">
@@ -554,12 +634,12 @@ const Page = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.general_suggestions.map(
+                  {copyData.general_suggestions.map(
                     (suggestion: {
                       id: number;
                       suggestion: string;
                       agree: boolean;
-                    }) => (
+                    }, index: number) => (
                       <tr
                         key={suggestion.id}
                         className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
@@ -571,8 +651,8 @@ const Page = () => {
                           <input
                             type="checkbox"
                             checked={suggestion.agree}
-                            onChange={() =>
-                              handleGeneralAgreeToggle(suggestion)
+                            onChange={(e) =>
+                              handleAgreeToggle(e, suggestion, "general_suggestions", index, 0)
                             }
                             className="accent-blue-500 w-4 h-4 cursor-pointer"
                           />
@@ -596,30 +676,30 @@ const Page = () => {
               </Button>
             </div> */}
             {/* {data?.status !== JOBSTATUS.COMPLETED && */}
-              <div className="flex items-center justify-end mt-8 w-full gap-6">
-                <Input
-                  type="number"
-                  value={repaireCost}
-                  onChange={(e) => setRepaireCost(e.target.value)}
-                  placeholder="Please enter amended repair cost"
-                />
-                <Button
-                  variant={"default"}
-                  onClick={handleUpdate}
-                  disabled={isUpdateRepaireCostLoading}
-                >
-                  <span className="text-[14px] font-medium leading-7">
-                    {isUpdateRepaireCostLoading ?
-                      <Image
-                        src="/images/loader.svg"
-                        alt="loader"
-                        width={24}
-                        height={24}
-                        className="ml-2 animate-spin"
-                      /> : "Complete Job"}
-                  </span>
-                </Button>
-              </div>
+            <div className="flex items-center justify-end mt-8 w-full gap-6">
+              <Input
+                type="number"
+                value={repaireCost}
+                onChange={(e) => setRepaireCost(e.target.value)}
+                placeholder="Please enter amended repair cost"
+              />
+              <Button
+                variant={"default"}
+                onClick={handleUpdate}
+                disabled={isUpdateRepaireCostLoading}
+              >
+                <span className="text-[14px] font-medium leading-7">
+                  {isUpdateRepaireCostLoading ?
+                    <Image
+                      src="/images/loader.svg"
+                      alt="loader"
+                      width={24}
+                      height={24}
+                      className="ml-2 animate-spin"
+                    /> : "Confirm amends"}
+                </span>
+              </Button>
+            </div>
             {/* } */}
           </div>
         </div>
