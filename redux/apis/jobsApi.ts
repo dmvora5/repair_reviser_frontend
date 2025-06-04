@@ -49,6 +49,13 @@ export const jobsApis = createApi({
             }),
             providesTags: ["Jobs"],
         }),
+        ViewAmends: build.query({
+            query: (payload: any) => ({
+                url: `${API_ROUTES.JOBS.VIEWAGGREDAMANDS}${payload}?agree=true`,
+                method: "GET",
+            }),
+            providesTags: ["Jobs"],
+        }),
         updateAmends: build.mutation({
             query: (payload: any) => ({
                 url: API_ROUTES.JOBS.AMENDSUPDATE + payload?.id + "/",
@@ -94,5 +101,6 @@ export const {
     useUpdateAmendsMutation,
     useUpdateGeneralSuggestionsMutation,
     useUpdateRepaireCostMutation,
-    useUpdateBulkAmendsMutation
+    useUpdateBulkAmendsMutation,
+    useViewAmendsQuery
 } = jobsApis

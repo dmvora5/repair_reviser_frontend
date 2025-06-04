@@ -16,7 +16,8 @@ export const PAGE_ROUTES = {
     JOBS: {
         NEWJOBS: "/newJobs",
         JOBDETAILS: "/previousJobs/",
-        AMENDSREAD: "/previousJobs/amends-agreed/"
+        AMENDSREAD: "/previousJobs/amends-agreed/",
+        VIEWAGGRED: "/previousJobs/amends-agreed/view-aggreed/"
     },
     FAQ: "/faqs",
     POLICY: "/privacy",
@@ -52,7 +53,8 @@ export const API_ROUTES = {
         AMENDSUPDATE: "/report/amends/agree/",
         UPDATEGENERALSUGGESTION: "/report/general-suggestion/",
         UPDATEREPAIRECOST: "/report/update-repair-cost/",
-        AMANDBULKUPDATE: "/report/bulk-amends/agree-disagree/"
+        AMANDBULKUPDATE: "/report/bulk-amends/agree-disagree/",
+        VIEWAGGREDAMANDS: "/report/amends-agreed/"
     },
     CREDITS: {
         CREATECREDITS: "payment/enter-credits-amount/",
