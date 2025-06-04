@@ -133,8 +133,6 @@ const Page = () => {
     }
   };
 
-  console.log('checkedIds', checkedIds)
-
   const handleSave = async () => {
     try {
 
