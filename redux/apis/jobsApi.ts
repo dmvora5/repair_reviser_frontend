@@ -88,6 +88,13 @@ export const jobsApis = createApi({
             }),
             invalidatesTags: ["Jobs"]
         }),
+        GetAmendsSub: build.query({
+            query: (payload: any) => ({
+                url: `${API_ROUTES.JOBS.AMENDSREADSUB}${payload}`,
+                method: "GET",
+            }),
+            providesTags: ["Jobs"],
+        }),
     })
 })
 
@@ -102,5 +109,6 @@ export const {
     useUpdateGeneralSuggestionsMutation,
     useUpdateRepaireCostMutation,
     useUpdateBulkAmendsMutation,
-    useViewAmendsQuery
+    useViewAmendsQuery,
+    useGetAmendsSubQuery
 } = jobsApis

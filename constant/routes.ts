@@ -50,6 +50,7 @@ export const API_ROUTES = {
         TOTALJOBS: "report/total-jobs/",
         JOBDETAILS: "report/job-details/",
         AMENDSREAD: "/report/amends-agreed/",
+        AMENDSREADSUB: "/report/amends-agreed-by-subdesc/",
         AMENDSUPDATE: "/report/amends/agree/",
         UPDATEGENERALSUGGESTION: "/report/general-suggestion/",
         UPDATEREPAIRECOST: "/report/update-repair-cost/",
