@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
@@ -9,17 +9,6 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 
 const SubDataUI = ({
-  // data,
-  // expandedRowId,
-  // toggleRow,
-  // handleAgreeToggle,
-  // repaireCost,
-  // setRepaireCost,
-  // handleSave,
-  // handleUpdate,
-  // isAmendsDataLoading,
-  // isBulkAmendsDataLoading,
-  // isUpdateRepaireCostLoading,
   data,
   expandedRowId,
   toggleRow, // This should match the prop name you passed (toggleRow)
@@ -33,12 +22,16 @@ const SubDataUI = ({
   isUpdateRepaireCostLoading,
   isGeneralDataLoading,
 }: any) => {
-  // const getKey = (item: any) =>
-  //   `${item?.subs_description}-${item?.requirement_type}`;
-  // In SubDataUI.tsx
-  const getKey = (item: any) =>
-    `${item?.subs_description || item?.description}-${item?.requirement_type}-${item?.number}`;
-
+  const getKeySub = (item: any) => {
+    return `${item?.subs_description || item?.description}-${
+      item?.requirement_type || "no-type"
+    }-${item?.unique_id || "no-id"}`;
+  };
+  useEffect(() => {
+    if (data?.labour) {
+      console.log("Labour items:", data.labour);
+    }
+  }, [data?.labour]);
   return (
     <div className="flex flex-col">
       {/* Labour Category */}
@@ -101,7 +94,7 @@ const SubDataUI = ({
 
                   <td className="w-[107px] justify-center min-w-[107px] space-x-2 text-center cursor-pointer">
                     <button onClick={() => toggleRow(labourItem)}>
-                      {expandedRowId === getKey(labourItem) ? (
+                      {expandedRowId === getKeySub(labourItem) ? (
                         <ChevronUp className="w-4 h-4 text-white" />
                       ) : (
                         <ChevronDown className="w-4 h-4 text-white" />
@@ -111,7 +104,7 @@ const SubDataUI = ({
                 </tr>
 
                 {/* Subs */}
-                {expandedRowId === getKey(labourItem) &&
+                {expandedRowId === getKeySub(labourItem) &&
                   labourItem.subs?.length > 0 && (
                     <tr className="w-full">
                       <td colSpan={4}>
@@ -156,6 +149,19 @@ const SubDataUI = ({
                                         : "-"}
                                     </td>
                                     <td className="py-2 px-4 w-[90px] justify-center min-w-[90px] text-center">
+                                      {/* <input
+                                        type="checkbox"
+                                        checked={sub.agree}
+                                        onChange={() =>
+                                          handleAgreeToggle(
+                                            "labour", // category
+                                            labourItem.unique_id, // parentId
+                                            sub.id, // itemId
+                                            "agree" // field
+                                          )
+                                        }
+                                        className="accent-blue-500 w-4 h-4 cursor-pointer"
+                                      /> */}
                                       <input
                                         type="checkbox"
                                         checked={sub.agree}
@@ -164,8 +170,8 @@ const SubDataUI = ({
                                             e,
                                             sub,
                                             "labour",
-                                            index,
-                                            subIndex
+                                            labourItem.unique_id,
+                                            sub.id
                                           )
                                         }
                                         className="accent-blue-500 w-4 h-4 cursor-pointer"
@@ -246,7 +252,7 @@ const SubDataUI = ({
 
                   <td className="w-[107px] justify-center min-w-[107px] space-x-2 text-center cursor-pointer">
                     <button onClick={() => toggleRow(paintItem)}>
-                      {expandedRowId === getKey(paintItem) ? (
+                      {expandedRowId === getKeySub(paintItem) ? (
                         <ChevronUp className="w-4 h-4 text-white" />
                       ) : (
                         <ChevronDown className="w-4 h-4 text-white" />
@@ -256,7 +262,7 @@ const SubDataUI = ({
                 </tr>
 
                 {/* Subs */}
-                {expandedRowId === getKey(paintItem) &&
+                {expandedRowId === getKeySub(paintItem) &&
                   paintItem.subs?.length > 0 && (
                     <tr className="w-full">
                       <td colSpan={4}>
@@ -391,7 +397,7 @@ const SubDataUI = ({
 
                   <td className="w-[107px] justify-center min-w-[107px] space-x-2 text-center cursor-pointer">
                     <button onClick={() => toggleRow(partItem)}>
-                      {expandedRowId === getKey(partItem) ? (
+                      {expandedRowId === getKeySub(partItem) ? (
                         <ChevronUp className="w-4 h-4 text-white" />
                       ) : (
                         <ChevronDown className="w-4 h-4 text-white" />
@@ -401,7 +407,7 @@ const SubDataUI = ({
                 </tr>
 
                 {/* Subs */}
-                {expandedRowId === getKey(partItem) &&
+                {expandedRowId === getKeySub(partItem) &&
                   partItem.subs?.length > 0 && (
                     <tr className="w-full">
                       <td colSpan={4}>
@@ -478,60 +484,75 @@ const SubDataUI = ({
 
       {/* General Suggestions */}
       {data?.general_suggestions?.length > 0 && (
-        <>
-          <span className="text-white text-[18px] font-medium leading-[130%] mb-4 flex capitalize">
-            General Suggestions
-          </span>
-          <table className="w-full border-collapse text-white mb-8">
-            <thead>
-              <tr className="space-x-1 flex">
-                <th className="py-3 px-4 flex-1 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
-                  Suggestions
-                </th>
-                <th className="py-3 px-4 w-[90px] justify-center min-w-[90px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
-                  Agree
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.general_suggestions.map(
-                (
-                  suggestion: {
-                    id: number;
-                    suggestion: string;
-                    agree: boolean;
-                  },
-                  index: number
-                ) => (
-                  <tr
-                    key={suggestion.id}
-                    className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
-                  >
-                    <td className="flex-1 text-left !items-start">
-                      {suggestion.suggestion}
-                    </td>
-                    <td className="w-[90px] justify-center min-w-[90px] text-center">
-                      <input
-                        type="checkbox"
-                        checked={suggestion.agree}
-                        onChange={(e) =>
-                          handleAgreeToggle(
-                            e,
-                            suggestion,
-                            "general_suggestions",
-                            index,
-                            0
-                          )
-                        }
-                        className="accent-blue-500 w-4 h-4 cursor-pointer"
-                      />
-                    </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
-        </>
+        <table className="w-full border-collapse text-white">
+          <thead>
+            <tr className="space-x-1 flex">
+              <th className="py-3 px-4 flex-1 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                Suggestions
+              </th>
+              <th className="py-3 px-4 w-[130px] justify-center min-w-[120px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                Work Units
+              </th>
+              <th className="py-3 px-4 w-[150px] justify-center min-w-[150px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                Value of Uplift
+              </th>
+              <th className="py-3 px-4 w-[90px] justify-center min-w-[90px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                Agree
+              </th>
+              <th className="py-3 px-4 w-[120px] justify-center min-w-[120px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                FAQ
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.general_suggestions.map(
+              (
+                suggestion: {
+                  id: number;
+                  suggestion: string;
+                  agree: boolean;
+                  work_units: string | null;
+                  value_of_uplift: string | null;
+                },
+                index: number
+              ) => (
+                <tr
+                  key={suggestion.id}
+                  className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
+                >
+                  <td className="flex-1 text-left !items-start">
+                    {suggestion.suggestion}
+                  </td>
+                  <td className="w-[130px] justify-center min-w-[120px] text-center">
+                    {suggestion.work_units || "-"}
+                  </td>
+                  <td className="w-[150px] justify-center min-w-[150px] text-center">
+                    {suggestion.value_of_uplift || "-"}
+                  </td>
+                  <td className="w-[90px] justify-center min-w-[90px] text-center">
+                    <input
+                      type="checkbox"
+                      checked={suggestion.agree}
+                      onChange={(e) =>
+                        handleAgreeToggle(
+                          e,
+                          suggestion,
+                          "general_suggestions",
+                          index,
+                          0
+                        )
+                      }
+                      className="accent-blue-500 w-4 h-4 cursor-pointer"
+                    />
+                  </td>
+                  <td className="w-[120px] justify-center min-w-[120px] text-center py-2 cursor-pointer">
+                    <Link href={PAGE_ROUTES.FAQ}>Click for FAQ</Link>
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
       )}
 
       <div className="flex items-center justify-end mt-8 w-full gap-6">

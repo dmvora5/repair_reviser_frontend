@@ -451,15 +451,30 @@ const MainDataUI = ({
               <th className="py-3 px-4 flex-1 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
                 Suggestions
               </th>
+              <th className="py-3 px-4 w-[120px] justify-center min-w-[130px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                Work Units
+              </th>
+              <th className="py-3 px-4 w-[150px] justify-center min-w-[150px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                Value of Uplift
+              </th>
               <th className="py-3 px-4 w-[90px] justify-center min-w-[90px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
                 Agree
+              </th>
+              <th className="py-3 px-4 w-[120px] justify-center min-w-[120px] items-center flex font-medium text-[14px] leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] h-[48px]">
+                FAQ
               </th>
             </tr>
           </thead>
           <tbody>
             {data.general_suggestions.map(
               (
-                suggestion: { id: number; suggestion: string; agree: boolean },
+                suggestion: {
+                  id: number;
+                  suggestion: string;
+                  agree: boolean;
+                  work_units: string | null;
+                  value_of_uplift: string | null;
+                },
                 index: number
               ) => (
                 <tr
@@ -468,6 +483,12 @@ const MainDataUI = ({
                 >
                   <td className="flex-1 text-left !items-start">
                     {suggestion.suggestion}
+                  </td>
+                  <td className="w-[130px] justify-center min-w-[120px] text-center">
+                    {suggestion.work_units || "-"}
+                  </td>
+                  <td className="w-[150px] justify-center min-w-[150px] text-center">
+                    {suggestion.value_of_uplift || "-"}
                   </td>
                   <td className="w-[90px] justify-center min-w-[90px] text-center">
                     <input
@@ -484,6 +505,9 @@ const MainDataUI = ({
                       }
                       className="accent-blue-500 w-4 h-4 cursor-pointer"
                     />
+                  </td>
+                  <td className="w-[120px] justify-center min-w-[120px] text-center py-2 cursor-pointer">
+                    <Link href={PAGE_ROUTES.FAQ}>Click for FAQ</Link>
                   </td>
                 </tr>
               )

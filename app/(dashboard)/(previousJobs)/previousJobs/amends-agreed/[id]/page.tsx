@@ -18,6 +18,7 @@ import ProcessLoader from "@/components/ProcessLoader";
 import { Switch } from "@/components/ui/switch";
 import { ChevronsLeft } from "lucide-react";
 import SubDataUI from "@/components/SubDataUI";
+import { PAGE_ROUTES } from "@/constant/routes";
 
 const AgreeingAmendsPage = () => {
   const router = useRouter();
@@ -34,6 +35,7 @@ const AgreeingAmendsPage = () => {
     []
   );
   const [showSubData, setShowSubData] = useState(false);
+  const [localSubData, setLocalSubData] = useState<any>(null);
 
   // Fetch data hooks
   const { data, isLoading, error, isFetching } = useGetAmendsQuery(params.id, {
@@ -75,17 +77,21 @@ const AgreeingAmendsPage = () => {
     }
   }, [data]);
 
+  // When subData is fetched, copy it locally once
+  useEffect(() => {
+    if (showSubData && subData) {
+      setLocalSubData(JSON.parse(JSON.stringify(subData))); // Deep clone
+    }
+  }, [showSubData, subData]);
+
   // Toggle row expand/collapse
   // In AgreeingAmendsPage.tsx
-  const getKey = (item: any) => {
-    // For main data (has description and number)
-    if (item?.description && item?.number) {
-      return `${item.description}-${item.number}`;
-    }
+  const getKey = (item: any) => `${item?.description}-${item?.number}`;
+  const getKeySub = (item: any) => {
     // For sub data (has subs_description and requirement_type)
     return `${item?.subs_description || item?.description}-${
       item?.requirement_type
-    }-${item?.number}`;
+    }-${item?.unique_id}`;
   };
 
   const toggleRow = (item: any) => {
@@ -93,7 +99,7 @@ const AgreeingAmendsPage = () => {
     setExpandedRowId((prev: any) => (prev === key ? null : key));
   };
   const toggleRowSub = (item: any) => {
-    const key = getKey(item);
+    const key = getKeySub(item);
     setExpandedRowId((prev: any) => (prev === key ? null : key));
   };
 
@@ -136,44 +142,74 @@ const AgreeingAmendsPage = () => {
       console.error("Failed to update amend agree:", error);
     }
   };
+  // ✅ This replaces old handleAgreeToggleSub inside AgreeingAmendsPage.tsx
+  // const handleAgreeToggleSub = (
+  //   category: string,
+  //   parentId: string,
+  //   itemId: string,
+  //   field: string
+  // ) => {
+  //   console.log("category, :>> ", category, parentId, itemId, field);
+  //   const newData = JSON.parse(JSON.stringify(localSubData));
+  //   console.log("🚀 ~ AgreeingAmendsPage ~ newData:", newData);
+  //   const section = newData?.[category];
+  //   console.log("🚀 ~ AgreeingAmendsPage ~ section:", section);
+
+  //   if (!section) return;
+
+  //   const parentItem = section.find((item: any) => item.unique_id === parentId);
+  //   console.log("🚀 ~ AgreeingAmendsPage ~ parentItem:", parentItem)
+  //   if (!parentItem) return;
+
+  //   const subItem = parentItem.subs.find((i: any) => i.id === itemId);
+  //   console.log("🚀 ~ AgreeingAmendsPage ~ subItem:", subItem)
+  //   if (!subItem) return;
+
+  //   subItem[field] = !subItem[field];
+
+  //   setLocalSubData(newData);
+  // };
+
   const handleAgreeToggleSub = (
-    e: any,
+    e: React.ChangeEvent<HTMLInputElement>,
     sub: { id: number; agree: boolean },
-    name: string,
-    index: number,
-    subIndex: number
+    category: string,
+    parentId: string,
+    itemId: string
   ) => {
     try {
-      const checked = e?.target?.checked;
-      const state = { ...copyData };
-      if (name !== "general_suggestions") {
-        state[name][index].subs[subIndex].agree = checked;
+      const checked = e.target.checked;
+      const newData = JSON.parse(JSON.stringify(localSubData));
 
-        if (checked) {
-          setCheckedId((prev) => [...new Set([...prev, sub.id])]);
-          setRemovedCheckedId((prev) => prev.filter((id) => id !== sub.id));
-        } else {
-          setCheckedId((prev) => prev.filter((id) => id !== sub.id));
-          setRemovedCheckedId((prev) => [...new Set([...prev, sub.id])]);
-        }
+      const section = newData?.[category];
+      if (!section) return;
+
+      const parentItem = section.find(
+        (item: any) => item.unique_id === parentId
+      );
+      if (!parentItem) return;
+
+      const subItem = parentItem.subs.find((i: any) => i.id === itemId);
+      if (!subItem) return;
+
+      // Update agree flag on the subItem
+      subItem.agree = checked;
+
+      // Update checked / removed IDs accordingly
+      if (checked) {
+        setCheckedId((prev) => [...new Set([...prev, sub.id])]);
+        setRemovedCheckedId((prev) => prev.filter((id) => id !== sub.id));
       } else {
-        state.general_suggestions[index].agree = checked;
-
-        if (checked) {
-          setGenralCheckedId((prev) => [...new Set([...prev, sub.id])]);
-          setRemovedGenralCheckedId((prev) =>
-            prev.filter((id) => id !== sub.id)
-          );
-        } else {
-          setGenralCheckedId((prev) => prev.filter((id) => id !== sub.id));
-          setRemovedGenralCheckedId((prev) => [...new Set([...prev, sub.id])]);
-        }
+        setCheckedId((prev) => prev.filter((id) => id !== sub.id));
+        setRemovedCheckedId((prev) => [...new Set([...prev, sub.id])]);
       }
-      setCopyData(state);
+
+      setLocalSubData(newData);
     } catch (error) {
       console.error("Failed to update amend agree:", error);
     }
   };
+
   // Handle toggling agree checkbox for general suggestions (single item)
   const handleGeneralAgreeToggle = async (item: {
     id: number;
@@ -228,7 +264,7 @@ const AgreeingAmendsPage = () => {
       }).unwrap();
       sucessToast("Repair cost updated and job completed!");
       dispatch(creditsApi.util.invalidateTags(["Credits"]));
-      router.replace(`/jobs/details/${params.id}`);
+      router.replace(PAGE_ROUTES.JOBS.JOBDETAILS);
     } catch (error) {
       console.error("Failed to update repair cost:", error);
       errorToast("Failed to update repair cost.");
@@ -291,18 +327,9 @@ const AgreeingAmendsPage = () => {
         </div>
       </div>
 
-      {showSubData && subData ? (
+      {showSubData && localSubData ? (
         <SubDataUI
-          // data={subData}
-          // expandedRowId={expandedRowId}
-          // toggleRow={toggleRowSub} // You can create separate toggle logic for subData if needed
-          // handleAgreeToggle={handleAgreeToggleSub} // Sub data agree toggle handler
-          // repaireCost={repaireCost}
-          // setRepaireCost={setRepaireCost}
-          // handleSave={handleSaveSub}
-          // handleUpdate={handleUpdate}
-          // // pass any other loading or flags relevant for subData
-          data={subData}
+          data={localSubData}
           expandedRowId={expandedRowId}
           toggleRow={toggleRowSub} // Make sure this is passed correctly
           handleAgreeToggle={handleAgreeToggleSub}
