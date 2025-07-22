@@ -21,7 +21,8 @@ export const PAGE_ROUTES = {
     },
     FAQ: "/faqs",
     POLICY: "/privacy",
-    TEARMS: "/terms-condition"
+    TEARMS: "/terms-condition",
+    ANALYTICS: "/analytics/"
 }
 
 
@@ -63,5 +64,9 @@ export const API_ROUTES = {
         USEDCREDITS: "payment/credits-usage-history/",
         TOTALCREDITS: "user/available-credits/",
         PRICE: "user/credit-price/"
+    },
+    ANALYTICS: {
+        ANALYTIC: "report/company-user-statistics/",
+        LIST: "report/company-user-job-list/"
     }
 } 

@@ -7,7 +7,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 export const jobsApis = createApi({
     baseQuery: baseQueryWithAuth,
     reducerPath: "jobs",
-    tagTypes: ["Jobs"],
+    tagTypes: ["Jobs", "JobsAnalytics", "JobsAnalyticsList"],
     endpoints: (build) => ({
         uploadReport: build.mutation({
             query: (payload: any) => ({
@@ -15,7 +15,7 @@ export const jobsApis = createApi({
                 method: "POST",
                 body: payload
             }),
-            invalidatesTags: ["Jobs"]
+            invalidatesTags: ["Jobs", "JobsAnalytics", "JobsAnalyticsList"]
         }),
         previousJobs: build.query({
             query: (payload: any) => ({
@@ -62,7 +62,7 @@ export const jobsApis = createApi({
                 method: "PATCH",
                 body: payload
             }),
-            invalidatesTags: ["Jobs"]
+            invalidatesTags: ["Jobs", "JobsAnalytics", "JobsAnalyticsList"]
         }),
         updateBulkAmends: build.mutation({
             query: (payload: any) => ({
@@ -70,7 +70,7 @@ export const jobsApis = createApi({
                 method: "PATCH",
                 body: payload
             }),
-            invalidatesTags: ["Jobs"]
+            invalidatesTags: ["Jobs", "JobsAnalytics", "JobsAnalyticsList"]
         }),
         updateGeneralSuggestions: build.mutation({
             query: (payload: any) => ({
@@ -78,7 +78,7 @@ export const jobsApis = createApi({
                 method: "PATCH",
                 body: payload
             }),
-            invalidatesTags: ["Jobs"]
+            invalidatesTags: ["Jobs", "JobsAnalytics", "JobsAnalyticsList"]
         }),
         updateRepaireCost: build.mutation({
             query: (payload: any) => ({
@@ -86,7 +86,7 @@ export const jobsApis = createApi({
                 method: "PATCH",
                 body: payload
             }),
-            invalidatesTags: ["Jobs"]
+            invalidatesTags: ["Jobs", "JobsAnalytics", "JobsAnalyticsList"]
         }),
         GetAmendsSub: build.query({
             query: (payload: any) => ({
@@ -94,6 +94,20 @@ export const jobsApis = createApi({
                 method: "GET",
             }),
             providesTags: ["Jobs"],
+        }),
+        GetUserAnalytics: build.query({
+            query: (payload: any) => ({
+                url: `${API_ROUTES.ANALYTICS.ANALYTIC}${payload?.id}/?year=${payload?.year}`,
+                method: "GET",
+            }),
+            providesTags: ["JobsAnalytics"],
+        }),
+        GetUserJobAnalyticsList: build.query({
+            query: (payload: any) => ({
+                url: `${API_ROUTES.ANALYTICS.LIST}${payload}/`,
+                method: "GET",
+            }),
+            providesTags: ["JobsAnalyticsList"],
         }),
     })
 })
@@ -110,5 +124,7 @@ export const {
     useUpdateRepaireCostMutation,
     useUpdateBulkAmendsMutation,
     useViewAmendsQuery,
-    useGetAmendsSubQuery
+    useGetAmendsSubQuery,
+    useGetUserAnalyticsQuery,
+    useGetUserJobAnalyticsListQuery
 } = jobsApis

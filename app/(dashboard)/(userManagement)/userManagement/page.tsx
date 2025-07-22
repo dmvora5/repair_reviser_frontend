@@ -12,6 +12,9 @@ import UpdateUserPopup from "./UpdateUserPopup";
 import DeleteUserPopUp from "./DeleteUserPopUp";
 import SearchComponent from "@/components/SearchComponent";
 import PageSizeSelector from "@/components/PageSizeSelector";
+import { useRouter } from "next/navigation";
+import { PAGE_ROUTES } from "@/constant/routes";
+import Link from "next/link";
 
 interface StateType {
   page: number;
@@ -94,6 +97,10 @@ const page = () => {
   const handleSearch = (searchTerm: any) => {
     setState((prev: any) => ({ ...prev, page: 1, search: searchTerm }));
   };
+
+  const redirectToAnalytics = (id: any) => {
+    return `${PAGE_ROUTES.ANALYTICS}${id}`
+  }
 
 
   return (
@@ -178,12 +185,16 @@ const page = () => {
                   (data?.results || []).map((ele: any) => (
                     <tr key={ele?.id} className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[48px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                       <td className="w-[90px] justify-center min-w-[90px]">{ele?.id}</td>
-                      <td className="flex-1">{ele?.username}</td>
+                      <td className="flex-1 cursor-pointer">
+                        <Link href={redirectToAnalytics(ele?.id)}>
+                          {ele?.username}
+                        </Link>
+                      </td>
                       <td className="min-w-fit">05/07/2024</td>
                       <td className="w-[92px] justify-center min-w-[92px] space-x-2">
                         <button onClick={deleteUserHadler.bind(null, ele)} className="text-[#DE3140] hover:text-red-400">
-                        {ele?.is_active ? <Trash2 className="w-[20px]" /> : <Undo2 /> }
-                          
+                          {ele?.is_active ? <Trash2 className="w-[20px]" /> : <Undo2 />}
+
                         </button>
                         <button onClick={editUserHadler.bind(null, ele)} className="text-[#62ee21] hover:text-green-400">
                           <Edit className="w-[20px]" />
