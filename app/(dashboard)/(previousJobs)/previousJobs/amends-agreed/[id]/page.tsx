@@ -184,24 +184,41 @@ const AgreeingAmendsPage = () => {
       const section = newData?.[category];
       if (!section) return;
 
-      const parentItem = section.find(
-        (item: any) => item.unique_id === parentId
-      );
-      if (!parentItem) return;
+      if (category === "general_suggestions") {
+        // Flat list – find directly by id
+        const subItem = section.find((i: any) => i.id === sub.id);
+        if (!subItem) return;
 
-      const subItem = parentItem.subs.find((i: any) => i.id === itemId);
-      if (!subItem) return;
+        subItem.agree = checked;
 
-      // Update agree flag on the subItem
-      subItem.agree = checked;
-
-      // Update checked / removed IDs accordingly
-      if (checked) {
-        setCheckedId((prev) => [...new Set([...prev, sub.id])]);
-        setRemovedCheckedId((prev) => prev.filter((id) => id !== sub.id));
+        if (checked) {
+          setGenralCheckedId((prev) => [...new Set([...prev, sub.id])]);
+          setRemovedGenralCheckedId((prev) =>
+            prev.filter((id) => id !== sub.id)
+          );
+        } else {
+          setGenralCheckedId((prev) => prev.filter((id) => id !== sub.id));
+          setRemovedGenralCheckedId((prev) => [...new Set([...prev, sub.id])]);
+        }
       } else {
-        setCheckedId((prev) => prev.filter((id) => id !== sub.id));
-        setRemovedCheckedId((prev) => [...new Set([...prev, sub.id])]);
+        // Nested case
+        const parentItem = section.find(
+          (item: any) => item.unique_id === parentId
+        );
+        if (!parentItem) return;
+
+        const subItem = parentItem.subs.find((i: any) => i.id === itemId);
+        if (!subItem) return;
+
+        subItem.agree = checked;
+
+        if (checked) {
+          setCheckedId((prev) => [...new Set([...prev, sub.id])]);
+          setRemovedCheckedId((prev) => prev.filter((id) => id !== sub.id));
+        } else {
+          setCheckedId((prev) => prev.filter((id) => id !== sub.id));
+          setRemovedCheckedId((prev) => [...new Set([...prev, sub.id])]);
+        }
       }
 
       setLocalSubData(newData);
@@ -319,7 +336,11 @@ const AgreeingAmendsPage = () => {
             Required FAQs
           </button> */}
           <button
-            onClick={() => router.push(`/previousJobs/amends-agreed/view-aggreed/${params.id}`)}
+            onClick={() =>
+              router.push(
+                `/previousJobs/amends-agreed/view-aggreed/${params.id}`
+              )
+            }
             className="px-6 py-2 border border-[#DE3140] rounded-md text-white text-sm font-normal hover:bg-[#DE3140] hover:border-[#DE3140] transition-colors duration-300"
           >
             View Agreed Amends

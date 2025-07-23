@@ -22,15 +22,16 @@ const Page = () => {
     skip: !params.id, // Don't fetch until job ID is set
   });
 
-
-
   const handleViewReport = () => {
     router.push(`${PAGE_ROUTES.JOBS.AMENDSREAD}${params?.id}`);
   };
 
   return (
     <div className="flex flex-col flex-1">
-      <ApiState error={isJobDetailsDataError} isSuccess={isJobDetailsDataSuccess}>
+      <ApiState
+        error={isJobDetailsDataError}
+        isSuccess={isJobDetailsDataSuccess}
+      >
         <ApiState.Error />
       </ApiState>
       <div className="flex items-center mb-3">
@@ -146,7 +147,7 @@ const Page = () => {
                   {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
                     <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
                   ) : (
-                    `${JobDetailsData?.total_requiring_amends} items`
+                    `${JobDetailsData?.total_requiring_amends || 0} items`
                   )}
                 </td>
                 <td className="flex-1 text-[#DE3140]">Requiring Amends</td>
@@ -156,7 +157,7 @@ const Page = () => {
                   {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
                     <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
                   ) : (
-                    `${JobDetailsData?.total_requiring_checks} items`
+                    `${JobDetailsData?.total_requiring_checks || 0} items`
                   )}
                 </td>
                 <td className="flex-1 text-[#F3811C]">Requiring Checks</td>
@@ -166,7 +167,7 @@ const Page = () => {
                   {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
                     <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
                   ) : (
-                    `${JobDetailsData?.total_general_suggestions} items`
+                    `${JobDetailsData?.total_general_suggestions || 0} items`
                   )}
                 </td>
                 <td className="flex-1 text-[#7ED748]">Genral Suggestions</td>

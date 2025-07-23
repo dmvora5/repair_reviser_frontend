@@ -27,11 +27,6 @@ const SubDataUI = ({
       item?.requirement_type || "no-type"
     }-${item?.unique_id || "no-id"}`;
   };
-  useEffect(() => {
-    if (data?.labour) {
-      console.log("Labour items:", data.labour);
-    }
-  }, [data?.labour]);
   return (
     <div className="flex flex-col">
       {/* Labour Category */}
@@ -315,8 +310,8 @@ const SubDataUI = ({
                                             e,
                                             sub,
                                             "paint",
-                                            index,
-                                            subIndex
+                                            paintItem.unique_id,
+                                            sub.id
                                           )
                                         }
                                         className="accent-blue-500 w-4 h-4 cursor-pointer"
@@ -460,8 +455,8 @@ const SubDataUI = ({
                                             e,
                                             sub,
                                             "part",
-                                            index,
-                                            subIndex
+                                            partItem.unique_id,
+                                            sub.id
                                           )
                                         }
                                         className="accent-blue-500 w-4 h-4 cursor-pointer"
