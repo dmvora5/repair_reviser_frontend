@@ -49,11 +49,11 @@ const page = () => {
             <h1 className="font-medium text-[32px] flex-1 leading-[130%] tracking-normal min-w-max text-white">
               Agreeing amends
             </h1>
-            <Button variant="outline" className="h-[42px] px-6">
+            {/* <Button variant="outline" className="h-[42px] px-6">
               <Link href={PAGE_ROUTES.FAQ}>
                 Required FAQs
               </Link>
-            </Button>
+            </Button> */}
 
           </div>
         </div>

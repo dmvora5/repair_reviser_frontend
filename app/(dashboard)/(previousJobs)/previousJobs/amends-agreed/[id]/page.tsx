@@ -312,14 +312,14 @@ const AgreeingAmendsPage = () => {
         <h1 className="text-3xl font-medium text-white">Agreeing amends</h1>
 
         <div className="flex gap-4">
-          <button
+          {/* <button
             onClick={() => router.push("/faq")}
             className="px-6 py-2 border border-[#DE3140] rounded-md text-white text-sm font-normal hover:bg-[#DE3140] hover:border-[#DE3140] transition-colors duration-300"
           >
             Required FAQs
-          </button>
+          </button> */}
           <button
-            onClick={() => router.push(`/jobs/view-agreed/${params.id}`)}
+            onClick={() => router.push(`/previousJobs/amends-agreed/view-aggreed/${params.id}`)}
             className="px-6 py-2 border border-[#DE3140] rounded-md text-white text-sm font-normal hover:bg-[#DE3140] hover:border-[#DE3140] transition-colors duration-300"
           >
             View Agreed Amends

@@ -146,30 +146,30 @@ const Page = () => {
                   {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
                     <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
                   ) : (
-                    `${JobDetailsData?.total_labour} items`
+                    `${JobDetailsData?.total_requiring_amends} items`
                   )}
                 </td>
-                <td className="flex-1 text-[#DE3140]">Total Labour</td>
+                <td className="flex-1 text-[#DE3140]">Requiring Amends</td>
               </tr>
               <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                 <td className="min-w-[144px] truncate text-[#F3811C]">
                   {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
                     <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
                   ) : (
-                    `${JobDetailsData?.total_paints} items`
+                    `${JobDetailsData?.total_requiring_checks} items`
                   )}
                 </td>
-                <td className="flex-1 text-[#F3811C]">Total Paints</td>
+                <td className="flex-1 text-[#F3811C]">Requiring Checks</td>
               </tr>
               <tr className="flex space-x-1 *:py-3 *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex  *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal">
                 <td className="min-w-[144px] truncate text-[#7ED748]">
                   {isJobDetailsDataLoading || isJobDetailsDataFetching ? (
                     <div className="h-4 w-16 bg-[#1C1F26] rounded animate-pulse" />
                   ) : (
-                    `${JobDetailsData?.total_parts} items`
+                    `${JobDetailsData?.total_general_suggestions} items`
                   )}
                 </td>
-                <td className="flex-1 text-[#7ED748]">Total Parts</td>
+                <td className="flex-1 text-[#7ED748]">Genral Suggestions</td>
               </tr>
             </tbody>
           </table>
