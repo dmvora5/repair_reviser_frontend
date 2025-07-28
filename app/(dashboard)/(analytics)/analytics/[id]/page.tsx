@@ -106,8 +106,8 @@ const page = () => {
       <h1 className="text-3xl font-medium text-white text-center">User Analytics</h1>
 
       {/* Available Credits Section */}
-      <div className="w-full">
-        <div className="relative p-6 bg-[#060A0E] rounded-xl border-gradient-to-r from-[#1F2A39] to-[#28324A] mb-8">
+      <div className="w-full flex gap-8">
+        <div className="relative p-6 w-1/2 bg-[#060A0E] rounded-xl border-gradient-to-r from-[#1F2A39] to-[#28324A] mb-8">
           <div className="flex items-start gap-4 mb-8">
             <Image
               src="/CreditsIcon.svg"
@@ -122,6 +122,25 @@ const page = () => {
                 {isLoading || isFetching
                   ? "fetching..."
                   : AnalyticsData?.total_jobs?.toLocaleString()}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="relative w-1/2 p-6 bg-[#060A0E] rounded-xl border-gradient-to-r from-[#1F2A39] to-[#28324A] mb-8">
+          <div className="flex items-start gap-4 mb-8">
+            <Image
+              src="/CreditsIcon.svg"
+              width={48}
+              height={48}
+              className="min-w-[48px]"
+              alt="Credits"
+            />
+            <div className="flex flex-col">
+              <span className="text-[#8F9DAC] font-medium text-lg leading-[21px]">Avarage Report Value</span>
+              <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
+                {isLoading || isFetching
+                  ? "fetching..."
+                  : AnalyticsData?.average_report_value?.toLocaleString()}
               </span>
             </div>
           </div>

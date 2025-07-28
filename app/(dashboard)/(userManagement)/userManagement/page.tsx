@@ -150,6 +150,9 @@ const page = () => {
                 <th className="py-3 px-4 flex-1 font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px]">
                   Customer Name
                 </th>
+                <th className="py-3 px-4 min-w-max font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] text-center">
+                  Average Report Value
+                </th>
                 <th className="py-3 px-4 min-w-max font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px]">
                   Created On
                 </th>
@@ -161,8 +164,7 @@ const page = () => {
             <tbody>
               {
                 isFetching
-                  ? // Loading Skeleton Rows
-                  [...Array(5)].map((_, index) => (
+                  ? [...Array(5)].map((_, index) => (
                     <tr
                       key={index}
                       className="flex space-x-1 animate-pulse *:px-4 *:border-b *:border-[#162332] *:min-h-[56px] *:items-center *:flex *:text-[#8F9DAC] *:text-[14px] *:font-normal *:leading-[130%] *:tracking-normal"
@@ -173,11 +175,13 @@ const page = () => {
                       <td className="min-w-[176px]">
                         <div className="bg-gray-700 rounded-md h-6 w-20"></div>
                       </td>
+                      <td className="min-w-[176px] text-center">
+                        <div className="bg-gray-700 rounded-md h-6 w-24 mx-auto"></div>
+                      </td>
                       <td className="min-w-[176px]">
-                        <div className="bg-gray-700 rounded-md h-6 w-24"></div>
+                        <div className="bg-gray-700 rounded-md h-6 w-24 mx-auto"></div>
                       </td>
                       <td className="w-[92px] justify-center min-w-[92px] flex items-center space-x-2">
-                        {/* <div className="bg-gray-700 rounded-md h-6 w-6"></div> */}
                         <div className="bg-gray-700 rounded-md h-6 w-6"></div>
                       </td>
                     </tr>
@@ -190,11 +194,11 @@ const page = () => {
                           {ele?.username}
                         </Link>
                       </td>
+                      <td className="min-w-[176px] justify-center">{ele?.average_report_value}</td>
                       <td className="min-w-fit">05/07/2024</td>
                       <td className="w-[92px] justify-center min-w-[92px] space-x-2">
                         <button onClick={deleteUserHadler.bind(null, ele)} className="text-[#DE3140] hover:text-red-400">
                           {ele?.is_active ? <Trash2 className="w-[20px]" /> : <Undo2 />}
-
                         </button>
                         <button onClick={editUserHadler.bind(null, ele)} className="text-[#62ee21] hover:text-green-400">
                           <Edit className="w-[20px]" />
