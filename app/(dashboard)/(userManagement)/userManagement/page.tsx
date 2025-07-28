@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Edit, PlusIcon, Trash2, Undo2 } from "lucide-react";
+import { ArrowBigUp, ArrowDown, ArrowUp, Edit, PlusIcon, Trash2, Undo2 } from "lucide-react";
 import React, { useState } from "react";
 import AddNewUserPopup from "./AddNewUserPopup";
 import { PAGE_SIZE } from "@/constant";
@@ -19,7 +19,8 @@ import Link from "next/link";
 interface StateType {
   page: number;
   page_size: number;
-  search?: any
+  search?: any,
+  ordering?: string
 }
 
 const page = () => {
@@ -29,7 +30,10 @@ const page = () => {
     page: 1,
     page_size: PAGE_SIZE,
     search: "",
+    ordering: "average_report_value"
   });
+
+  console.log('state', state)
 
   const [editUser, setEditUser] = useState<any>({
     open: false,
@@ -38,7 +42,7 @@ const page = () => {
 
   const [deleteUser, setDeleteUser] = useState<any>({
     open: false,
-    user: {}
+    user: {},
   })
 
 
@@ -103,6 +107,16 @@ const page = () => {
   }
 
 
+  const handleSorting = () => {
+    setState((prev: any) => ({
+      ...prev,
+      ordering: prev.ordering === "average_report_value"
+        ? "-average_report_value"
+        : "average_report_value"
+    }));
+  }
+
+
   return (
     <div className="flex flex-col flex-1">
       <ApiState isSuccess={isSuccess} error={error}>
@@ -151,7 +165,13 @@ const page = () => {
                   Customer Name
                 </th>
                 <th className="py-3 px-4 min-w-max font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px] text-center">
-                  Average Report Value
+                  <div className="flex justify-between">
+                    <p> Report Cost</p>
+                    <span className="cursor-pointer" onClick={handleSorting}>
+                      {state?.ordering === "average_report_value" && <ArrowUp />}
+                      {state?.ordering === "-average_report_value" && <ArrowDown />}
+                    </span>
+                  </div>
                 </th>
                 <th className="py-3 px-4 min-w-max font-medium text-[14px] items-center flex leading-[130%] tracking-normal text-white bg-[#212B3EBF] rounded-[9px] min-h-[48px]">
                   Created On

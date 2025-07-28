@@ -19,7 +19,7 @@ export const userManagementApis = createApi({
         }),
         allComponyUsersList: build.query({
             query: (payload: any) => ({
-                url: API_ROUTES.USERMANAGEMENT.USERLIST + "?ordering=-average_report_value",
+                url: API_ROUTES.USERMANAGEMENT.USERLIST,
                 method: "GET",
                 params: payload
             }),

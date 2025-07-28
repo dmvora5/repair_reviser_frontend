@@ -136,7 +136,7 @@ const page = () => {
               alt="Credits"
             />
             <div className="flex flex-col">
-              <span className="text-[#8F9DAC] font-medium text-lg leading-[21px]">Avarage Report Value</span>
+              <span className="text-[#8F9DAC] font-medium text-lg leading-[21px]">Report Cost</span>
               <span className="text-white font-medium text-[40px] leading-[48px] tracking-[0.01rem]">
                 {isLoading || isFetching
                   ? "fetching..."
